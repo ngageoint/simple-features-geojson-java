@@ -2,7 +2,7 @@
 
 #### Well-Known Binary ####
 
-WKB is a Java library for reading and writing Well-Known Binary Geometries from and to bytes. The library includes a hierarchy of Geometry objects.
+WKB is a Java library for writing and reading Well-Known Binary Geometries to and from bytes. The library includes a hierarchy of Geometry objects.
 
 This WKB library was developed at the National Geospatial-Intelligence Agency (NGA) in collaboration with [BIT Systems](https://www.bit-sys.com/index.jsp). The government has "unlimited rights" and is releasing this software to increase the impact of government investments by providing developers with the opportunity to take things in new directions. The software use, modification, and distribution rights are stipulated within the [MIT license](http://choosealicense.com/licenses/mit/).
 
@@ -13,7 +13,24 @@ Software source code previously released under an open source license and then m
 
 ### Usage ###
 
+#### Read ####
 
+    //byte[] bytes = ...    
+    
+    ByteReader reader = new ByteReader(bytes);
+    reader.setByteOrder(ByteOrder.BIG_ENDIAN);
+    Geometry geometry = WkbGeometryReader.readGeometry(reader);
+    GeometryType geometryType = geometry.getGeometryType();
+
+#### Write ####
+
+    //Geometry geometry = ...
+    
+    ByteWriter writer = new ByteWriter();
+    writer.setByteOrder(ByteOrder.BIG_ENDIAN);
+    WkbGeometryWriter.writeGeometry(writer, geometry);
+    byte[] bytes = writer.getBytes();
+    writer.close();
 
 ### License ###
 
