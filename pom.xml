@@ -1,16 +1,40 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <groupId>mil.nga.giat.wkb</groupId>
-  <artifactId>wkb</artifactId>
-  <version>1.0.0</version>
-  <packaging>jar</packaging>
-
-  <name>wkb</name>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>mil.nga.giat.wkb</groupId>
+	<artifactId>wkb</artifactId>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
+	<name>Well-Known Binary</name>
+	<url>https://git.geointapps.org/geopackage/wkb</url>
+	<description>Library for writing and reading Well-Known Binary Geometries to and from bytes</description>
+	<scm>
+		<url>https://git.geointapps.org/geopackage/wkb</url>
+		<connection>scm:git:ssh://git@git.geointapps.org:geopackage/wkb.git</connection>
+		<developerConnection>scm:git:ssh://git@git.geointapps.org:geopackage/wkb.git</developerConnection>
+	</scm>
+	<licenses>
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>https://git.geointapps.org/geopackage/wkb/raw/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<organization>
+		<name>National Geospatial-Intelligence Agency</name>
+		<url>https://www.nga.mil/</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>bosborn</id>
+			<name>Brian Osborn</name>
+			<email>osbornb@bit-sys.com</email>
+			<organization>BIT Systems</organization>
+			<organizationUrl>https://www.bit-sys.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>UTC−07</timezone>
+		</developer>
+	</developers>
 </project>
