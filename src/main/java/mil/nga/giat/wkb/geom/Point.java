@@ -31,6 +31,16 @@ public class Point extends Geometry {
 	/**
 	 * Constructor
 	 * 
+	 * @param x
+	 * @param y
+	 */
+	public Point(double x, double y) {
+		this(false, false, x, y);
+	}
+
+	/**
+	 * Constructor
+	 * 
 	 * @param hasZ
 	 * @param hasM
 	 * @param x
