@@ -9,9 +9,9 @@
 	<url>https://github.com/ngageoint/geopackage-wkb-java</url>
 	<description>Library for writing and reading Well-Known Binary Geometries to and from bytes</description>
 	<scm>
-		<url>https://github.com/ngageoint/geopackage-wkb-java</url>
-		<connection>scm:git:ssh://git@github.com:ngageoint/geopackage-wkb-java.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:ngageoint/geopackage-wkb-java.git</developerConnection>
+		<url>git@github.com:ngageoint/geopackage-wkb-java.git</url>
+		<connection>scm:git:git@github.com:ngageoint/geopackage-wkb-java.git</connection>
+		<developerConnection>scm:git:git@github.com:ngageoint/geopackage-wkb-java.git</developerConnection>
 	</scm>
 	<licenses>
 		<license>
