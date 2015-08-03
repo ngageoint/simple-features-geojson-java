@@ -6,17 +6,17 @@
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<name>Well-Known Binary</name>
-	<url>https://git.geointapps.org/geopackage/wkb</url>
+	<url>https://github.com/ngageoint/geopackage-wkb-java</url>
 	<description>Library for writing and reading Well-Known Binary Geometries to and from bytes</description>
 	<scm>
-		<url>https://git.geointapps.org/geopackage/wkb</url>
-		<connection>scm:git:ssh://git@git.geointapps.org:geopackage/wkb.git</connection>
-		<developerConnection>scm:git:ssh://git@git.geointapps.org:geopackage/wkb.git</developerConnection>
+		<url>https://github.com/ngageoint/geopackage-wkb-java</url>
+		<connection>scm:git:ssh://git@github.com:ngageoint/geopackage-wkb-java.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:ngageoint/geopackage-wkb-java.git</developerConnection>
 	</scm>
 	<licenses>
 		<license>
 			<name>The MIT License (MIT)</name>
-			<url>https://git.geointapps.org/geopackage/wkb/raw/master/LICENSE</url>
+			<url>https://github.com/ngageoint/geopackage-wkb-java/blob/master/LICENSE.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
