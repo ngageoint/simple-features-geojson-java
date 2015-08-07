@@ -36,6 +36,6 @@ WKB is a Java library for writing and reading Well-Known Binary Geometries to an
 
 ### Build ###
 
-Build this repository using Maven:
+Build this repository using Eclipse and/or Maven:
 
     mvn clean install
