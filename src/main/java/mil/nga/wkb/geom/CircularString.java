@@ -1,4 +1,4 @@
-package mil.nga.giat.wkb.geom;
+package mil.nga.wkb.geom;
 
 /**
  * Circular String, Curve sub type

@@ -1,22 +1,22 @@
-package mil.nga.giat.wkb.util;
+package mil.nga.wkb.util;
 
 import java.util.List;
 
-import mil.nga.giat.wkb.geom.CircularString;
-import mil.nga.giat.wkb.geom.CompoundCurve;
-import mil.nga.giat.wkb.geom.Geometry;
-import mil.nga.giat.wkb.geom.GeometryCollection;
-import mil.nga.giat.wkb.geom.GeometryEnvelope;
-import mil.nga.giat.wkb.geom.GeometryType;
-import mil.nga.giat.wkb.geom.LineString;
-import mil.nga.giat.wkb.geom.MultiLineString;
-import mil.nga.giat.wkb.geom.MultiPoint;
-import mil.nga.giat.wkb.geom.MultiPolygon;
-import mil.nga.giat.wkb.geom.Point;
-import mil.nga.giat.wkb.geom.Polygon;
-import mil.nga.giat.wkb.geom.PolyhedralSurface;
-import mil.nga.giat.wkb.geom.TIN;
-import mil.nga.giat.wkb.geom.Triangle;
+import mil.nga.wkb.geom.CircularString;
+import mil.nga.wkb.geom.CompoundCurve;
+import mil.nga.wkb.geom.Geometry;
+import mil.nga.wkb.geom.GeometryCollection;
+import mil.nga.wkb.geom.GeometryEnvelope;
+import mil.nga.wkb.geom.GeometryType;
+import mil.nga.wkb.geom.LineString;
+import mil.nga.wkb.geom.MultiLineString;
+import mil.nga.wkb.geom.MultiPoint;
+import mil.nga.wkb.geom.MultiPolygon;
+import mil.nga.wkb.geom.Point;
+import mil.nga.wkb.geom.Polygon;
+import mil.nga.wkb.geom.PolyhedralSurface;
+import mil.nga.wkb.geom.TIN;
+import mil.nga.wkb.geom.Triangle;
 
 /**
  * Builds an envelope from a Geometry
