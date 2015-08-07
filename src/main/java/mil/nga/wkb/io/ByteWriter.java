@@ -1,4 +1,4 @@
-package mil.nga.giat.wkb.io;
+package mil.nga.wkb.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

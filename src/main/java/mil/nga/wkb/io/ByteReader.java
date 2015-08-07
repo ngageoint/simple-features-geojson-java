@@ -1,10 +1,10 @@
-package mil.nga.giat.wkb.io;
+package mil.nga.wkb.io;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import mil.nga.giat.wkb.util.WkbException;
+import mil.nga.wkb.util.WkbException;
 
 /**
  * Read through a byte array

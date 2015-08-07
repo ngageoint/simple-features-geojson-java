@@ -1,4 +1,4 @@
-package mil.nga.giat.wkb.util;
+package mil.nga.wkb.util;
 
 /**
  * Well-Known Binary exception

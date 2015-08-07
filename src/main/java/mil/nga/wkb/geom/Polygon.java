@@ -1,4 +1,4 @@
-package mil.nga.giat.wkb.geom;
+package mil.nga.wkb.geom;
 
 /**
  * A restricted form of CurvePolygon where each ring is defined as a simple,

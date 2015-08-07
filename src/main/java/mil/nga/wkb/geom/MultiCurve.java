@@ -1,13 +1,12 @@
-package mil.nga.giat.wkb.geom;
+package mil.nga.wkb.geom;
 
 /**
  * A restricted form of GeometryCollection where each Geometry in the collection
- * must be of type Surface.
+ * must be of type Curve.
  * 
  * @author osbornb
  */
-public abstract class MultiSurface<T extends Surface> extends
-		GeometryCollection<T> {
+public abstract class MultiCurve<T extends Curve> extends GeometryCollection<T> {
 
 	/**
 	 * Constructor
@@ -16,7 +15,7 @@ public abstract class MultiSurface<T extends Surface> extends
 	 * @param hasZ
 	 * @param hasM
 	 */
-	protected MultiSurface(GeometryType type, boolean hasZ, boolean hasM) {
+	protected MultiCurve(GeometryType type, boolean hasZ, boolean hasM) {
 		super(type, hasZ, hasM);
 	}
 
