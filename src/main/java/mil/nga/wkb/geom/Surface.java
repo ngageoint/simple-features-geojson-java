@@ -12,8 +12,11 @@ public abstract class Surface extends Geometry {
 	 * Constructor
 	 * 
 	 * @param type
+	 *            geometry type
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	protected Surface(GeometryType type, boolean hasZ, boolean hasM) {
 		super(type, hasZ, hasM);

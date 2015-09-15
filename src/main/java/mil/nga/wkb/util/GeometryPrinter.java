@@ -28,7 +28,8 @@ public class GeometryPrinter {
 	 * Get Geometry Information as a String
 	 * 
 	 * @param geometry
-	 * @return
+	 *            geometry
+	 * @return geometry String
 	 */
 	public static String getGeometryString(Geometry geometry) {
 

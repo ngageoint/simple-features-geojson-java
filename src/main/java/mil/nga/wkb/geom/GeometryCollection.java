@@ -19,7 +19,9 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public GeometryCollection(boolean hasZ, boolean hasM) {
 		super(GeometryType.GEOMETRYCOLLECTION, hasZ, hasM);
@@ -29,8 +31,11 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 	 * Constructor
 	 * 
 	 * @param type
+	 *            geometry type
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	protected GeometryCollection(GeometryType type, boolean hasZ, boolean hasM) {
 		super(type, hasZ, hasM);
@@ -39,7 +44,7 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 	/**
 	 * Get the list of geometries
 	 * 
-	 * @return
+	 * @return geometries
 	 */
 	public List<T> getGeometries() {
 		return geometries;
@@ -49,6 +54,7 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 	 * Set the geometries
 	 * 
 	 * @param geometries
+	 *            geometries
 	 */
 	public void setGeometries(List<T> geometries) {
 		this.geometries = geometries;
@@ -58,6 +64,7 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 	 * Add a geometry
 	 * 
 	 * @param geometry
+	 *            geometry
 	 */
 	public void addGeometry(T geometry) {
 		geometries.add(geometry);
@@ -66,7 +73,7 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 	/**
 	 * Get the number of geometries in the collection
 	 * 
-	 * @return
+	 * @return number of geometries
 	 */
 	public int numGeometries() {
 		return geometries.size();

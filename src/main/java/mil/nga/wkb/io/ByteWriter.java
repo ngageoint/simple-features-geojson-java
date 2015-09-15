@@ -41,7 +41,7 @@ public class ByteWriter {
 	/**
 	 * Get the byte order
 	 * 
-	 * @return
+	 * @return byte order
 	 */
 	public ByteOrder getByteOrder() {
 		return byteOrder;
@@ -51,6 +51,7 @@ public class ByteWriter {
 	 * Set the byte order
 	 * 
 	 * @param byteOrder
+	 *            byte order
 	 */
 	public void setByteOrder(ByteOrder byteOrder) {
 		this.byteOrder = byteOrder;
@@ -59,7 +60,7 @@ public class ByteWriter {
 	/**
 	 * Get the written bytes
 	 * 
-	 * @return
+	 * @return written bytes
 	 */
 	public byte[] getBytes() {
 		return os.toByteArray();
@@ -68,7 +69,7 @@ public class ByteWriter {
 	/**
 	 * Get the current size in bytes written
 	 * 
-	 * @return
+	 * @return bytes written
 	 */
 	public int size() {
 		return os.size();
@@ -78,6 +79,7 @@ public class ByteWriter {
 	 * Write a String
 	 * 
 	 * @param value
+	 *            string value
 	 * @throws IOException
 	 */
 	public void writeString(String value) throws IOException {
@@ -89,6 +91,7 @@ public class ByteWriter {
 	 * Write a byte
 	 * 
 	 * @param value
+	 *            byte
 	 */
 	public void writeByte(byte value) {
 		os.write(value);
@@ -97,6 +100,8 @@ public class ByteWriter {
 	/**
 	 * Write an integer
 	 * 
+	 * @param value
+	 *            int
 	 * @throws IOException
 	 */
 	public void writeInt(int value) throws IOException {
@@ -111,6 +116,8 @@ public class ByteWriter {
 	/**
 	 * Write a double
 	 * 
+	 * @param value
+	 *            double
 	 * @throws IOException
 	 */
 	public void writeDouble(double value) throws IOException {

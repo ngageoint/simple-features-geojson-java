@@ -12,7 +12,9 @@ public class TIN extends PolyhedralSurface {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public TIN(boolean hasZ, boolean hasM) {
 		super(GeometryType.TIN, hasZ, hasM);
