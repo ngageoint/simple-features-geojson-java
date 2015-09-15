@@ -14,7 +14,9 @@ public class MultiPolygon extends MultiSurface<Polygon> {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public MultiPolygon(boolean hasZ, boolean hasM) {
 		super(GeometryType.MULTIPOLYGON, hasZ, hasM);
@@ -23,7 +25,7 @@ public class MultiPolygon extends MultiSurface<Polygon> {
 	/**
 	 * Get the polygons
 	 * 
-	 * @return
+	 * @return polygons
 	 */
 	public List<Polygon> getPolygons() {
 		return getGeometries();
@@ -33,6 +35,7 @@ public class MultiPolygon extends MultiSurface<Polygon> {
 	 * Set the polygons
 	 * 
 	 * @param polygons
+	 *            polygons
 	 */
 	public void setPolygons(List<Polygon> polygons) {
 		setGeometries(polygons);
@@ -42,6 +45,7 @@ public class MultiPolygon extends MultiSurface<Polygon> {
 	 * Add a polygon
 	 * 
 	 * @param polygon
+	 *            polygon
 	 */
 	public void addPolygon(Polygon polygon) {
 		addGeometry(polygon);
@@ -50,7 +54,7 @@ public class MultiPolygon extends MultiSurface<Polygon> {
 	/**
 	 * Get the number of polygons
 	 * 
-	 * @return
+	 * @return number of polygons
 	 */
 	public int numPolygons() {
 		return numGeometries();

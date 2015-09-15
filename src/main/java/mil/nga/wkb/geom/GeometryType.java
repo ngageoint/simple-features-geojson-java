@@ -122,6 +122,7 @@ public enum GeometryType {
 	 * Constructor
 	 * 
 	 * @param code
+	 *            geometry type code
 	 */
 	private GeometryType(int code) {
 		this.code = code;
@@ -130,7 +131,7 @@ public enum GeometryType {
 	/**
 	 * Get the name, just use the enum name since they are the same
 	 * 
-	 * @return
+	 * @return geometry type name
 	 */
 	public String getName() {
 		return name();
@@ -139,7 +140,7 @@ public enum GeometryType {
 	/**
 	 * Get the code
 	 * 
-	 * @return
+	 * @return geometry type code
 	 */
 	public int getCode() {
 		return code;
@@ -149,7 +150,8 @@ public enum GeometryType {
 	 * Get the Geometry Type from the code
 	 * 
 	 * @param code
-	 * @return
+	 *            geometry type code
+	 * @return geometry type
 	 */
 	public static GeometryType fromCode(int code) {
 		GeometryType geometryType = null;
@@ -218,7 +220,8 @@ public enum GeometryType {
 	 * Get the Geometry Type from the name, ignoring case
 	 * 
 	 * @param name
-	 * @return
+	 *            geometry type name
+	 * @return geometry type
 	 */
 	public static GeometryType fromName(String name) {
 		return valueOf(name.toUpperCase(Locale.US));

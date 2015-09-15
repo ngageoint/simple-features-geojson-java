@@ -19,7 +19,9 @@ public class PolyhedralSurface extends Surface {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public PolyhedralSurface(boolean hasZ, boolean hasM) {
 		super(GeometryType.POLYHEDRALSURFACE, hasZ, hasM);
@@ -29,21 +31,41 @@ public class PolyhedralSurface extends Surface {
 	 * Constructor
 	 * 
 	 * @param type
+	 *            geometry type
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	protected PolyhedralSurface(GeometryType type, boolean hasZ, boolean hasM) {
 		super(type, hasZ, hasM);
 	}
 
+	/**
+	 * Get polygons
+	 * 
+	 * @return polygons
+	 */
 	public List<Polygon> getPolygons() {
 		return polygons;
 	}
 
+	/**
+	 * Set polygons
+	 * 
+	 * @param polygons
+	 *            polygons
+	 */
 	public void setPolygons(List<Polygon> polygons) {
 		this.polygons = polygons;
 	}
 
+	/**
+	 * Add polygon
+	 * 
+	 * @param polygon
+	 *            polygon
+	 */
 	public void addPolygon(Polygon polygon) {
 		polygons.add(polygon);
 	}
@@ -51,7 +73,7 @@ public class PolyhedralSurface extends Surface {
 	/**
 	 * Get the number of polygons
 	 * 
-	 * @return
+	 * @return number of polygons
 	 */
 	public int numPolygons() {
 		return polygons.size();

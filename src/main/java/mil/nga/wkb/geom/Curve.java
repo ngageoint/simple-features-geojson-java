@@ -15,8 +15,11 @@ public abstract class Curve extends Geometry {
 	 * Constructor
 	 * 
 	 * @param type
+	 *            geometry type
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	protected Curve(GeometryType type, boolean hasZ, boolean hasM) {
 		super(type, hasZ, hasM);

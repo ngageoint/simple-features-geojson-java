@@ -14,7 +14,9 @@ public class MultiPoint extends GeometryCollection<Point> {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public MultiPoint(boolean hasZ, boolean hasM) {
 		super(GeometryType.MULTIPOINT, hasZ, hasM);
@@ -23,7 +25,7 @@ public class MultiPoint extends GeometryCollection<Point> {
 	/**
 	 * Get the points
 	 * 
-	 * @return
+	 * @return points
 	 */
 	public List<Point> getPoints() {
 		return getGeometries();
@@ -33,6 +35,7 @@ public class MultiPoint extends GeometryCollection<Point> {
 	 * Set the points
 	 * 
 	 * @param points
+	 *            points
 	 */
 	public void setPoints(List<Point> points) {
 		setGeometries(points);
@@ -42,6 +45,7 @@ public class MultiPoint extends GeometryCollection<Point> {
 	 * Add a point
 	 * 
 	 * @param point
+	 *            point
 	 */
 	public void addPoint(Point point) {
 		addGeometry(point);
@@ -50,7 +54,7 @@ public class MultiPoint extends GeometryCollection<Point> {
 	/**
 	 * Get the number of points
 	 * 
-	 * @return
+	 * @return number of points
 	 */
 	public int numPoints() {
 		return numGeometries();

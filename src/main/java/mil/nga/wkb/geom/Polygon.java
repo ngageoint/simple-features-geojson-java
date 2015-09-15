@@ -12,7 +12,9 @@ public class Polygon extends CurvePolygon<LineString> {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public Polygon(boolean hasZ, boolean hasM) {
 		super(GeometryType.POLYGON, hasZ, hasM);
@@ -22,8 +24,11 @@ public class Polygon extends CurvePolygon<LineString> {
 	 * Constructor
 	 * 
 	 * @param type
+	 *            geometry type
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	protected Polygon(GeometryType type, boolean hasZ, boolean hasM) {
 		super(type, hasZ, hasM);

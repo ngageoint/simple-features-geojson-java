@@ -14,7 +14,9 @@ public class MultiLineString extends MultiCurve<LineString> {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public MultiLineString(boolean hasZ, boolean hasM) {
 		super(GeometryType.MULTILINESTRING, hasZ, hasM);
@@ -23,7 +25,7 @@ public class MultiLineString extends MultiCurve<LineString> {
 	/**
 	 * Get the line strings
 	 * 
-	 * @return
+	 * @return line strings
 	 */
 	public List<LineString> getLineStrings() {
 		return getGeometries();
@@ -33,6 +35,7 @@ public class MultiLineString extends MultiCurve<LineString> {
 	 * Set the line string
 	 * 
 	 * @param lineStrings
+	 *            line strings
 	 */
 	public void setLineStrings(List<LineString> lineStrings) {
 		setGeometries(lineStrings);
@@ -42,6 +45,7 @@ public class MultiLineString extends MultiCurve<LineString> {
 	 * Add a line string
 	 * 
 	 * @param lineString
+	 *            line string
 	 */
 	public void addLineString(LineString lineString) {
 		addGeometry(lineString);
@@ -50,7 +54,7 @@ public class MultiLineString extends MultiCurve<LineString> {
 	/**
 	 * Get the number of line strings
 	 * 
-	 * @return
+	 * @return number of line strings
 	 */
 	public int numLineStrings() {
 		return numGeometries();

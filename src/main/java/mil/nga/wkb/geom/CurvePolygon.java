@@ -20,7 +20,9 @@ public class CurvePolygon<T extends Curve> extends Surface {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public CurvePolygon(boolean hasZ, boolean hasM) {
 		super(GeometryType.CURVEPOLYGON, hasZ, hasM);
@@ -30,21 +32,41 @@ public class CurvePolygon<T extends Curve> extends Surface {
 	 * Constructor
 	 * 
 	 * @param type
+	 *            geometry type
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	protected CurvePolygon(GeometryType type, boolean hasZ, boolean hasM) {
 		super(type, hasZ, hasM);
 	}
 
+	/**
+	 * Get the rings
+	 * 
+	 * @return rings
+	 */
 	public List<T> getRings() {
 		return rings;
 	}
 
+	/**
+	 * Set the rings
+	 * 
+	 * @param rings
+	 *            rings
+	 */
 	public void setRings(List<T> rings) {
 		this.rings = rings;
 	}
 
+	/**
+	 * Add a ring
+	 * 
+	 * @param ring
+	 *            ring
+	 */
 	public void addRing(T ring) {
 		rings.add(ring);
 	}
@@ -52,7 +74,7 @@ public class CurvePolygon<T extends Curve> extends Surface {
 	/**
 	 * Get the number of rings
 	 * 
-	 * @return
+	 * @return number of rings
 	 */
 	public int numRings() {
 		return rings.size();

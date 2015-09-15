@@ -37,6 +37,7 @@ public class ByteReader {
 	 * Constructor
 	 * 
 	 * @param bytes
+	 *            bytes
 	 */
 	public ByteReader(byte[] bytes) {
 		this.bytes = bytes;
@@ -45,16 +46,27 @@ public class ByteReader {
 	/**
 	 * Get the next byte to be read
 	 * 
-	 * @return
+	 * @return next byte to be read
 	 */
 	public int getNextByte() {
 		return nextByte;
 	}
 
+	/**
+	 * Get the byte order
+	 * 
+	 * @return byte order
+	 */
 	public ByteOrder getByteOrder() {
 		return byteOrder;
 	}
 
+	/**
+	 * Set the byte order
+	 * 
+	 * @param byteOrder
+	 *            byte order
+	 */
 	public void setByteOrder(ByteOrder byteOrder) {
 		this.byteOrder = byteOrder;
 	}
@@ -63,7 +75,8 @@ public class ByteReader {
 	 * Read a String from the provided number of bytes
 	 * 
 	 * @param num
-	 * @return
+	 *            number of bytes
+	 * @return String
 	 * @throws UnsupportedEncodingException
 	 */
 	public String readString(int num) throws UnsupportedEncodingException {
@@ -76,7 +89,7 @@ public class ByteReader {
 	/**
 	 * Read a byte
 	 * 
-	 * @return
+	 * @return byte
 	 */
 	public byte readByte() {
 		verifyRemainingBytes(1);
@@ -88,7 +101,7 @@ public class ByteReader {
 	/**
 	 * Read an integer
 	 * 
-	 * @return
+	 * @return integer
 	 */
 	public int readInt() {
 		verifyRemainingBytes(4);
@@ -101,7 +114,7 @@ public class ByteReader {
 	/**
 	 * Read a double
 	 * 
-	 * @return
+	 * @return double
 	 */
 	public double readDouble() {
 		verifyRemainingBytes(8);
@@ -116,6 +129,7 @@ public class ByteReader {
 	 * the provided amount
 	 * 
 	 * @param bytesToRead
+	 *            number of bytes to read
 	 */
 	private void verifyRemainingBytes(int bytesToRead) {
 		if (nextByte + bytesToRead > bytes.length) {

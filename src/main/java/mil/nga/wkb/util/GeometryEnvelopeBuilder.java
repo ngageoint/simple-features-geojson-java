@@ -29,7 +29,7 @@ public class GeometryEnvelopeBuilder {
 	 * Build Geometry Envelope
 	 * 
 	 * @param geometry
-	 * @return
+	 * @return geometry envelope
 	 */
 	public static GeometryEnvelope buildEnvelope(Geometry geometry) {
 
@@ -49,7 +49,7 @@ public class GeometryEnvelopeBuilder {
 	 * Build Geometry Envelope
 	 * 
 	 * @param geometry
-	 * @return
+	 * @param envelope
 	 */
 	public static void buildEnvelope(Geometry geometry,
 			GeometryEnvelope envelope) {

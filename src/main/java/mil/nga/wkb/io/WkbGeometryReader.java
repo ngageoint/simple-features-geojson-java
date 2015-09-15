@@ -31,7 +31,7 @@ public class WkbGeometryReader {
 	 * Read a geometry from the byte reader
 	 * 
 	 * @param reader
-	 * @return
+	 * @return geometry
 	 */
 	public static Geometry readGeometry(ByteReader reader) {
 		Geometry geometry = readGeometry(reader, null);
@@ -43,7 +43,7 @@ public class WkbGeometryReader {
 	 * 
 	 * @param reader
 	 * @param expectedType
-	 * @return
+	 * @return geometry
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends Geometry> T readGeometry(ByteReader reader,
@@ -173,7 +173,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return point
 	 */
 	public static Point readPoint(ByteReader reader, boolean hasZ, boolean hasM) {
 
@@ -201,7 +201,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return line string
 	 */
 	public static LineString readLineString(ByteReader reader, boolean hasZ,
 			boolean hasM) {
@@ -225,7 +225,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return polygon
 	 */
 	public static Polygon readPolygon(ByteReader reader, boolean hasZ,
 			boolean hasM) {
@@ -249,7 +249,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return multi point
 	 */
 	public static MultiPoint readMultiPoint(ByteReader reader, boolean hasZ,
 			boolean hasM) {
@@ -273,7 +273,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return multi line string
 	 */
 	public static MultiLineString readMultiLineString(ByteReader reader,
 			boolean hasZ, boolean hasM) {
@@ -297,7 +297,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return multi polygon
 	 */
 	public static MultiPolygon readMultiPolygon(ByteReader reader,
 			boolean hasZ, boolean hasM) {
@@ -321,7 +321,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return geometry collection
 	 */
 	public static GeometryCollection<Geometry> readGeometryCollection(
 			ByteReader reader, boolean hasZ, boolean hasM) {
@@ -346,7 +346,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return circular string
 	 */
 	public static CircularString readCircularString(ByteReader reader,
 			boolean hasZ, boolean hasM) {
@@ -370,7 +370,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return compound curve
 	 */
 	public static CompoundCurve readCompoundCurve(ByteReader reader,
 			boolean hasZ, boolean hasM) {
@@ -394,7 +394,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return curve polygon
 	 */
 	public static CurvePolygon<Curve> readCurvePolygon(ByteReader reader,
 			boolean hasZ, boolean hasM) {
@@ -418,7 +418,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return polyhedral surface
 	 */
 	public static PolyhedralSurface readPolyhedralSurface(ByteReader reader,
 			boolean hasZ, boolean hasM) {
@@ -442,7 +442,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return TIN
 	 */
 	public static TIN readTIN(ByteReader reader, boolean hasZ, boolean hasM) {
 
@@ -465,7 +465,7 @@ public class WkbGeometryReader {
 	 * @param reader
 	 * @param hasZ
 	 * @param hasM
-	 * @return
+	 * @return triangle
 	 */
 	public static Triangle readTriangle(ByteReader reader, boolean hasZ,
 			boolean hasM) {

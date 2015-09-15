@@ -19,20 +19,39 @@ public class CompoundCurve extends Curve {
 	 * Constructor
 	 * 
 	 * @param hasZ
+	 *            has z
 	 * @param hasM
+	 *            has m
 	 */
 	public CompoundCurve(boolean hasZ, boolean hasM) {
 		super(GeometryType.COMPOUNDCURVE, hasZ, hasM);
 	}
 
+	/**
+	 * Get the line strings
+	 * 
+	 * @return line strings
+	 */
 	public List<LineString> getLineStrings() {
 		return lineStrings;
 	}
 
+	/**
+	 * Set the line strings
+	 * 
+	 * @param lineStrings
+	 *            line strings
+	 */
 	public void setLineStrings(List<LineString> lineStrings) {
 		this.lineStrings = lineStrings;
 	}
 
+	/**
+	 * Add a line string
+	 * 
+	 * @param lineString
+	 *            line string
+	 */
 	public void addLineString(LineString lineString) {
 		lineStrings.add(lineString);
 	}
@@ -40,7 +59,7 @@ public class CompoundCurve extends Curve {
 	/**
 	 * Get the number of line strings
 	 * 
-	 * @return
+	 * @return number of line strings
 	 */
 	public int numLineStrings() {
 		return lineStrings.size();
