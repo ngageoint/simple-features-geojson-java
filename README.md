@@ -34,6 +34,16 @@ WKB is a Java library for writing and reading Well-Known Binary Geometries to an
     byte[] bytes = writer.getBytes();
     writer.close();
 
+### Installation ###
+
+Pull from the [Maven Central Repository](http://search.maven.org/#artifactdetails|mil.nga|wkb|1.0.0|jar)
+
+    <dependency>
+        <groupId>mil.nga</groupId>
+        <artifactId>wkb</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
 ### Build ###
 
 Build this repository using Eclipse and/or Maven:
