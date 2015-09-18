@@ -11,7 +11,7 @@ Software source code previously released under an open source license and then m
 
 ### About ###
 
-[WKB](http://ngageoint.github.io/geopackage-wkb-java/) is a Java library for writing and reading Well-Known Binary Geometries to and from bytes. The library includes a hierarchy of Geometry objects. Although developed as part of the GeoPackage Libraries, this library does not contain GeoPackage functionality and can be used separately.
+[WKB](http://ngageoint.github.io/geopackage-wkb-java/) is a Java library for writing and reading Well-Known Binary Geometries to and from bytes. The library includes a hierarchy of Geometry objects. Although developed as part of the [GeoPackage Libraries](http://ngageoint.github.io/GeoPackage/), this library does not contain GeoPackage functionality and can be used separately.
 
 ### Usage ###
 
