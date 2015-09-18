@@ -1,6 +1,6 @@
 # GeoPackage WKB Java
 
-#### GeoPackage Well Known Binary Lib ####
+#### [GeoPackage Well Known Binary Lib](http://ngageoint.github.io/geopackage-wkb-java/) ####
 
 The [GeoPackage Libraries](http://ngageoint.github.io/GeoPackage/) were developed at the [National Geospatial-Intelligence Agency (NGA)](http://www.nga.mil/) in collaboration with [BIT Systems](http://www.bit-sys.com/). The government has "unlimited rights" and is releasing this software to increase the impact of government investments by providing developers with the opportunity to take things in new directions. The software use, modification, and distribution rights are stipulated within the [MIT license](http://choosealicense.com/licenses/mit/).
 
@@ -11,7 +11,7 @@ Software source code previously released under an open source license and then m
 
 ### About ###
 
-WKB is a Java library for writing and reading Well-Known Binary Geometries to and from bytes. The library includes a hierarchy of Geometry objects. Although developed as part of the GeoPackage Libraries, this library does not contain GeoPackage functionality and can be used separately.
+[WKB](http://ngageoint.github.io/geopackage-wkb-java/) is a Java library for writing and reading Well-Known Binary Geometries to and from bytes. The library includes a hierarchy of Geometry objects. Although developed as part of the GeoPackage Libraries, this library does not contain GeoPackage functionality and can be used separately.
 
 ### Usage ###
 
