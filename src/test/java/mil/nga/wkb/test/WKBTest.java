@@ -148,7 +148,7 @@ public class WKBTest {
 
 		Geometry geometry1 = WKBTestUtils.readGeometry(bytes1,
 				ByteOrder.BIG_ENDIAN);
-		Geometry geometry2 = WKBTestUtils.readGeometry(bytes1,
+		Geometry geometry2 = WKBTestUtils.readGeometry(bytes2,
 				ByteOrder.LITTLE_ENDIAN);
 
 		WKBTestUtils.compareGeometries(geometry, geometry1);
