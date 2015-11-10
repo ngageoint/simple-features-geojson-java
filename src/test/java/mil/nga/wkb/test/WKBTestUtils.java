@@ -454,6 +454,7 @@ public class WKBTestUtils {
 		writer.setByteOrder(byteOrder);
 		WkbGeometryWriter.writeGeometry(writer, geometry);
 		byte[] bytes = writer.getBytes();
+		writer.close();
 		return bytes;
 	}
 
