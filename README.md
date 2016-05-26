@@ -19,32 +19,44 @@ View the latest [Javadoc](http://ngageoint.github.io/geopackage-wkb-java/docs/ap
 
 #### Read ####
 
-    //byte[] bytes = ...    
-    
-    ByteReader reader = new ByteReader(bytes);
-    reader.setByteOrder(ByteOrder.BIG_ENDIAN);
-    Geometry geometry = WkbGeometryReader.readGeometry(reader);
-    GeometryType geometryType = geometry.getGeometryType();
+```java
+
+//byte[] bytes = ...    
+
+ByteReader reader = new ByteReader(bytes);
+reader.setByteOrder(ByteOrder.BIG_ENDIAN);
+Geometry geometry = WkbGeometryReader.readGeometry(reader);
+GeometryType geometryType = geometry.getGeometryType();
+
+```
 
 #### Write ####
 
-    //Geometry geometry = ...
-    
-    ByteWriter writer = new ByteWriter();
-    writer.setByteOrder(ByteOrder.BIG_ENDIAN);
-    WkbGeometryWriter.writeGeometry(writer, geometry);
-    byte[] bytes = writer.getBytes();
-    writer.close();
+```java
+
+//Geometry geometry = ...
+
+ByteWriter writer = new ByteWriter();
+writer.setByteOrder(ByteOrder.BIG_ENDIAN);
+WkbGeometryWriter.writeGeometry(writer, geometry);
+byte[] bytes = writer.getBytes();
+writer.close();
+
+```
 
 ### Installation ###
 
 Pull from the [Maven Central Repository](http://search.maven.org/#artifactdetails|mil.nga|wkb|1.0.2|jar) (JAR, POM, Source, Javadoc)
 
-    <dependency>
-        <groupId>mil.nga</groupId>
-        <artifactId>wkb</artifactId>
-        <version>1.0.2</version>
-    </dependency>
+```xml
+
+<dependency>
+    <groupId>mil.nga</groupId>
+    <artifactId>wkb</artifactId>
+    <version>1.0.2</version>
+</dependency>
+
+```
 
 ### Build ###
 
