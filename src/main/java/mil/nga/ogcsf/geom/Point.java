@@ -1,4 +1,4 @@
-package mil.nga.wkb.geom;
+package mil.nga.ogcsf.geom;
 
 /**
  * A single location in space. Each point has an X and Y coordinate. A point MAY

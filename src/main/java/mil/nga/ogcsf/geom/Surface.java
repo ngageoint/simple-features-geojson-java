@@ -1,4 +1,4 @@
-package mil.nga.wkb.geom;
+package mil.nga.ogcsf.geom;
 
 /**
  * The base type for all 2-dimensional geometry types. A 2-dimensional geometry

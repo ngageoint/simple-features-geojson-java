@@ -4,26 +4,27 @@ import java.io.IOException;
 import java.nio.ByteOrder;
 
 import junit.framework.TestCase;
-import mil.nga.wkb.geom.CircularString;
-import mil.nga.wkb.geom.CompoundCurve;
-import mil.nga.wkb.geom.CurvePolygon;
-import mil.nga.wkb.geom.Geometry;
-import mil.nga.wkb.geom.GeometryCollection;
-import mil.nga.wkb.geom.GeometryEnvelope;
-import mil.nga.wkb.geom.GeometryType;
-import mil.nga.wkb.geom.LineString;
-import mil.nga.wkb.geom.MultiLineString;
-import mil.nga.wkb.geom.MultiPoint;
-import mil.nga.wkb.geom.MultiPolygon;
-import mil.nga.wkb.geom.Point;
-import mil.nga.wkb.geom.Polygon;
-import mil.nga.wkb.geom.PolyhedralSurface;
-import mil.nga.wkb.geom.TIN;
-import mil.nga.wkb.geom.Triangle;
+import mil.nga.ogcsf.geom.CircularString;
+import mil.nga.ogcsf.geom.CompoundCurve;
+import mil.nga.ogcsf.geom.CurvePolygon;
+import mil.nga.ogcsf.geom.Geometry;
+import mil.nga.ogcsf.geom.GeometryCollection;
+import mil.nga.ogcsf.geom.GeometryEnvelope;
+import mil.nga.ogcsf.geom.GeometryType;
+import mil.nga.ogcsf.geom.LineString;
+import mil.nga.ogcsf.geom.MultiLineString;
+import mil.nga.ogcsf.geom.MultiPoint;
+import mil.nga.ogcsf.geom.MultiPolygon;
+import mil.nga.ogcsf.geom.Point;
+import mil.nga.ogcsf.geom.Polygon;
+import mil.nga.ogcsf.geom.PolyhedralSurface;
+import mil.nga.ogcsf.geom.TIN;
+import mil.nga.ogcsf.geom.Triangle;
 import mil.nga.wkb.io.ByteReader;
 import mil.nga.wkb.io.ByteWriter;
 import mil.nga.wkb.io.WkbGeometryReader;
 import mil.nga.wkb.io.WkbGeometryWriter;
+import mil.nga.wkb.util.WkbUtils;
 
 /**
  * WKB test utils
@@ -155,7 +156,7 @@ public class WKBTestUtils {
 				actual.getGeometryType());
 		TestCase.assertEquals(expected.hasZ(), actual.hasZ());
 		TestCase.assertEquals(expected.hasM(), actual.hasM());
-		TestCase.assertEquals(expected.getWkbCode(), actual.getWkbCode());
+		TestCase.assertEquals(WkbUtils.getWkbCode(expected), WkbUtils.getWkbCode(actual));
 	}
 
 	/**

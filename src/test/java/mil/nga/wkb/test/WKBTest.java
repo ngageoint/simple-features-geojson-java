@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.nio.ByteOrder;
 
 import junit.framework.TestCase;
-import mil.nga.wkb.geom.Geometry;
-import mil.nga.wkb.geom.GeometryCollection;
-import mil.nga.wkb.geom.LineString;
-import mil.nga.wkb.geom.MultiLineString;
-import mil.nga.wkb.geom.MultiPoint;
-import mil.nga.wkb.geom.MultiPolygon;
-import mil.nga.wkb.geom.Point;
-import mil.nga.wkb.geom.Polygon;
+import mil.nga.ogcsf.geom.Geometry;
+import mil.nga.ogcsf.geom.GeometryCollection;
+import mil.nga.ogcsf.geom.LineString;
+import mil.nga.ogcsf.geom.MultiLineString;
+import mil.nga.ogcsf.geom.MultiPoint;
+import mil.nga.ogcsf.geom.MultiPolygon;
+import mil.nga.ogcsf.geom.Point;
+import mil.nga.ogcsf.geom.Polygon;
 
 import org.junit.Test;
 

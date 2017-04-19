@@ -1,4 +1,4 @@
-package mil.nga.wkb.geom;
+package mil.nga.ogcsf.geom;
 
 /**
  * The root of the geometry type hierarchy
@@ -63,22 +63,6 @@ public abstract class Geometry {
 	 */
 	public boolean hasM() {
 		return hasM;
-	}
-
-	/**
-	 * Get the Well-Known Binary code
-	 * 
-	 * @return Well-Known Binary code
-	 */
-	public int getWkbCode() {
-		int code = geometryType.getCode();
-		if (hasZ) {
-			code += 1000;
-		}
-		if (hasM) {
-			code += 2000;
-		}
-		return code;
 	}
 
 }
