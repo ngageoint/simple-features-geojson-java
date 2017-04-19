@@ -1,4 +1,4 @@
-package mil.nga.wkb.util;
+package mil.nga.ogcsf.util;
 
 import java.util.List;
 
