@@ -2,22 +2,22 @@ package mil.nga.wkb.io;
 
 import java.nio.ByteOrder;
 
-import mil.nga.ogcsf.geom.CircularString;
-import mil.nga.ogcsf.geom.CompoundCurve;
-import mil.nga.ogcsf.geom.Curve;
-import mil.nga.ogcsf.geom.CurvePolygon;
-import mil.nga.ogcsf.geom.Geometry;
-import mil.nga.ogcsf.geom.GeometryCollection;
-import mil.nga.ogcsf.geom.GeometryType;
-import mil.nga.ogcsf.geom.LineString;
-import mil.nga.ogcsf.geom.MultiLineString;
-import mil.nga.ogcsf.geom.MultiPoint;
-import mil.nga.ogcsf.geom.MultiPolygon;
-import mil.nga.ogcsf.geom.Point;
-import mil.nga.ogcsf.geom.Polygon;
-import mil.nga.ogcsf.geom.PolyhedralSurface;
-import mil.nga.ogcsf.geom.TIN;
-import mil.nga.ogcsf.geom.Triangle;
+import mil.nga.ogcsf.CircularString;
+import mil.nga.ogcsf.CompoundCurve;
+import mil.nga.ogcsf.Curve;
+import mil.nga.ogcsf.CurvePolygon;
+import mil.nga.ogcsf.Geometry;
+import mil.nga.ogcsf.GeometryCollection;
+import mil.nga.ogcsf.GeometryType;
+import mil.nga.ogcsf.LineString;
+import mil.nga.ogcsf.MultiLineString;
+import mil.nga.ogcsf.MultiPoint;
+import mil.nga.ogcsf.MultiPolygon;
+import mil.nga.ogcsf.Point;
+import mil.nga.ogcsf.Polygon;
+import mil.nga.ogcsf.PolyhedralSurface;
+import mil.nga.ogcsf.TIN;
+import mil.nga.ogcsf.Triangle;
 import mil.nga.wkb.util.WkbException;
 
 /**

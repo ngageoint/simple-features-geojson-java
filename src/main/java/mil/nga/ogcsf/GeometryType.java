@@ -1,4 +1,4 @@
-package mil.nga.ogcsf.geom;
+package mil.nga.ogcsf;
 
 import java.util.Locale;
 

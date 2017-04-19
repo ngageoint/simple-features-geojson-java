@@ -1,4 +1,4 @@
-package mil.nga.ogcsf.geom;
+package mil.nga.ogcsf;
 
 /**
  * A restricted form of CurvePolygon where each ring is defined as a simple,

@@ -1,6 +1,6 @@
 package mil.nga.wkb.util;
 
-import mil.nga.ogcsf.geom.Geometry;
+import mil.nga.ogcsf.Geometry;
 
 /**
  * The root of the geometry type hierarchy

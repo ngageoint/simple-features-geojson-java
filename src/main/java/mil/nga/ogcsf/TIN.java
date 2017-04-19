@@ -1,4 +1,4 @@
-package mil.nga.ogcsf.geom;
+package mil.nga.ogcsf;
 
 /**
  * A tetrahedron (4 triangular faces), corner at the origin and each unit
