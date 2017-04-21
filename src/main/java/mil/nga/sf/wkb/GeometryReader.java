@@ -181,19 +181,10 @@ public class GeometryReader {
 		double x = reader.readDouble();
 		double y = reader.readDouble();
 
-		Point point = new Point(hasZ, hasM, x, y);
+		double z = hasZ ? reader.readDouble() : Double.NaN;
+		double m = hasM ? reader.readDouble() : Double.NaN;
 
-		if (hasZ) {
-			double z = reader.readDouble();
-			point.setZ(z);
-		}
-
-		if (hasM) {
-			double m = reader.readDouble();
-			point.setM(m);
-		}
-
-		return point;
+		return new Point(x, y, z, m);
 	}
 
 	/**

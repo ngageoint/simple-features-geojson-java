@@ -529,17 +529,9 @@ public class WKBTestUtils {
 		double x = Math.random() * 180.0 * (Math.random() < .5 ? 1 : -1);
 		double y = Math.random() * 90.0 * (Math.random() < .5 ? 1 : -1);
 
-		Point point = new Point(hasZ, hasM, x, y);
-
-		if (hasZ) {
-			double z = Math.random() * 1000.0;
-			point.setZ(z);
-		}
-
-		if (hasM) {
-			double m = Math.random() * 1000.0;
-			point.setM(m);
-		}
+		double z = hasZ ? Math.random() * 1000.0 : Double.NaN;
+		double m = hasM ? Math.random() * 1000.0 : Double.NaN;
+		Point point = new Point(x, y, z, m);
 
 		return point;
 	}
