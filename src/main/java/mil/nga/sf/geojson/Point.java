@@ -1,6 +1,6 @@
 package mil.nga.sf.geojson;
 
-public class Point extends GeoJsonObject {
+public class Point extends Geometry {
 
 	/**
 	 * 

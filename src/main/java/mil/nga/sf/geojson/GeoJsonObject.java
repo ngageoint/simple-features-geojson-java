@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 @JsonTypeInfo(property = "type", use = Id.NAME)
 @JsonSubTypes({ 
-//	@Type(Feature.class), 
+	@Type(Feature.class), 
 //	@Type(Polygon.class), 
 //	@Type(MultiPolygon.class), 
 //	@Type(FeatureCollection.class),
