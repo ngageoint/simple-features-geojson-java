@@ -11,25 +11,25 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-import mil.nga.sf.geojson.Coordinates;
+import mil.nga.sf.geojson.Position;
 
-public class CoordinatesDeserializer extends JsonDeserializer<Coordinates> {
+public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 
 	@Override
-	public Coordinates deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException,
+	public Position deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException,
 			JsonProcessingException {
 		if (jp.isExpectedStartArrayToken()) {
 			return deserializeArray(jp, ctxt);
 		}
-		throw ctxt.mappingException(Coordinates.class);
+		throw ctxt.mappingException(Position.class);
 	}
 
-	protected Coordinates deserializeArray(JsonParser jp, DeserializationContext ctxt) throws IOException,
+	protected Position deserializeArray(JsonParser jp, DeserializationContext ctxt) throws IOException,
 			JsonProcessingException {
-		Coordinates node = new Coordinates();
-		node.setLongitude(extractDouble(jp, ctxt, false));
-		node.setLatitude(extractDouble(jp, ctxt, false));
-		node.setAltitude(extractDouble(jp, ctxt, true));
+		
+		double x = extractDouble(jp, ctxt, false);
+		double y = extractDouble(jp, ctxt, false);
+		double z = extractDouble(jp, ctxt, true);
 
 		List<Double> additionalElementsList = new ArrayList<Double>();
 		while (jp.hasCurrentToken() && jp.getCurrentToken() != JsonToken.END_ARRAY) {
@@ -43,9 +43,8 @@ public class CoordinatesDeserializer extends JsonDeserializer<Coordinates> {
 		for(int i = 0; i < additionalElements.length; i++) {
 			additionalElements[i] = additionalElementsList.get(i);
 		}
-		node.setAdditionalElements(additionalElements);
 
-		return node;
+		return new Position(x, y, z, additionalElements);
 	}
 
 	private double extractDouble(JsonParser jp, DeserializationContext ctxt, boolean optional)

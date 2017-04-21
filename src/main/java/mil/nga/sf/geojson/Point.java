@@ -12,47 +12,32 @@ public class Point extends GeoJsonObject {
 	public Point() {
 	}
 
-	public Point(Coordinates coordinates) {
-		setCoordinates(coordinates);
+	public Point(Position position) {
+		setCoordinates(position);
 	}
 
 	public Point(double longitude, double latitude) {
-		point.setX(longitude);
-		point.setY(latitude);
+		point = new mil.nga.sf.Point(longitude, latitude);
 	}
 
 	public Point(double longitude, double latitude, double altitude) {
-		point.setX(longitude);
-		point.setY(latitude);
-		point.setZ(altitude);
+		point = new mil.nga.sf.Point(longitude, latitude, altitude);
 	}
 
 	public Point(double longitude, double latitude, double altitude, double... additionalElements) {
-		setCoordinates(new Coordinates(longitude, latitude, altitude, additionalElements));
+		this(new Position(longitude, latitude, altitude, additionalElements));
 	}
 
-	public Coordinates getCoordinates() {
-		Coordinates result = new Coordinates();
-		result.setLongitude(point.getX());
-		result.setLatitude(point.getY());
-		final double z = point.getZ();
-		if (!Double.isNaN(z)) {
-			result.setAltitude(z);
-		}
-		final double m = point.getM();
-		if (!Double.isNaN(m)){
-			result.setAdditionalElements(new double[]{m});			
-		}
-		
-		return result;
+	public Position getCoordinates() {
+		return new Position(point.getX(), point.getY(), point.getZ(), additionalElements);
 	}
 
-	public void setCoordinates(Coordinates coordinates) {
-		point.setX(coordinates.getLongitude());
-		point.setY(coordinates.getLatitude());
-		point.setZ(coordinates.getAltitude());
-		additionalElements = coordinates.getAdditionalElements();
-		point.setM(additionalElements.length > 0 ? additionalElements[0] : 0);
+	private void setCoordinates(Position position) {
+		additionalElements = position.getAdditionalElements();
+		point = new mil.nga.sf.Point(position.getLongitude(), 
+				position.getLatitude(), 
+				position.getAltitude(), 
+				(additionalElements.length > 0) ? additionalElements[0] : Double.NaN);
 	}
 
 	@Override

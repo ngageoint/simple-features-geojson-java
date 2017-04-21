@@ -1,100 +1,52 @@
 package mil.nga.sf.geojson;
 
-//import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-//import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-//import org.geojson.jackson.LngLatAltDeserializer;
-//import org.geojson.jackson.LngLatAltSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import mil.nga.sf.geojson.jackson.CoordinatesDeserializer;
+import mil.nga.sf.geojson.jackson.CoordinatesSerializer;
 import java.io.Serializable;
 import java.util.Arrays;
 
-//@JsonDeserialize(using = LngLatAltDeserializer.class)
-//@JsonSerialize(using = LngLatAltSerializer.class)
-public class Coordinates implements Serializable{
+@JsonDeserialize(using = CoordinatesDeserializer.class)
+@JsonSerialize(using = CoordinatesSerializer.class)
+public class Position extends mil.nga.sf.Position implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1351618523383207368L;
-	private double longitude;
-	private double latitude;
-	private double altitude = Double.NaN;
+	private static final long serialVersionUID = -6991668001425440884L;
+	/**
+	 * 
+	 */
 	private double[] additionalElements = new double[0];
 
-	public Coordinates() {
+	public Position() {
+		super();
 	}
 
-	public Coordinates(double longitude, double latitude) {
-		this.longitude = longitude;
-		this.latitude = latitude;
+	public Position(double longitude, double latitude) {
+		super(longitude, latitude);
 	}
 
-	public Coordinates(double longitude, double latitude, double altitude) {
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.altitude = altitude;
+	public Position(double longitude, double latitude, double altitude) {
+		super(longitude, latitude, altitude);
 	}
 
 	/**
-	 * Construct a LngLatAlt with additional elements.
+	 * Construct a Coordinates with additional elements.
 	 * The specification allows for any number of additional elements in a position, after lng, lat, alt.
-	 * http://geojson.org/geojson-spec.html#positions
+	 * https://tools.ietf.org/html/rfc7946#section-3.1.1
 	 * @param longitude The longitude.
 	 * @param latitude The latitude.
 	 * @param altitude The altitude.
 	 * @param additionalElements The additional elements.
      */
-	public Coordinates(double longitude, double latitude, double altitude, double... additionalElements) {
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.altitude = altitude;
+	public Position(double longitude, double latitude, double altitude, double... additionalElements) {
+		super(longitude, latitude, altitude, (additionalElements != null) && (additionalElements.length > 0) ? additionalElements[0] : Double.NaN);
 
-		setAdditionalElements(additionalElements);
-		checkAltitudeAndAdditionalElements();
-	}
-
-	public boolean hasAltitude() {
-		return !Double.isNaN(altitude);
-	}
-
-	public boolean hasAdditionalElements() {
-		return additionalElements.length > 0;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getAltitude() {
-		return altitude;
-	}
-
-	public void setAltitude(double altitude) {
-		this.altitude = altitude;
-		checkAltitudeAndAdditionalElements();
-	}
-
-	public double[] getAdditionalElements() {
-		return additionalElements;
-	}
-
-	public void setAdditionalElements(double... additionalElements) {
 		if (additionalElements != null) {
 			this.additionalElements = additionalElements;
-		} else {
-			this.additionalElements = new double[0];
 		}
 
 		for(double element : this.additionalElements) {
@@ -109,27 +61,51 @@ public class Coordinates implements Serializable{
 		checkAltitudeAndAdditionalElements();
 	}
 
+	public boolean hasAltitude() {
+		return !Double.isNaN(getAltitude());
+	}
+
+	public boolean hasAdditionalElements() {
+		return additionalElements.length > 0;
+	}
+
+	public double getLongitude() {
+		return getX();
+	}
+
+	public double getLatitude() {
+		return getY();
+	}
+
+	public double getAltitude() {
+		return getZ();
+	}
+
+	public double[] getAdditionalElements() {
+		return additionalElements;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof Coordinates)) {
+		if (!(o instanceof Position)) {
 			return false;
 		}
-		Coordinates coordinates = (Coordinates)o;
-		return Double.compare(coordinates.latitude, latitude) == 0 && Double.compare(coordinates.longitude, longitude) == 0
-				&& Double.compare(coordinates.altitude, altitude) == 0 &&
-				Arrays.equals(coordinates.getAdditionalElements(), additionalElements);
+		Position position = (Position)o;
+		return Double.compare(position.getLatitude(), getLatitude()) == 0 && Double.compare(position.getLongitude(), getLongitude()) == 0
+				&& Double.compare(position.getAltitude(), getAltitude()) == 0 &&
+				Arrays.equals(position.getAdditionalElements(), additionalElements);
 	}
 
 	@Override
 	public int hashCode() {
-		long temp = Double.doubleToLongBits(longitude);
+		long temp = Double.doubleToLongBits(getLongitude());
 		int result = (int)(temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(latitude);
+		temp = Double.doubleToLongBits(getLatitude());
 		result = 31 * result + (int)(temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(altitude);
+		temp = Double.doubleToLongBits(getAltitude());
 		result = 31 * result + (int)(temp ^ (temp >>> 32));
 		for(double element : additionalElements) {
 			temp = Double.doubleToLongBits(element);
@@ -140,7 +116,7 @@ public class Coordinates implements Serializable{
 
 	@Override
 	public String toString() {
-		String s =  "LngLatAlt{" + "longitude=" + longitude + ", latitude=" + latitude + ", altitude=" + altitude;
+		String s =  "Position{" + "longitude=" + getLongitude() + ", latitude=" + getLatitude() + ", altitude=" + getAltitude();
 
 		if (hasAdditionalElements()) {
 			s += ", additionalElements=[";
