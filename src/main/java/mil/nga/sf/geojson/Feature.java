@@ -1,18 +1,27 @@
 package mil.nga.sf.geojson;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Map;
 
+@JsonIgnoreProperties({"feature"})
 public class Feature extends GeoJsonObject {
 	
 	private static final long serialVersionUID = -2507073025031506871L;
 
 	private mil.nga.sf.Feature feature = new mil.nga.sf.Feature();
 
-	@JsonInclude(JsonInclude.Include.ALWAYS)
-	private GeoJsonObject geometry;
 	private String id;
+
+	@JsonInclude(JsonInclude.Include.ALWAYS)
+	public Geometry getGeometry() {
+		return (Geometry)GeoJsonObjectFactory.createObject(feature.getGeometry());
+	}
+
+	public void setGeometry(Geometry geometry) {
+		this.feature.setGeometry((geometry == null) ? null : geometry.getGeometry());
+	}
 
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Map<String, Object> getProperties() {
@@ -21,14 +30,6 @@ public class Feature extends GeoJsonObject {
 
 	public void setProperties(Map<String, Object> properties) {
 		feature.setProperties(properties);
-	}
-
-	public GeoJsonObject getGeometry() {
-		return geometry;
-	}
-
-	public void setGeometry(GeoJsonObject geometry) {
-		this.geometry = geometry;
 	}
 
 	public String getId() {
@@ -42,5 +43,9 @@ public class Feature extends GeoJsonObject {
 	@Override
 	public <T> T accept(GeoJsonObjectVisitor<T> geoJsonObjectVisitor) {
 		return geoJsonObjectVisitor.visit(this);
+	}
+
+	public mil.nga.sf.Feature getFeature() {
+		return feature;
 	}
 }

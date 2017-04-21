@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mil.nga.sf.geojson.GeoJsonObject;
+import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.Point;
+import mil.nga.sf.geojson.Position;
 
 import org.junit.Test;
 
@@ -35,10 +37,11 @@ public class PointTest {
 	}
 
 	@Test
-	public void itShouldSerializeAPoint() throws Exception {
-		Point point = new Point(100, 0);
-		assertEquals("{\"type\":\"Point\",\"coordinates\":[100.0,0.0]}",
-				mapper.writeValueAsString(point));
+	public void itShouldSerializeASFPoint() throws Exception {
+		mil.nga.sf.Point point = new mil.nga.sf.Point(100d, 10d);
+		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(point));
+		assertEquals("{\"type\":\"Point\",\"coordinates\":[100.0,10.0]}",
+				text);
 	}
 
 	@Test
@@ -61,9 +64,9 @@ public class PointTest {
 
 	@Test
 	public void itShouldSerializeAPointWithAltitude() throws Exception {
-		Point point = new Point(100, 0, 256);
+		mil.nga.sf.Point point = new mil.nga.sf.Point(100d, 0d, 256d);
 		assertEquals("{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0]}",
-				mapper.writeValueAsString(point));
+				mapper.writeValueAsString(GeoJsonObjectFactory.createObject(point)));
 	}
 
 	@Test
@@ -76,14 +79,8 @@ public class PointTest {
 
 	@Test
 	public void itShouldSerializeAPointWithAdditionalAttributes() throws JsonProcessingException {
-		Point point = new Point(100d, 0d, 256d, 345d, 678d);
-		assertEquals("{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}",
-				mapper.writeValueAsString(point));
-	}
-
-	@Test
-	public void itShouldSerializeAPointWithAdditionalAttributesAndNull() throws JsonProcessingException {
-		Point point = new Point(100d, 0d, 256d, 345d, 678d);
+		Position position = new Position(100d, 0d, 256d, 345d, 678d);
+		Point point = new Point(position);
 		assertEquals("{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}",
 				mapper.writeValueAsString(point));
 	}

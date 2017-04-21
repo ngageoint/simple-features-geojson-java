@@ -31,20 +31,17 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 		Double y = extractDouble(jp, ctxt, false);
 		Double z = extractDouble(jp, ctxt, true);
 
-		List<Double> additionalElementsList = new ArrayList<Double>();
+		List<Double> additionalElements = new ArrayList<Double>();
 		while (jp.hasCurrentToken() && jp.getCurrentToken() != JsonToken.END_ARRAY) {
 			Double element = extractDouble(jp, ctxt, true);
 			if (!(element == null)) {
-				additionalElementsList.add(element);
+				additionalElements.add(element);
 			}
 		}
+		
+		Double[] aeArray = new Double[additionalElements.size()];
 
-		Double[] additionalElements = new Double[additionalElementsList.size()];
-		for(int i = 0; i < additionalElements.length; i++) {
-			additionalElements[i] = additionalElementsList.get(i);
-		}
-
-		return new Position(x, y, z, additionalElements);
+		return new Position(x, y, z, additionalElements.toArray(aeArray));
 	}
 
 	private Double extractDouble(JsonParser jp, DeserializationContext ctxt, boolean optional)

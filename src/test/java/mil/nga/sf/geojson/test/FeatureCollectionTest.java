@@ -25,6 +25,15 @@ public class FeatureCollectionTest {
 	}
 
 	@Test
+	public void itShouldDeserializeALargerFeatureCollection() throws Exception {
+		
+		java.net.URL url = ClassLoader.getSystemResource("fc-points.geojson");
+		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+		String json = new String(java.nio.file.Files.readAllBytes(resPath), "UTF8");
+		GeoJsonObject value = mapper.readValue(json, GeoJsonObject.class);
+		value.toString();
+    }
+	@Test
 	public void itShouldSerializeFeatureCollection() throws Exception {
 		// A feature collection object must have a member with the name "features".
 		assertEquals("{\"type\":\"FeatureCollection\",\"features\":[]}",
