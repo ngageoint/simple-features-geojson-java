@@ -11,29 +11,29 @@ public class Position {
 	/**
 	 * X coordinate
 	 */
-	final private double x;
+	final private Double x;
 
 	/**
 	 * Y coordinate
 	 */
-	final private double y;
+	final private Double y;
 
 	/**
 	 * Z coordinate
 	 */
-	final private double z;
+	final private Double z;
 
 	/**
 	 * M value
 	 */
-	final private double m;
+	final private Double m;
 
 	/**
 	 * Constructor
 	 * 
 	 */
 	public Position() {
-		this(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+		this(null, null, null, null);
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class Position {
 	 * @param y
 	 *            y coordinate
 	 */
-	public Position(double x, double y) {
-		this(x, y, Double.NaN, Double.NaN);
+	public Position(Double x, Double y) {
+		this(x, y, null, null);
 	}
 
 	/**
@@ -58,8 +58,8 @@ public class Position {
 	 * @param z
 	 *            z coordinate
 	 */
-	public Position(double x, double y, double z) {
-		this(x, y, z, Double.NaN);
+	public Position(Double x, Double y, Double z) {
+		this(x, y, z, null);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Position {
 	 * @param m
 	 *            m coordinate
 	 */
-	public Position(double x, double y, double z, double m) {
+	public Position(Double x, Double y, Double z, Double m) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -86,7 +86,7 @@ public class Position {
 	 * 
 	 * @return x
 	 */
-	public double getX() {
+	public Double getX() {
 		return x;
 	}
 
@@ -95,7 +95,7 @@ public class Position {
 	 * 
 	 * @return y
 	 */
-	public double getY() {
+	public Double getY() {
 		return y;
 	}
 
@@ -104,7 +104,7 @@ public class Position {
 	 * 
 	 * @return z
 	 */
-	public double getZ() {
+	public Double getZ() {
 		return z;
 	}
 
@@ -113,7 +113,7 @@ public class Position {
 	 * 
 	 * @return m
 	 */
-	public double getM() {
+	public Double getM() {
 		return m;
 	}
 }

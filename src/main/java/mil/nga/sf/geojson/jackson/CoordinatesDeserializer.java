@@ -27,19 +27,19 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 	protected Position deserializeArray(JsonParser jp, DeserializationContext ctxt) throws IOException,
 			JsonProcessingException {
 		
-		double x = extractDouble(jp, ctxt, false);
-		double y = extractDouble(jp, ctxt, false);
-		double z = extractDouble(jp, ctxt, true);
+		Double x = extractDouble(jp, ctxt, false);
+		Double y = extractDouble(jp, ctxt, false);
+		Double z = extractDouble(jp, ctxt, true);
 
 		List<Double> additionalElementsList = new ArrayList<Double>();
 		while (jp.hasCurrentToken() && jp.getCurrentToken() != JsonToken.END_ARRAY) {
-			double element = extractDouble(jp, ctxt, true);
-			if (!Double.isNaN(element)) {
+			Double element = extractDouble(jp, ctxt, true);
+			if (!(element == null)) {
 				additionalElementsList.add(element);
 			}
 		}
 
-		double[] additionalElements = new double[additionalElementsList.size()];
+		Double[] additionalElements = new Double[additionalElementsList.size()];
 		for(int i = 0; i < additionalElements.length; i++) {
 			additionalElements[i] = additionalElementsList.get(i);
 		}
@@ -47,12 +47,12 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 		return new Position(x, y, z, additionalElements);
 	}
 
-	private double extractDouble(JsonParser jp, DeserializationContext ctxt, boolean optional)
+	private Double extractDouble(JsonParser jp, DeserializationContext ctxt, boolean optional)
 			throws JsonParseException, IOException {
 		JsonToken token = jp.nextToken();
 		if (token == null) {
 			if (optional)
-				return Double.NaN;
+				return null;
 			else
 				throw ctxt.mappingException("Unexpected end-of-input when binding data into Coordinates");
 		}
@@ -60,13 +60,13 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 			switch (token) {
 				case END_ARRAY:
 					if (optional)
-						return Double.NaN;
+						return null;
 					else
 						throw ctxt.mappingException("Unexpected end-of-input when binding data into Coordinates");
 				case VALUE_NUMBER_FLOAT:
 					return jp.getDoubleValue();
 				case VALUE_NUMBER_INT:
-					return jp.getLongValue();
+					return Double.valueOf(jp.getLongValue());
 				case VALUE_STRING:
 					return jp.getValueAsDouble();
 				default:

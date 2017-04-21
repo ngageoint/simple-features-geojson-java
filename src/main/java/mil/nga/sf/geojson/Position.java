@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import mil.nga.sf.geojson.jackson.CoordinatesDeserializer;
 import mil.nga.sf.geojson.jackson.CoordinatesSerializer;
 import java.io.Serializable;
-import java.util.Arrays;
 
 @JsonDeserialize(using = CoordinatesDeserializer.class)
 @JsonSerialize(using = CoordinatesSerializer.class)
@@ -19,7 +18,7 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	/**
 	 * 
 	 */
-	private double[] additionalElements = new double[0];
+	private Double[] additionalElements = new Double[0];
 
 	public Position() {
 		super();
@@ -42,14 +41,14 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	 * @param altitude The altitude.
 	 * @param additionalElements The additional elements.
      */
-	public Position(double longitude, double latitude, double altitude, double... additionalElements) {
+	public Position(Double longitude, Double latitude, Double altitude, Double... additionalElements) {
 		super(longitude, latitude, altitude, (additionalElements != null) && (additionalElements.length > 0) ? additionalElements[0] : Double.NaN);
 
 		if (additionalElements != null) {
 			this.additionalElements = additionalElements;
 		}
 
-		for(double element : this.additionalElements) {
+		for(Double element : this.additionalElements) {
 			if (Double.isNaN(element)) {
 				throw new IllegalArgumentException("No additional elements may be NaN.");
 			}
@@ -62,78 +61,27 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	}
 
 	public boolean hasAltitude() {
-		return !Double.isNaN(getAltitude());
+		return !(getAltitude() == null);
 	}
 
 	public boolean hasAdditionalElements() {
 		return additionalElements.length > 0;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return getX();
 	}
 
-	public double getLatitude() {
+	public Double getLatitude() {
 		return getY();
 	}
 
-	public double getAltitude() {
+	public Double getAltitude() {
 		return getZ();
 	}
 
-	public double[] getAdditionalElements() {
+	public Double[] getAdditionalElements() {
 		return additionalElements;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof Position)) {
-			return false;
-		}
-		Position position = (Position)o;
-		return Double.compare(position.getLatitude(), getLatitude()) == 0 && Double.compare(position.getLongitude(), getLongitude()) == 0
-				&& Double.compare(position.getAltitude(), getAltitude()) == 0 &&
-				Arrays.equals(position.getAdditionalElements(), additionalElements);
-	}
-
-	@Override
-	public int hashCode() {
-		long temp = Double.doubleToLongBits(getLongitude());
-		int result = (int)(temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(getLatitude());
-		result = 31 * result + (int)(temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(getAltitude());
-		result = 31 * result + (int)(temp ^ (temp >>> 32));
-		for(double element : additionalElements) {
-			temp = Double.doubleToLongBits(element);
-			result = 31 * result + (int) (temp ^ (temp >>> 32));
-		}
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		String s =  "Position{" + "longitude=" + getLongitude() + ", latitude=" + getLatitude() + ", altitude=" + getAltitude();
-
-		if (hasAdditionalElements()) {
-			s += ", additionalElements=[";
-
-			String suffix = "";
-			for (Double element : additionalElements) {
-				if (element != null) {
-					s += suffix + element;
-					suffix = ", ";
-				}
-			}
-			s += ']';
-		}
-
-		s += '}';
-
-		return s;
 	}
 
 	private void checkAltitudeAndAdditionalElements() {

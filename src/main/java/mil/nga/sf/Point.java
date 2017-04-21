@@ -14,7 +14,7 @@ public class Point extends Geometry {
 	 * 
 	 */
 	public Point() {
-		this(Double.NaN, Double.NaN);
+		this(null, null, null, null);
 	}
 
 	/**
@@ -25,8 +25,8 @@ public class Point extends Geometry {
 	 * @param y
 	 *            y coordinate
 	 */
-	public Point(double x, double y) {
-		this(x, y, Double.NaN, Double.NaN);
+	public Point(Double x, Double y) {
+		this(x, y, null, null);
 	}
 
 	/**
@@ -39,8 +39,8 @@ public class Point extends Geometry {
 	 * @param z
 	 *            z coordinate
 	 */
-	public Point(double x, double y, double z) {
-		this(x, y, z, Double.NaN);
+	public Point(Double x, Double y, Double z) {
+		this(x, y, z, null);
 	}
 
 	/**
@@ -55,8 +55,8 @@ public class Point extends Geometry {
 	 * @param y
 	 *            y coordinate
 	 */
-	public Point(double x, double y, double z, double m) {
-		super(GeometryType.POINT, !Double.isNaN(z), !Double.isNaN(m));
+	public Point(Double x, Double y, Double z, Double m) {
+		super(GeometryType.POINT, !(z == null), !(m == null));
 		position = new Position(x, y, z, m);
 	}
 
@@ -65,7 +65,7 @@ public class Point extends Geometry {
 	 * 
 	 * @return x
 	 */
-	public double getX() {
+	public Double getX() {
 		return position.getX();
 	}
 
@@ -74,7 +74,7 @@ public class Point extends Geometry {
 	 * 
 	 * @return y
 	 */
-	public double getY() {
+	public Double getY() {
 		return position.getY();
 	}
 
@@ -83,7 +83,7 @@ public class Point extends Geometry {
 	 * 
 	 * @return z
 	 */
-	public double getZ() {
+	public Double getZ() {
 		return position.getZ();
 	}
 
@@ -92,7 +92,7 @@ public class Point extends Geometry {
 	 * 
 	 * @return m
 	 */
-	public double getM() {
+	public Double getM() {
 		return position.getM();
 	}
 }

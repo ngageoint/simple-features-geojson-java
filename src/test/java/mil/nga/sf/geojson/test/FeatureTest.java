@@ -44,7 +44,7 @@ public class FeatureTest {
 		Object geometryO = feature.getGeometry();
 		assertTrue(geometryO instanceof Point);
 		Point point = (Point)geometryO;
-		PointTest.assertPoint(100, 5, Double.NaN, point);
+		PointTest.assertPoint(100d, 5d, null, point);
 	}
 	
 	@Test

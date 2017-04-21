@@ -7,7 +7,7 @@ public class Point extends Geometry {
 	 */
 	private static final long serialVersionUID = 3297315529077828956L;
 	private mil.nga.sf.Point point;
-	private double[] additionalElements;
+	private Double[] additionalElements;
 
 	public Point() {
 	}
@@ -24,7 +24,7 @@ public class Point extends Geometry {
 		point = new mil.nga.sf.Point(longitude, latitude, altitude);
 	}
 
-	public Point(double longitude, double latitude, double altitude, double... additionalElements) {
+	public Point(Double longitude, Double latitude, Double altitude, Double... additionalElements) {
 		this(new Position(longitude, latitude, altitude, additionalElements));
 	}
 
