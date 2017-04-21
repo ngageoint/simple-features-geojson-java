@@ -15,7 +15,7 @@ import java.util.Arrays;
 	@Type(Feature.class), 
 //	@Type(Polygon.class), 
 //	@Type(MultiPolygon.class), 
-//	@Type(FeatureCollection.class),
+	@Type(FeatureCollection.class),
 		@Type(Point.class)//, 
 //		@Type(MultiPoint.class), 
 //		@Type(MultiLineString.class), 

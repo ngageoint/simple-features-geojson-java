@@ -10,7 +10,7 @@ public interface GeoJsonObjectVisitor<T> {
 
 //	T visit(GeometryCollection geoJsonObject);
 //
-//	T visit(FeatureCollection geoJsonObject);
+	T visit(FeatureCollection geoJsonObject);
 
 	T visit(Point geoJsonObject);
 
@@ -40,11 +40,11 @@ public interface GeoJsonObjectVisitor<T> {
 //			return null;
 //		}
 //
-//		@Override
-//		public T visit(FeatureCollection geoJsonObject) {
-//			return null;
-//		}
-//
+		@Override
+		public T visit(FeatureCollection geoJsonObject) {
+			return null;
+		}
+
 		@Override
 		public T visit(Point geoJsonObject) {
 			return null;
