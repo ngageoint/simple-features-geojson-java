@@ -1,5 +1,6 @@
 package mil.nga.sf;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,8 +9,10 @@ import java.util.List;
  * 
  * @author osbornb
  */
-public class MultiPoint extends GeometryCollection<Point> {
+public class MultiPoint extends Geometry {
 
+	private List<Position> positions = new ArrayList<Position>();
+	
 	/**
 	 * Constructor
 	 * 
@@ -23,41 +26,45 @@ public class MultiPoint extends GeometryCollection<Point> {
 	}
 
 	/**
-	 * Get the points
+	 * Add a position
 	 * 
-	 * @return points
+	 * @param pos
+	 *            position
 	 */
-	public List<Point> getPoints() {
-		return getGeometries();
+	public void addPosition(Position pos) {
+		this.positions.add(pos);
 	}
 
 	/**
-	 * Set the points
+	 * Get the number of positions
 	 * 
-	 * @param points
-	 *            points
+	 * @return number of positions
 	 */
-	public void setPoints(List<Point> points) {
-		setGeometries(points);
+	public int numPositions() {
+		return this.positions.size();
 	}
 
 	/**
-	 * Add a point
+	 * Get the positions
 	 * 
-	 * @param point
-	 *            point
+	 * @return the positions
 	 */
-	public void addPoint(Point point) {
-		addGeometry(point);
+	public List<Position> getPositions() {
+		return positions;
 	}
 
 	/**
-	 * Get the number of points
+	 * Set the positions
 	 * 
-	 * @return number of points
+	 * @param positions the positions to set
 	 */
-	public int numPoints() {
-		return numGeometries();
+	public void setPositions(List<Position> positions) {
+		this.positions = positions;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return this.positions.isEmpty();
 	}
 
 }

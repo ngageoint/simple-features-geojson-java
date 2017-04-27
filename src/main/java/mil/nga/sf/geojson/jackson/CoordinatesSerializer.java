@@ -17,11 +17,11 @@ public class CoordinatesSerializer extends JsonSerializer<Position>
         throws IOException, JsonProcessingException
     {
         jgen.writeStartArray();
-        jgen.writeNumber(value.getLongitude());
-        jgen.writeNumber(value.getLatitude());
-        if (value.hasAltitude())
-        {
-            jgen.writeNumber(value.getAltitude());
+        jgen.writeNumber(value.getX());
+        jgen.writeNumber(value.getY());
+        Double alt = value.getZ();
+        if(alt != null) {
+            jgen.writeNumber(alt);
 
             for (double d : value.getAdditionalElements())
             {

@@ -80,4 +80,9 @@ public class CurvePolygon<T extends Curve> extends Surface {
 		return rings.size();
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return rings.isEmpty();
+	}
+
 }

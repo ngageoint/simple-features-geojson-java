@@ -10,89 +10,37 @@ public class Point extends Geometry {
 	private Position position;
 
 	/**
-	 * Constructor
+	 * Get the position
 	 * 
+	 * @return position
 	 */
-	public Point() {
-		this(null, null, null, null);
+	public Position getPosition() {
+		return position;
+	}
+
+	/**
+	 * Set the position
+	 * 
+	 * @param position
+	 *            position
+	 */
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordinate
+	 * @param position
+	 *            its position
 	 */
-	public Point(Double x, Double y) {
-		this(x, y, null, null);
+	public Point(Position pos) {
+		super(GeometryType.POINT, !(pos.getZ() == null), !(pos.getM() == null));
+		position = pos;
 	}
 
-	/**
-	 * Constructor
-	 * 
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordinate
-	 * @param z
-	 *            z coordinate
-	 */
-	public Point(Double x, Double y, Double z) {
-		this(x, y, z, null);
-	}
-
-	/**
-	 * Constructor
-	 * 
-	 * @param hasZ
-	 *            has z
-	 * @param hasM
-	 *            has m
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordinate
-	 */
-	public Point(Double x, Double y, Double z, Double m) {
-		super(GeometryType.POINT, !(z == null), !(m == null));
-		position = new Position(x, y, z, m);
-	}
-
-	/**
-	 * Get x
-	 * 
-	 * @return x
-	 */
-	public Double getX() {
-		return position.getX();
-	}
-
-	/**
-	 * Get y
-	 * 
-	 * @return y
-	 */
-	public Double getY() {
-		return position.getY();
-	}
-
-	/**
-	 * Get z
-	 * 
-	 * @return z
-	 */
-	public Double getZ() {
-		return position.getZ();
-	}
-
-	/**
-	 * Get m
-	 * 
-	 * @return m
-	 */
-	public Double getM() {
-		return position.getM();
+	@Override
+	public boolean isEmpty() {
+		return (position.getX() == null) || (position.getY() == null);
 	}
 }

@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.nio.ByteOrder;
 
 import junit.framework.TestCase;
+import mil.nga.sf.Curve;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
-import mil.nga.sf.LineString;
 import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
 import mil.nga.sf.MultiPolygon;
@@ -51,7 +51,7 @@ public class WKBTest {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a line string
-			LineString lineString = WKBTestUtils.createLineString(
+			Curve lineString = WKBTestUtils.createLineString(
 					WKBTestUtils.coinFlip(), WKBTestUtils.coinFlip());
 			geometryTester(lineString);
 		}

@@ -6,7 +6,7 @@ package mil.nga.sf;
  * 
  * @author osbornb
  */
-public class Polygon extends CurvePolygon<LineString> {
+public class Polygon extends CurvePolygon<LinearRing> {
 
 	/**
 	 * Constructor

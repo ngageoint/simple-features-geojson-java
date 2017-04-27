@@ -10,13 +10,13 @@ import mil.nga.sf.CurvePolygon;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
 import mil.nga.sf.GeometryType;
-import mil.nga.sf.LineString;
 import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
 import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.Polygon;
 import mil.nga.sf.PolyhedralSurface;
+import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
 import mil.nga.sf.Triangle;
 import mil.nga.sf.util.ByteWriter;
@@ -58,7 +58,7 @@ public class GeometryWriter {
 			writePoint(writer, (Point) geometry);
 			break;
 		case LINESTRING:
-			writeLineString(writer, (LineString) geometry);
+			writeLineString(writer, (Curve) geometry);
 			break;
 		case POLYGON:
 			writePolygon(writer, (Polygon) geometry);
@@ -116,22 +116,37 @@ public class GeometryWriter {
 	 * Write a Point
 	 * 
 	 * @param writer
+	 * @param position
+	 * @throws IOException
+	 */
+	public static void writePosition(ByteWriter writer, Position position)
+			throws IOException {
+
+		writer.writeDouble(position.getX());
+		writer.writeDouble(position.getY());
+
+		Double alt = position.getZ();
+		if (alt != null){
+			writer.writeDouble(alt);
+		}
+
+		Double emm = position.getM();
+		if (emm != null) {
+			writer.writeDouble(emm);
+		}
+	}
+
+	/**
+	 * Write a Point
+	 * 
+	 * @param writer
 	 * @param point
 	 * @throws IOException
 	 */
 	public static void writePoint(ByteWriter writer, Point point)
 			throws IOException {
 
-		writer.writeDouble(point.getX());
-		writer.writeDouble(point.getY());
-
-		if (point.hasZ()) {
-			writer.writeDouble(point.getZ());
-		}
-
-		if (point.hasM()) {
-			writer.writeDouble(point.getM());
-		}
+		writePosition(writer, point.getPosition());
 	}
 
 	/**
@@ -141,13 +156,13 @@ public class GeometryWriter {
 	 * @param lineString
 	 * @throws IOException
 	 */
-	public static void writeLineString(ByteWriter writer, LineString lineString)
+	public static void writeLineString(ByteWriter writer, Curve lineString)
 			throws IOException {
 
-		writer.writeInt(lineString.numPoints());
+		writer.writeInt(lineString.numPositions());
 
-		for (Point point : lineString.getPoints()) {
-			writePoint(writer, point);
+		for (Position position : lineString.getPositions()) {
+			writePosition(writer, position);
 		}
 	}
 
@@ -163,7 +178,7 @@ public class GeometryWriter {
 
 		writer.writeInt(polygon.numRings());
 
-		for (LineString ring : polygon.getRings()) {
+		for (Curve ring : polygon.getRings()) {
 			writeLineString(writer, ring);
 		}
 	}
@@ -178,10 +193,10 @@ public class GeometryWriter {
 	public static void writeMultiPoint(ByteWriter writer, MultiPoint multiPoint)
 			throws IOException {
 
-		writer.writeInt(multiPoint.numPoints());
+		writer.writeInt(multiPoint.numPositions());
 
-		for (Point point : multiPoint.getPoints()) {
-			writeGeometry(writer, point);
+		for (Position position : multiPoint.getPositions()) {
+			writePosition(writer, position);
 		}
 	}
 
@@ -197,7 +212,7 @@ public class GeometryWriter {
 
 		writer.writeInt(multiLineString.numLineStrings());
 
-		for (LineString lineString : multiLineString.getLineStrings()) {
+		for (Curve lineString : multiLineString.getLineStrings()) {
 			writeGeometry(writer, lineString);
 		}
 	}
@@ -246,10 +261,10 @@ public class GeometryWriter {
 	public static void writeCircularString(ByteWriter writer,
 			CircularString circularString) throws IOException {
 
-		writer.writeInt(circularString.numPoints());
+		writer.writeInt(circularString.numPositions());
 
-		for (Point point : circularString.getPoints()) {
-			writePoint(writer, point);
+		for (Position position : circularString.getPositions()) {
+			writePosition(writer, position);
 		}
 	}
 
@@ -265,7 +280,7 @@ public class GeometryWriter {
 
 		writer.writeInt(compoundCurve.numLineStrings());
 
-		for (LineString lineString : compoundCurve.getLineStrings()) {
+		for (Curve lineString : compoundCurve.getLineStrings()) {
 			writeGeometry(writer, lineString);
 		}
 	}
@@ -332,7 +347,7 @@ public class GeometryWriter {
 
 		writer.writeInt(triangle.numRings());
 
-		for (LineString ring : triangle.getRings()) {
+		for (Curve ring : triangle.getRings()) {
 			writeLineString(writer, ring);
 		}
 	}

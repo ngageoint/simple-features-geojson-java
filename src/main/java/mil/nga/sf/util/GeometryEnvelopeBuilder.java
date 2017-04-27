@@ -4,17 +4,20 @@ import java.util.List;
 
 import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
+import mil.nga.sf.Curve;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
 import mil.nga.sf.GeometryEnvelope;
 import mil.nga.sf.GeometryType;
 import mil.nga.sf.LineString;
+import mil.nga.sf.LinearRing;
 import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
 import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.Polygon;
 import mil.nga.sf.PolyhedralSurface;
+import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
 import mil.nga.sf.Triangle;
 
@@ -60,7 +63,7 @@ public class GeometryEnvelopeBuilder {
 			addPointMessage(envelope, (Point) geometry);
 			break;
 		case LINESTRING:
-			addLineStringMessage(envelope, (LineString) geometry);
+			addLineStringMessage(envelope, (Curve) geometry);
 			break;
 		case POLYGON:
 			addPolygonMessage(envelope, (Polygon) geometry);
@@ -123,14 +126,24 @@ public class GeometryEnvelopeBuilder {
 	 * Add Point
 	 * 
 	 * @param envelope
-	 * @param point
+	 * @param position
 	 */
 	private static void addPointMessage(GeometryEnvelope envelope, Point point) {
 
 		updateHasZandM(envelope, point);
+		addPositionMessage (envelope, point.getPosition());
+	}
 
-		double x = point.getX();
-		double y = point.getY();
+	/**
+	 * Add Position
+	 * 
+	 * @param envelope
+	 * @param position
+	 */
+	private static void addPositionMessage(GeometryEnvelope envelope, Position position) {
+
+		double x = position.getX();
+		double y = position.getY();
 		if (x < envelope.getMinX()) {
 			envelope.setMinX(x);
 		}
@@ -143,26 +156,22 @@ public class GeometryEnvelopeBuilder {
 		if (y > envelope.getMaxY()) {
 			envelope.setMaxY(y);
 		}
-		if (point.hasZ()) {
-			Double z = point.getZ();
-			if (z != null) {
-				if (envelope.getMinZ() == null || z < envelope.getMinZ()) {
-					envelope.setMinZ(z);
-				}
-				if (envelope.getMaxZ() == null || z > envelope.getMaxZ()) {
-					envelope.setMaxZ(z);
-				}
+		Double z = position.getZ();
+		if (z != null) {
+			if (envelope.getMinZ() == null || z < envelope.getMinZ()) {
+				envelope.setMinZ(z);
+			}
+			if (envelope.getMaxZ() == null || z > envelope.getMaxZ()) {
+				envelope.setMaxZ(z);
 			}
 		}
-		if (point.hasM()) {
-			Double m = point.getM();
-			if (m != null) {
-				if (envelope.getMinM() == null || m < envelope.getMinM()) {
-					envelope.setMinM(m);
-				}
-				if (envelope.getMaxM() == null || m > envelope.getMaxM()) {
-					envelope.setMaxM(m);
-				}
+		Double m = position.getM();
+		if (m != null) {
+			if (envelope.getMinM() == null || m < envelope.getMinM()) {
+				envelope.setMinM(m);
+			}
+			if (envelope.getMaxM() == null || m > envelope.getMaxM()) {
+				envelope.setMaxM(m);
 			}
 		}
 	}
@@ -178,9 +187,9 @@ public class GeometryEnvelopeBuilder {
 
 		updateHasZandM(envelope, multiPoint);
 
-		List<Point> points = multiPoint.getPoints();
-		for (Point point : points) {
-			addPointMessage(envelope, point);
+		List<Position> positions = multiPoint.getPositions();
+		for (Position position : positions) {
+			addPositionMessage(envelope, position);
 		}
 	}
 
@@ -191,12 +200,12 @@ public class GeometryEnvelopeBuilder {
 	 * @param lineString
 	 */
 	private static void addLineStringMessage(GeometryEnvelope envelope,
-			LineString lineString) {
+			Curve lineString) {
 
 		updateHasZandM(envelope, lineString);
 
-		for (Point point : lineString.getPoints()) {
-			addPointMessage(envelope, point);
+		for (Position position : lineString.getPositions()) {
+			addPositionMessage(envelope, position);
 		}
 	}
 
@@ -212,7 +221,7 @@ public class GeometryEnvelopeBuilder {
 		updateHasZandM(envelope, multiLineString);
 
 		List<LineString> lineStrings = multiLineString.getLineStrings();
-		for (LineString lineString : lineStrings) {
+		for (Curve lineString : lineStrings) {
 			addLineStringMessage(envelope, lineString);
 		}
 	}
@@ -228,8 +237,8 @@ public class GeometryEnvelopeBuilder {
 
 		updateHasZandM(envelope, polygon);
 
-		List<LineString> rings = polygon.getRings();
-		for (LineString ring : rings) {
+		List<LinearRing> rings = polygon.getRings();
+		for (Curve ring : rings) {
 			addLineStringMessage(envelope, ring);
 		}
 	}
@@ -263,7 +272,7 @@ public class GeometryEnvelopeBuilder {
 		updateHasZandM(envelope, compoundCurve);
 
 		List<LineString> lineStrings = compoundCurve.getLineStrings();
-		for (LineString lineString : lineStrings) {
+		for (Curve lineString : lineStrings) {
 			addLineStringMessage(envelope, lineString);
 		}
 	}

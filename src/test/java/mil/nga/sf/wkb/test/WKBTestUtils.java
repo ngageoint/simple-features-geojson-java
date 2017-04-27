@@ -6,18 +6,21 @@ import java.nio.ByteOrder;
 import junit.framework.TestCase;
 import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
+import mil.nga.sf.Curve;
 import mil.nga.sf.CurvePolygon;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
 import mil.nga.sf.GeometryEnvelope;
 import mil.nga.sf.GeometryType;
 import mil.nga.sf.LineString;
+import mil.nga.sf.LinearRing;
 import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
 import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.Polygon;
 import mil.nga.sf.PolyhedralSurface;
+import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
 import mil.nga.sf.Triangle;
 import mil.nga.sf.util.ByteReader;
@@ -83,7 +86,7 @@ public class WKBTestUtils {
 				comparePoint((Point) actual, (Point) expected);
 				break;
 			case LINESTRING:
-				compareLineString((LineString) expected, (LineString) actual);
+				compareLineString((Curve) expected, (Curve) actual);
 				break;
 			case POLYGON:
 				comparePolygon((Polygon) expected, (Polygon) actual);
@@ -165,13 +168,24 @@ public class WKBTestUtils {
 	 * @param expected
 	 * @param actual
 	 */
-	public static void comparePoint(Point expected, Point actual) {
+	public static void comparePosition(Position expected, Position actual) {
 
-		compareBaseGeometryAttributes(expected, actual);
 		TestCase.assertEquals(expected.getX(), actual.getX());
 		TestCase.assertEquals(expected.getY(), actual.getY());
 		TestCase.assertEquals(expected.getZ(), actual.getZ());
 		TestCase.assertEquals(expected.getM(), actual.getM());
+	}
+
+	/**
+	 * Compare the two points for equality
+	 * 
+	 * @param expected
+	 * @param actual
+	 */
+	public static void comparePoint(Point expected, Point actual) {
+
+		compareBaseGeometryAttributes(expected, actual);
+		comparePosition(expected.getPosition(), actual.getPosition());
 	}
 
 	/**
@@ -180,12 +194,12 @@ public class WKBTestUtils {
 	 * @param expected
 	 * @param actual
 	 */
-	public static void compareLineString(LineString expected, LineString actual) {
+	public static void compareLineString(Curve expected, Curve actual) {
 
 		compareBaseGeometryAttributes(expected, actual);
-		TestCase.assertEquals(expected.numPoints(), actual.numPoints());
-		for (int i = 0; i < expected.numPoints(); i++) {
-			comparePoint(expected.getPoints().get(i), actual.getPoints().get(i));
+		TestCase.assertEquals(expected.numPositions(), actual.numPositions());
+		for (int i = 0; i < expected.numPositions(); i++) {
+			comparePosition(expected.getPositions().get(i), actual.getPositions().get(i));
 		}
 	}
 
@@ -214,9 +228,9 @@ public class WKBTestUtils {
 	public static void compareMultiPoint(MultiPoint expected, MultiPoint actual) {
 
 		compareBaseGeometryAttributes(expected, actual);
-		TestCase.assertEquals(expected.numPoints(), actual.numPoints());
-		for (int i = 0; i < expected.numPoints(); i++) {
-			comparePoint(expected.getPoints().get(i), actual.getPoints().get(i));
+		TestCase.assertEquals(expected.numPositions(), actual.numPositions());
+		for (int i = 0; i < expected.numPositions(); i++) {
+			comparePosition(expected.getPositions().get(i), actual.getPositions().get(i));
 		}
 	}
 
@@ -282,9 +296,9 @@ public class WKBTestUtils {
 			CircularString actual) {
 
 		compareBaseGeometryAttributes(expected, actual);
-		TestCase.assertEquals(expected.numPoints(), actual.numPoints());
-		for (int i = 0; i < expected.numPoints(); i++) {
-			comparePoint(expected.getPoints().get(i), actual.getPoints().get(i));
+		TestCase.assertEquals(expected.numPositions(), actual.numPositions());
+		for (int i = 0; i < expected.numPositions(); i++) {
+			comparePosition(expected.getPositions().get(i), actual.getPositions().get(i));
 		}
 	}
 
@@ -518,6 +532,23 @@ public class WKBTestUtils {
 	}
 
 	/**
+	 * Create a random position
+	 * 
+	 * @param hasZ
+	 * @param hasM
+	 * @return Position
+	 */
+	public static Position createPosition(boolean hasZ, boolean hasM) {
+
+		Double x = Math.random() * 180.0 * (Math.random() < .5 ? 1 : -1);
+		Double y = Math.random() * 90.0 * (Math.random() < .5 ? 1 : -1);
+
+		Double z = hasZ ? Math.random() * 1000.0 : null;
+		Double m = hasM ? Math.random() * 1000.0 : null;
+		return new Position(x, y, z, m);
+	}
+
+	/**
 	 * Create a random point
 	 * 
 	 * @param hasZ
@@ -526,14 +557,7 @@ public class WKBTestUtils {
 	 */
 	public static Point createPoint(boolean hasZ, boolean hasM) {
 
-		double x = Math.random() * 180.0 * (Math.random() < .5 ? 1 : -1);
-		double y = Math.random() * 90.0 * (Math.random() < .5 ? 1 : -1);
-
-		double z = hasZ ? Math.random() * 1000.0 : Double.NaN;
-		double m = hasM ? Math.random() * 1000.0 : Double.NaN;
-		Point point = new Point(x, y, z, m);
-
-		return point;
+		return new Point(createPosition(hasZ, hasM));
 	}
 
 	/**
@@ -544,33 +568,38 @@ public class WKBTestUtils {
 	 * @return
 	 */
 	public static LineString createLineString(boolean hasZ, boolean hasM) {
-		return createLineString(hasZ, hasM, false);
-	}
-
-	/**
-	 * Create a random line string
-	 * 
-	 * @param hasZ
-	 * @param hasM
-	 * @param ring
-	 * @return
-	 */
-	public static LineString createLineString(boolean hasZ, boolean hasM,
-			boolean ring) {
 
 		LineString lineString = new LineString(hasZ, hasM);
 
 		int num = 2 + ((int) (Math.random() * 9));
 
 		for (int i = 0; i < num; i++) {
-			lineString.addPoint(createPoint(hasZ, hasM));
-		}
-
-		if (ring) {
-			lineString.addPoint(lineString.getPoints().get(0));
+			lineString.addPosition(createPosition(hasZ, hasM));
 		}
 
 		return lineString;
+	}
+
+	/**
+	 * Create a random linear ring
+	 * 
+	 * @param hasZ
+	 * @param hasM
+	 * @return
+	 */
+	public static LinearRing createLinearRing(boolean hasZ, boolean hasM) {
+
+		LineString lineString = new LineString(hasZ, hasM);
+
+		int num = 3 + ((int) (Math.random() * 9));
+
+		for (int i = 0; i < num; i++) {
+			lineString.addPosition(createPosition(hasZ, hasM));
+		}
+
+		lineString.addPosition(lineString.getPositions().get(0));
+
+		return new LinearRing(lineString);
 	}
 
 	/**
@@ -587,7 +616,7 @@ public class WKBTestUtils {
 		int num = 1 + ((int) (Math.random() * 5));
 
 		for (int i = 0; i < num; i++) {
-			polygon.addRing(createLineString(hasZ, hasM, true));
+			polygon.addRing(createLinearRing(hasZ, hasM));
 		}
 
 		return polygon;
@@ -607,7 +636,7 @@ public class WKBTestUtils {
 		int num = 1 + ((int) (Math.random() * 5));
 
 		for (int i = 0; i < num; i++) {
-			multiPoint.addPoint(createPoint(hasZ, hasM));
+			multiPoint.addPosition(createPosition(hasZ, hasM));
 		}
 
 		return multiPoint;

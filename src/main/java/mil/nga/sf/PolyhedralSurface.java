@@ -79,4 +79,9 @@ public class PolyhedralSurface extends Surface {
 		return polygons.size();
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return polygons.isEmpty();
+	}
+
 }

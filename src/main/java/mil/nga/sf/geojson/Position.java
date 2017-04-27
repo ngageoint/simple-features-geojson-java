@@ -60,24 +60,8 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 		checkAltitudeAndAdditionalElements();
 	}
 
-	public boolean hasAltitude() {
-		return !(getAltitude() == null);
-	}
-
 	public boolean hasAdditionalElements() {
 		return additionalElements.length > 0;
-	}
-
-	public Double getLongitude() {
-		return getX();
-	}
-
-	public Double getLatitude() {
-		return getY();
-	}
-
-	public Double getAltitude() {
-		return getZ();
 	}
 
 	public Double[] getAdditionalElements() {
@@ -85,7 +69,7 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	}
 
 	private void checkAltitudeAndAdditionalElements() {
-		if (!hasAltitude() && hasAdditionalElements()) {
+		if ((this.getY() == null) && hasAdditionalElements()) {
 			throw new IllegalArgumentException("Additional Elements are only valid if Altitude is also provided.");
 		}
 	}

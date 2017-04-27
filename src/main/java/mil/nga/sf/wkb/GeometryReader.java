@@ -10,12 +10,14 @@ import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
 import mil.nga.sf.GeometryType;
 import mil.nga.sf.LineString;
+import mil.nga.sf.LinearRing;
 import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
 import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.Polygon;
 import mil.nga.sf.PolyhedralSurface;
+import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
 import mil.nga.sf.Triangle;
 import mil.nga.sf.util.ByteReader;
@@ -169,6 +171,25 @@ public class GeometryReader {
 	}
 
 	/**
+	 * Read a Position
+	 * 
+	 * @param reader
+	 * @param hasZ
+	 * @param hasM
+	 * @return position
+	 */
+	public static Position readPosition(ByteReader reader, boolean hasZ, boolean hasM) {
+
+		Double x = reader.readDouble();
+		Double y = reader.readDouble();
+
+		Double z = hasZ ? reader.readDouble() : null;
+		Double m = hasM ? reader.readDouble() : null;
+
+		return new Position(x, y, z, m);
+	}
+
+	/**
 	 * Read a Point
 	 * 
 	 * @param reader
@@ -177,14 +198,7 @@ public class GeometryReader {
 	 * @return point
 	 */
 	public static Point readPoint(ByteReader reader, boolean hasZ, boolean hasM) {
-
-		double x = reader.readDouble();
-		double y = reader.readDouble();
-
-		double z = hasZ ? reader.readDouble() : Double.NaN;
-		double m = hasM ? reader.readDouble() : Double.NaN;
-
-		return new Point(x, y, z, m);
+		return new Point(readPosition(reader, hasZ, hasM));
 	}
 
 	/**
@@ -203,9 +217,8 @@ public class GeometryReader {
 		int numPoints = reader.readInt();
 
 		for (int i = 0; i < numPoints; i++) {
-			Point point = readPoint(reader, hasZ, hasM);
-			lineString.addPoint(point);
-
+			Position position = readPosition(reader, hasZ, hasM);
+			lineString.addPosition(position);
 		}
 
 		return lineString;
@@ -227,8 +240,7 @@ public class GeometryReader {
 		int numRings = reader.readInt();
 
 		for (int i = 0; i < numRings; i++) {
-			LineString ring = readLineString(reader, hasZ, hasM);
-			polygon.addRing(ring);
+			polygon.addRing(new LinearRing(readLineString(reader, hasZ, hasM)));
 
 		}
 
@@ -251,8 +263,8 @@ public class GeometryReader {
 		int numPoints = reader.readInt();
 
 		for (int i = 0; i < numPoints; i++) {
-			Point point = readGeometry(reader, Point.class);
-			multiPoint.addPoint(point);
+			Position position = readPosition(reader, hasZ, hasM);
+			multiPoint.addPosition(position);
 
 		}
 
@@ -275,9 +287,7 @@ public class GeometryReader {
 		int numLineStrings = reader.readInt();
 
 		for (int i = 0; i < numLineStrings; i++) {
-			LineString lineString = readGeometry(reader, LineString.class);
-			multiLineString.addLineString(lineString);
-
+			multiLineString.addLineString(readGeometry(reader, LineString.class));
 		}
 
 		return multiLineString;
@@ -348,9 +358,8 @@ public class GeometryReader {
 		int numPoints = reader.readInt();
 
 		for (int i = 0; i < numPoints; i++) {
-			Point point = readPoint(reader, hasZ, hasM);
-			circularString.addPoint(point);
-
+			Position position = readPosition(reader, hasZ, hasM);
+			circularString.addPosition(position);
 		}
 
 		return circularString;
@@ -467,8 +476,7 @@ public class GeometryReader {
 		int numRings = reader.readInt();
 
 		for (int i = 0; i < numRings; i++) {
-			LineString ring = readLineString(reader, hasZ, hasM);
-			triangle.addRing(ring);
+			triangle.addRing(new LinearRing(readLineString(reader, hasZ, hasM)));
 
 		}
 

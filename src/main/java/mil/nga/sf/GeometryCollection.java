@@ -79,4 +79,9 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 		return geometries.size();
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return geometries.isEmpty();
+	}
+
 }

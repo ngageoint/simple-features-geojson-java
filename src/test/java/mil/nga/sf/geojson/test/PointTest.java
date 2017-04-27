@@ -3,6 +3,7 @@ package mil.nga.sf.geojson.test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import junit.framework.TestCase;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.Point;
@@ -24,21 +25,26 @@ public class PointTest {
 		assertPoint(expectedLongitude, expectedLatitude, expectedAltitude, new Double[0], point);
 	}
 
+	public static void assertPosition(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
+									   Double[] expectedAdditionalElements, Position position) {
+		TestCase.assertEquals(expectedLongitude, position.getX(), 0.00001);
+		TestCase.assertEquals(expectedLatitude, position.getY(), 0.00001);
+		if(expectedAltitude == null) {
+			TestCase.assertNull(position.getZ());
+		} else {
+			TestCase.assertEquals(expectedAltitude, position.getZ(), 0.00001);
+			TestCase.assertTrue(Arrays.equals(expectedAdditionalElements, position.getAdditionalElements()));
+		}
+	}
+
 	public static void assertPoint(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
 									   Double[] expectedAdditionalElements, Point point) {
-		assertEquals(expectedLongitude, point.getCoordinates().getLongitude(), 0.00001);
-		assertEquals(expectedLatitude, point.getCoordinates().getLatitude(), 0.00001);
-		if (expectedAltitude == null) {
-			assertFalse(point.getCoordinates().hasAltitude());
-		} else {
-			assertEquals(expectedAltitude, point.getCoordinates().getAltitude(), 0.00001);
-			assertTrue(Arrays.equals(expectedAdditionalElements, point.getCoordinates().getAdditionalElements()));
-		}
+		assertPosition(expectedLongitude, expectedLatitude, expectedAltitude, expectedAdditionalElements, point.getCoordinates());
 	}
 
 	@Test
 	public void itShouldSerializeASFPoint() throws Exception {
-		mil.nga.sf.Point point = new mil.nga.sf.Point(100d, 10d);
+		mil.nga.sf.Point point = new mil.nga.sf.Point(new mil.nga.sf.Position(100d, 10d));
 		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(point));
 		assertEquals("{\"type\":\"Point\",\"coordinates\":[100.0,10.0]}",
 				text);
@@ -64,8 +70,8 @@ public class PointTest {
 
 	@Test
 	public void itShouldSerializeAPointWithAltitude() throws Exception {
-		mil.nga.sf.Point point = new mil.nga.sf.Point(100d, 0d, 256d);
-		assertEquals("{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0]}",
+		mil.nga.sf.Point point = new mil.nga.sf.Point(new mil.nga.sf.Position(100d, 10d, 256d));
+		assertEquals("{\"type\":\"Point\",\"coordinates\":[100.0,10.0,256.0]}",
 				mapper.writeValueAsString(GeoJsonObjectFactory.createObject(point)));
 	}
 

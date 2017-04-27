@@ -65,4 +65,9 @@ public class CompoundCurve extends Curve {
 		return lineStrings.size();
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return lineStrings.isEmpty();
+	}
+
 }

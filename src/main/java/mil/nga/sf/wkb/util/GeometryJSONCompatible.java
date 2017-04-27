@@ -7,16 +7,19 @@ import java.util.Map;
 
 import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
+import mil.nga.sf.Curve;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
 import mil.nga.sf.GeometryType;
 import mil.nga.sf.LineString;
+import mil.nga.sf.LinearRing;
 import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
 import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.Polygon;
 import mil.nga.sf.PolyhedralSurface;
+import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
 import mil.nga.sf.Triangle;
 
@@ -47,7 +50,7 @@ public class GeometryJSONCompatible {
 			geometryObject = getPoint((Point) geometry);
 			break;
 		case LINESTRING:
-			geometryObject = getLineString((LineString) geometry);
+			geometryObject = getLineString((Curve) geometry);
 			break;
 		case POLYGON:
 			geometryObject = getPolygon((Polygon) geometry);
@@ -104,17 +107,29 @@ public class GeometryJSONCompatible {
 	 * @param point
 	 * @return point object
 	 */
-	private static Object getPoint(Point point) {
+	private static Object getPosition(Position pos) {
 		Map<String, Double> jsonObject = new HashMap<>();
-		jsonObject.put("x", point.getX());
-		jsonObject.put("y", point.getY());
-		if (point.hasZ()) {
-			jsonObject.put("z", point.getZ());
+		jsonObject.put("x", pos.getX());
+		jsonObject.put("y", pos.getY());
+		Double alt = pos.getZ();
+		if (alt != null) {
+			jsonObject.put("z", alt);
 		}
-		if (point.hasM()) {
-			jsonObject.put("m", point.getM());
+		Double emm = pos.getM();
+		if (emm != null) {
+			jsonObject.put("m", emm);
 		}
 		return jsonObject;
+	}
+
+	/**
+	 * Get Point object
+	 * 
+	 * @param point
+	 * @return point object
+	 */
+	private static Object getPoint(Point point) {
+		return getPosition(point.getPosition());
 	}
 
 	/**
@@ -125,10 +140,9 @@ public class GeometryJSONCompatible {
 	 */
 	private static Object getMultiPoint(MultiPoint multiPoint) {
 		List<Object> jsonObject = new ArrayList<>();
-		List<Point> points = multiPoint.getPoints();
-		for (int i = 0; i < points.size(); i++) {
-			Point point = points.get(i);
-			jsonObject.add(getPoint(point));
+		List<Position> positions = multiPoint.getPositions();
+		for (Position position : positions) {
+			jsonObject.add(position);
 		}
 		return jsonObject;
 	}
@@ -139,10 +153,10 @@ public class GeometryJSONCompatible {
 	 * @param lineString
 	 * @return line string object
 	 */
-	private static Object getLineString(LineString lineString) {
+	private static Object getLineString(Curve lineString) {
 		List<Object> jsonObject = new ArrayList<>();
-		for (Point point : lineString.getPoints()) {
-			jsonObject.add(getPoint(point));
+		for (Position position : lineString.getPositions()) {
+			jsonObject.add(getPosition(position));
 		}
 		return jsonObject;
 	}
@@ -157,7 +171,7 @@ public class GeometryJSONCompatible {
 		List<Object> jsonObject = new ArrayList<>();
 		List<LineString> lineStrings = multiLineString.getLineStrings();
 		for (int i = 0; i < lineStrings.size(); i++) {
-			LineString lineString = lineStrings.get(i);
+			Curve lineString = lineStrings.get(i);
 			jsonObject.add(getLineString(lineString));
 		}
 		return jsonObject;
@@ -171,9 +185,9 @@ public class GeometryJSONCompatible {
 	 */
 	private static Object getPolygon(Polygon polygon) {
 		List<Object> jsonObject = new ArrayList<>();
-		List<LineString> rings = polygon.getRings();
+		List<LinearRing> rings = polygon.getRings();
 		for (int i = 0; i < rings.size(); i++) {
-			LineString ring = rings.get(i);
+			Curve ring = rings.get(i);
 			jsonObject.add(getLineString(ring));
 		}
 		return jsonObject;
@@ -205,7 +219,7 @@ public class GeometryJSONCompatible {
 		List<Object> jsonObject = new ArrayList<>();
 		List<LineString> lineStrings = compoundCurve.getLineStrings();
 		for (int i = 0; i < lineStrings.size(); i++) {
-			LineString lineString = lineStrings.get(i);
+			Curve lineString = lineStrings.get(i);
 			jsonObject.add(getLineString(lineString));
 		}
 		return jsonObject;

@@ -11,23 +11,13 @@ public class Position {
 	/**
 	 * X coordinate
 	 */
-	final private Double x;
+	final private double[] coordinates;
 
 	/**
-	 * Y coordinate
+	 * has Z (because in some cases it can have M but no Z)
 	 */
-	final private Double y;
-
-	/**
-	 * Z coordinate
-	 */
-	final private Double z;
-
-	/**
-	 * M value
-	 */
-	final private Double m;
-
+	final private boolean hasZ;
+	
 	/**
 	 * Constructor
 	 * 
@@ -75,10 +65,37 @@ public class Position {
 	 *            m coordinate
 	 */
 	public Position(Double x, Double y, Double z, Double m) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.m = m;
+		if ((x == null) || (y == null)) {
+			coordinates = new double[0];
+			hasZ = false;
+		} else {
+			if (m != null) {
+				coordinates = new double[4];
+				hasZ = (z != null);
+			} else if (z != null) {
+				coordinates = new double[3];
+				hasZ = true;
+			} else {
+				coordinates = new double[2];
+				hasZ = false;
+			}
+		}
+		
+		if (coordinates.length >= 1) {
+			coordinates[0] = x;
+		}
+		if (coordinates.length >= 2) {
+			coordinates[1] = y;
+		}
+		if (coordinates.length >= 3) {
+			// In the rare event of M but no Z...
+			if (hasZ) {
+				coordinates[2] = z;
+			}
+		}
+		if (coordinates.length >= 4) {
+			coordinates[3] = m;
+		}
 	}
 
 	/**
@@ -87,7 +104,7 @@ public class Position {
 	 * @return x
 	 */
 	public Double getX() {
-		return x;
+		return (coordinates.length > 0) ? coordinates[0] : null;
 	}
 
 	/**
@@ -96,7 +113,7 @@ public class Position {
 	 * @return y
 	 */
 	public Double getY() {
-		return y;
+		return (coordinates.length > 1) ? coordinates[1] : null;
 	}
 
 	/**
@@ -105,7 +122,7 @@ public class Position {
 	 * @return z
 	 */
 	public Double getZ() {
-		return z;
+		return (hasZ && (coordinates.length > 2)) ? coordinates[2] : null;
 	}
 
 	/**
@@ -114,6 +131,23 @@ public class Position {
 	 * @return m
 	 */
 	public Double getM() {
-		return m;
+		return (coordinates.length > 3) ? coordinates[3] : null;
+	}
+	
+	public boolean equals(Position right){
+		if (this == right) {
+			return true;
+		}
+		return compare(this.getM(), right.getM()) &&
+				compare(this.getX(), right.getX()) && 
+				compare(this.getY(), right.getY()) &&
+				compare(this.getZ(), right.getZ());
+	}
+	
+	static private boolean compare(Double left, Double right) {
+		if ((left == null) || (right == null)) {
+			return (left == null) && (right == null);
+		}
+		return left.compareTo(right) == 0;
 	}
 }

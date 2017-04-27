@@ -65,4 +65,10 @@ public abstract class Geometry {
 		return hasM;
 	}
 
+	/**
+	 * Is the geometry empty?
+	 * 
+	 * @return true if it is empty
+	 */
+	public abstract boolean isEmpty();
 }
