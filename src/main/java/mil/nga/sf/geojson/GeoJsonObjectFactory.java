@@ -13,6 +13,9 @@ public class GeoJsonObjectFactory {
 		if (input instanceof mil.nga.sf.MultiPoint) {
 			result = new MultiPoint((mil.nga.sf.MultiPoint)input);
 		}
+		if (input instanceof mil.nga.sf.Polygon) {
+			result = new Polygon((mil.nga.sf.Polygon)input);
+		}
 		return result;
 	}
 }

@@ -32,6 +32,15 @@ public class LinearRing extends LineString {
 		setPositions(ls.getPositions());
 	}
 
+	/** 
+	 * Constructor
+	 * @param positions a list of positions
+	 */
+	public LinearRing(List<Position> positions) {
+		super(Position.hasZ(positions), Position.hasM(positions));
+		setPositions(positions);
+	}
+
 	@Override
 	public void setPositions(List<Position> positions){
 		super.setPositions(positions);
