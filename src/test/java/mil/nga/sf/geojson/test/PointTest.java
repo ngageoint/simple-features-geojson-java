@@ -3,7 +3,6 @@ package mil.nga.sf.geojson.test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import junit.framework.TestCase;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.Point;

@@ -52,6 +52,10 @@ public class LineString extends TwoDGeometry {
 		for (Position pos : input) {
 			positions.add(pos);
 		}
-		lineString.setPositions(positions);
+		if (lineString == null) {
+			lineString = new mil.nga.sf.LineString(positions);
+		} else {
+			lineString.setPositions(positions);
+		}
 	}
 }

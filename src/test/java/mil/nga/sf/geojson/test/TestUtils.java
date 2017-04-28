@@ -22,7 +22,12 @@ public class TestUtils {
 			TestCase.assertNull(position.getZ());
 		} else {
 			TestCase.assertEquals(expectedAltitude, position.getZ(), 0.00001);
-			TestCase.assertTrue(expectedAdditionalElements.equals(position.getAdditionalElements()));
+			if(expectedAdditionalElements == null){
+				final List<Double> ae = position.getAdditionalElements();
+				TestCase.assertTrue((ae == null) || ae.isEmpty());
+			} else {
+				TestCase.assertTrue(expectedAdditionalElements.equals(position.getAdditionalElements()));
+			}
 		}
 	}
 
@@ -30,5 +35,4 @@ public class TestUtils {
 									   List<Double> expectedAdditionalElements, Point point) {
 		assertPosition(expectedLongitude, expectedLatitude, expectedAltitude, expectedAdditionalElements, point.getCoordinates());
 	}
-
 }

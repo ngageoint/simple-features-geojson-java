@@ -82,6 +82,6 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	}
 	
 	private static boolean additionalElementsPresent(Double[] additionalElements){
-		 return (additionalElements.length > 0) && (additionalElements.length > 0) && (additionalElements[0] != null);
+		 return (additionalElements != null) && (additionalElements.length > 0) && (additionalElements[0] != null);
 	}
 }

@@ -1,5 +1,7 @@
 package mil.nga.sf;
 
+import java.util.List;
+
 /**
  * A Curve that connects two or more positions in space.
  * 
@@ -17,6 +19,19 @@ public class LineString extends Curve {
 	 */
 	public LineString(boolean hasZ, boolean hasM) {
 		super(GeometryType.LINESTRING, hasZ, hasM);
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param hasZ
+	 *            has z
+	 * @param hasM
+	 *            has m
+	 */
+	public LineString(List<Position> positions) {
+		super(GeometryType.LINESTRING, hasZ(positions), hasM(positions));
+		setPositions(positions);
 	}
 
 	/**
