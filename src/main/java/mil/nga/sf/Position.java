@@ -1,5 +1,7 @@
 package mil.nga.sf;
 
+import java.util.List;
+
 /**
  * A single location in space. Each position has an X and Y coordinate. 
  * A point MAY optionally also have a Z and/or an M value.
@@ -149,5 +151,27 @@ public class Position {
 			return (left == null) && (right == null);
 		}
 		return left.compareTo(right) == 0;
+	}
+	
+	public static boolean hasZ(List<Position> positions){
+		boolean result = false;
+		for(Position position : positions){
+			if (position.getZ() != null) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public static boolean hasM(List<Position> positions){
+		boolean result = false;
+		for(Position position : positions){
+			if (position.getM() != null) {
+				result = true;
+				break;
+			}
+		}
+		return result;
 	}
 }

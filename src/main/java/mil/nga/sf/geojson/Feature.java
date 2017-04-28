@@ -15,12 +15,18 @@ public class Feature extends GeoJsonObject {
 	private String id;
 
 	@JsonInclude(JsonInclude.Include.ALWAYS)
-	public Geometry getGeometry() {
-		return (Geometry)GeoJsonObjectFactory.createObject(feature.getGeometry());
+	public GeoJsonObject getGeometry() {
+		return (GeoJsonObject)GeoJsonObjectFactory.createObject(feature.getGeometry());
 	}
 
-	public void setGeometry(Geometry geometry) {
-		this.feature.setGeometry((geometry == null) ? null : geometry.getGeometry());
+	public void setGeometry(GeoJsonObject gjObject) {
+		if (gjObject instanceof Point) {
+			Point point = (Point)gjObject;
+			this.feature.setGeometry(point.getGeometry());
+		} else if (gjObject instanceof Geometry) {
+			Geometry geometry = (Geometry)gjObject;
+			this.feature.setGeometry((geometry == null) ? null : geometry.getGeometry());
+		}
 	}
 
 	@JsonInclude(JsonInclude.Include.ALWAYS)

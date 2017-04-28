@@ -24,7 +24,7 @@ public class MultiPoint extends Geometry<Position> {
 	}
 
 	/**
-	 * Returns coordinates as a GeoJSON Position object
+	 * Returns coordinates as a GeoJSON Position list
 	 * @return the coordinates
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
@@ -36,6 +36,10 @@ public class MultiPoint extends Geometry<Position> {
 		return positions;
 	}
 
+	/**
+	 * Sets the coordinates from a GeoJSON Position list
+	 * @param input the list
+	 */
 	private void setCoordinates(List<Position> input) {
 		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
 		for (Position pos : input) {

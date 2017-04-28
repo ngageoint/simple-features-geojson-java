@@ -26,6 +26,17 @@ public class MultiPoint extends Geometry {
 	}
 
 	/**
+	 * Constructor
+	 * 
+	 * @param positions
+	 *            A list of positions, which will be used to determine hasZ and hasM
+	 */
+	public MultiPoint(List<Position> positions) {
+		super(GeometryType.MULTIPOINT, Position.hasZ(positions), Position.hasM(positions));
+		setPositions(positions);
+	}
+
+	/**
 	 * Add a position
 	 * 
 	 * @param pos

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class LineString extends TwoDGeometry {
+public class LineString extends Geometry<Position> {
 
 	/**
 	 * 

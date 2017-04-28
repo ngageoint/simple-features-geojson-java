@@ -75,26 +75,4 @@ public abstract class Curve extends Geometry {
 	public boolean isEmpty() {
 		return positions.isEmpty();
 	}
-	
-	protected static boolean hasZ(List<Position> positions){
-		boolean result = false;
-		for(Position position : positions){
-			if (position.getZ() != null) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
-
-	protected static boolean hasM(List<Position> positions){
-		boolean result = false;
-		for(Position position : positions){
-			if (position.getM() != null) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
 }

@@ -30,7 +30,7 @@ public class LineString extends Curve {
 	 *            has m
 	 */
 	public LineString(List<Position> positions) {
-		super(GeometryType.LINESTRING, hasZ(positions), hasM(positions));
+		super(GeometryType.LINESTRING, Position.hasZ(positions), Position.hasM(positions));
 		setPositions(positions);
 	}
 
