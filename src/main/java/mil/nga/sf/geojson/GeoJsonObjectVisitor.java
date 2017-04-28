@@ -22,9 +22,9 @@ public interface GeoJsonObjectVisitor<T> {
 //
 //	T visit(MultiPolygon geoJsonObject);
 //
-//	T visit(MultiPoint geoJsonObject);
-//
-//	T visit(LineString geoJsonObject);
+	T visit(MultiPoint geoJsonObject);
+
+	T visit(LineString geoJsonObject);
 
 	/**
 	 * An abstract adapter class for visiting GeoJson objects.
@@ -70,14 +70,14 @@ public interface GeoJsonObjectVisitor<T> {
 //			return null;
 //		}
 //
-//		@Override
-//		public T visit(MultiPoint geoJsonObject) {
-//			return null;
-//		}
-//
-//		@Override
-//		public T visit(LineString geoJsonObject) {
-//			return null;
-//		}
+		@Override
+		public T visit(MultiPoint geoJsonObject) {
+			return null;
+		}
+
+		@Override
+		public T visit(LineString geoJsonObject) {
+			return null;
+		}
 	}
 }

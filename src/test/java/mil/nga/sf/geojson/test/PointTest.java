@@ -12,6 +12,7 @@ import mil.nga.sf.geojson.Position;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -19,28 +20,6 @@ import static org.junit.Assert.*;
 public class PointTest {
 
 	private ObjectMapper mapper = new ObjectMapper();
-
-	public static void assertPoint(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
-									   Point point) {
-		assertPoint(expectedLongitude, expectedLatitude, expectedAltitude, new Double[0], point);
-	}
-
-	public static void assertPosition(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
-									   Double[] expectedAdditionalElements, Position position) {
-		TestCase.assertEquals(expectedLongitude, position.getX(), 0.00001);
-		TestCase.assertEquals(expectedLatitude, position.getY(), 0.00001);
-		if(expectedAltitude == null) {
-			TestCase.assertNull(position.getZ());
-		} else {
-			TestCase.assertEquals(expectedAltitude, position.getZ(), 0.00001);
-			TestCase.assertTrue(Arrays.equals(expectedAdditionalElements, position.getAdditionalElements()));
-		}
-	}
-
-	public static void assertPoint(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
-									   Double[] expectedAdditionalElements, Point point) {
-		assertPosition(expectedLongitude, expectedLatitude, expectedAltitude, expectedAdditionalElements, point.getCoordinates());
-	}
 
 	@Test
 	public void itShouldSerializeASFPoint() throws Exception {
@@ -57,7 +36,7 @@ public class PointTest {
 		assertNotNull(value);
 		assertTrue(value instanceof Point);
 		Point point = (Point)value;
-		assertPoint(100d, 5d, null, point);
+		TestUtils.assertPoint(100d, 5d, null, point);
 	}
 
 	@Test
@@ -65,7 +44,7 @@ public class PointTest {
 		GeoJsonObject value = mapper.readValue("{\"type\":\"Point\",\"coordinates\":[100.0,5.0,123]}",
 				GeoJsonObject.class);
 		Point point = (Point)value;
-		assertPoint(100d, 5d, 123d, point);
+		TestUtils.assertPoint(100d, 5d, 123d, point);
 	}
 
 	@Test
@@ -80,7 +59,7 @@ public class PointTest {
 		GeoJsonObject value = mapper.readValue("{\"type\":\"Point\",\"coordinates\":[100.0,5.0,123,456,789.2]}",
 				GeoJsonObject.class);
 		Point point = (Point)value;
-		assertPoint(100d, 5d, 123d, new Double[] {456d, 789.2}, point);
+		TestUtils.assertPoint(100d, 5d, 123d, new ArrayList<Double>(Arrays.asList(456d, 789.2)), point);
 	}
 
 	@Test

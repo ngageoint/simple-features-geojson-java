@@ -38,6 +38,15 @@ public class Point extends Geometry {
 		super(GeometryType.POINT, !(pos.getZ() == null), !(pos.getM() == null));
 		position = pos;
 	}
+	
+	/**
+	 * Default Constructor. It is best not to use this unless another process 
+	 * intends to immediately call setPosition().
+	 */
+	public Point() {
+		super(GeometryType.POINT, false, false);
+		this.position = new Position();
+	}
 
 	@Override
 	public boolean isEmpty() {

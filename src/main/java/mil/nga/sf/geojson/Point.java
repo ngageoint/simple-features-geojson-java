@@ -1,8 +1,10 @@
 package mil.nga.sf.geojson;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class Point extends Geometry {
+@JsonIgnoreProperties({"geometry"})
+public class Point extends GeoJsonObject {
 
 	/**
 	 * 
@@ -12,9 +14,12 @@ public class Point extends Geometry {
 	 * 
 	 */
 	private mil.nga.sf.Point point;
-	private Double[] additionalElements;
-
+	
+	/**
+	 * Default Constructor, here to support deserialization.
+	 */
 	public Point() {
+		point = new mil.nga.sf.Point();
 	}
 
 	public Point(Position position) {
@@ -31,17 +36,22 @@ public class Point extends Geometry {
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Position getCoordinates() {
-		mil.nga.sf.Position pos = point.getPosition();
-		return new Position(pos.getX(), pos.getY(), pos.getZ(), additionalElements);
+		mil.nga.sf.Position position = point.getPosition();
+		if (position instanceof Position) {
+			return (Position)position;
+		} 
+
+		return new Position(position.getX(), position.getY(), position.getZ(), position.getM());
 	}
 
-	private void setCoordinates(Position position) {
-		additionalElements = position.getAdditionalElements();
-		mil.nga.sf.Position pos = new mil.nga.sf.Position(position.getX(), 
-				position.getY(), 
-				position.getZ(), 
-				(additionalElements.length > 0) ? additionalElements[0] : null);
-		point = new mil.nga.sf.Point(pos);
+	/**
+	 * Sets the new position (supporting dserialization)
+	 * @param position
+	 */
+	public void setCoordinates(Position position) {
+		// When we set new coordinates, 
+		// we need to completely replace the underlying geometry
+		point = new mil.nga.sf.Point(position);
 	}
 
 	@Override
@@ -49,7 +59,7 @@ public class Point extends Geometry {
 		return geoJsonObjectVisitor.visit(this);
 	}
 
-	@Override
+	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public mil.nga.sf.Geometry getGeometry() {
 		return point;
 	}

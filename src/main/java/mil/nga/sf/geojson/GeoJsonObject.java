@@ -15,10 +15,10 @@ import java.io.Serializable;
 //	@Type(Polygon.class), 
 //	@Type(MultiPolygon.class), 
 	@Type(FeatureCollection.class),
-		@Type(Point.class)//, 
+		@Type(Point.class), 
 //		@Type(MultiPoint.class), 
 //		@Type(MultiLineString.class), 
-//		@Type(LineString.class),
+		@Type(LineString.class),
 //                @Type(GeometryCollection.class) 
 	})
 @JsonInclude(Include.NON_NULL)

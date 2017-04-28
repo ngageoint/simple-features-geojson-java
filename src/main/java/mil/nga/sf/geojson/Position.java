@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import mil.nga.sf.geojson.jackson.CoordinatesDeserializer;
 import mil.nga.sf.geojson.jackson.CoordinatesSerializer;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @JsonDeserialize(using = CoordinatesDeserializer.class)
 @JsonSerialize(using = CoordinatesSerializer.class)
@@ -18,10 +21,14 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	/**
 	 * 
 	 */
-	private Double[] additionalElements = new Double[0];
+	private List<Double> additionalElements = new ArrayList<Double>();
 
 	public Position() {
 		super();
+	}
+	
+	public Position(mil.nga.sf.Position pos){
+		super(pos.getX(), pos.getY(), pos.getZ(), pos.getM());
 	}
 
 	public Position(double longitude, double latitude) {
@@ -42,18 +49,18 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	 * @param additionalElements The additional elements.
      */
 	public Position(Double longitude, Double latitude, Double altitude, Double... additionalElements) {
-		super(longitude, latitude, altitude, (additionalElements != null) && (additionalElements.length > 0) ? additionalElements[0] : Double.NaN);
+		super(longitude, latitude, altitude, additionalElementsPresent(additionalElements) ? additionalElements[0] : null);
 
-		if (additionalElements != null) {
-			this.additionalElements = additionalElements;
-		}
+		if (additionalElementsPresent(additionalElements)) {
+			this.additionalElements = Arrays.asList(additionalElements);
 
-		for(Double element : this.additionalElements) {
-			if (Double.isNaN(element)) {
-				throw new IllegalArgumentException("No additional elements may be NaN.");
-			}
-			if (Double.isInfinite(element)) {
-				throw new IllegalArgumentException("No additional elements may be infinite.");
+			for(Double element : this.additionalElements) {
+				if (Double.isNaN(element)) {
+					throw new IllegalArgumentException("No additional elements may be NaN.");
+				}
+				if (Double.isInfinite(element)) {
+					throw new IllegalArgumentException("No additional elements may be infinite.");
+				}
 			}
 		}
 
@@ -61,10 +68,10 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	}
 
 	public boolean hasAdditionalElements() {
-		return additionalElements.length > 0;
+		return !additionalElements.isEmpty();
 	}
 
-	public Double[] getAdditionalElements() {
+	public List<Double> getAdditionalElements() {
 		return additionalElements;
 	}
 
@@ -72,5 +79,9 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 		if ((this.getY() == null) && hasAdditionalElements()) {
 			throw new IllegalArgumentException("Additional Elements are only valid if Altitude is also provided.");
 		}
+	}
+	
+	private static boolean additionalElementsPresent(Double[] additionalElements){
+		 return (additionalElements.length > 0) && (additionalElements.length > 0) && (additionalElements[0] != null);
 	}
 }
