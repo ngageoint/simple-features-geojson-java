@@ -53,8 +53,13 @@ public class Polygon extends Geometry<List<Position>> {
 			}
 			mil.nga.sf.LinearRing ring = new mil.nga.sf.LinearRing(Position.hasZ(positions), Position.hasM(positions));
 			ring.setPositions(positions);
+			rings.add(ring);
 		}
-		polygon.setRings(rings);
+		if (polygon == null){
+			polygon = new mil.nga.sf.Polygon(rings);
+		} else {
+			polygon.setRings(rings);
+		}
 	}
 
 	@Override

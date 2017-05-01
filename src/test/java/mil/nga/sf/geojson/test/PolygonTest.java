@@ -15,10 +15,14 @@ import mil.nga.sf.LinearRing;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.LineString;
+import mil.nga.sf.geojson.Polygon;
 import mil.nga.sf.geojson.Position;
 
 public class PolygonTest {
 
+	private static String POLYGON = "{\"type\":\"Polygon\",\"coordinates\":[[[100.0,10.0],[101.0,1.0],[101.0,10.0],[100.0,10.0]]]}";
+	private static String POLYGON_WITH_ALT = "{\"type\":\"Polygon\",\"coordinates\":[[[100.0,10.0,5.0],[101.0,1.0,10.0],[101.0,10.0,15.0],[100.0,10.0,5.0]]]}";
+	private static String POLYGON_WITH_RINGS = "{\"type\":\"Polygon\",\"coordinates\":[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0],[-100.0,-50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0],[-50.0,-25.0]]]}";
 	private ObjectMapper mapper = new ObjectMapper();
 
 	@Test
@@ -32,8 +36,7 @@ public class PolygonTest {
 		rings.add(ring);
 		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
 		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(polygon));
-		assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[[100.0,10.0],[101.0,1.0],[101.0,10.0],[100.0,10.0]]]}",
-				text);
+		assertEquals(POLYGON, text);
 	}
 
 	@Test
@@ -47,8 +50,7 @@ public class PolygonTest {
 		rings.add(ring);
 		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
 		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(polygon));
-		assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[[100.0,10.0,5.0],[101.0,1.0,10.0],[101.0,10.0,15.0],[100.0,10.0,5.0]]]}",
-				text);
+		assertEquals(POLYGON_WITH_ALT, text);
 	}
 
 	@Test
@@ -68,32 +70,70 @@ public class PolygonTest {
 		rings.add(ring);
 		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
 		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(polygon));
-		assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0],[-100.0,-50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0],[-50.0,-25.0]]]}",
-				text);
+		assertEquals(POLYGON_WITH_RINGS, text);
 	}
 
-//
-//	@Test
-//	public void itShouldDeserializeALineString() throws Exception {
-//		GeoJsonObject value = mapper
-//				.readValue("{\"type\":\"LineString\",\"coordinates\":[[100.0, 0.0],[101.0, 1.0]]}", GeoJsonObject.class);
-//		assertNotNull(value);
-//		assertTrue(value instanceof LineString);
-//		LineString lineString = (LineString)value;
-//		List<Position> positions = lineString.getCoordinates();
-//		TestUtils.assertPosition(100d, 0d, null, null, positions.get(0));
-//		TestUtils.assertPosition(101d, 1.0d, null, null, positions.get(1));
-//	}
-//
-//	@Test
-//	public void itShouldDeserializeALineStringWithAltitude() throws Exception {
-//		GeoJsonObject value = mapper
-//				.readValue("{\"type\":\"LineString\",\"coordinates\":[[100.0, 10.0, -20.0],[101.0, 1.0, -10.0]]}", GeoJsonObject.class);
-//		assertNotNull(value);
-//		assertTrue(value instanceof LineString);
-//		LineString lineString = (LineString)value;
-//		List<Position> positions = lineString.getCoordinates();
-//		TestUtils.assertPosition(100d, 10d, -20d, null, positions.get(0));
-//		TestUtils.assertPosition(101d, 1d, -10d, null, positions.get(1));
-//	}
+
+	@Test
+	public void itShouldDeserializeAPolygon() throws Exception {
+		GeoJsonObject value = mapper.readValue(POLYGON, GeoJsonObject.class);
+		assertNotNull(value);
+		assertTrue(value instanceof Polygon);
+		Polygon gjPolygon = (Polygon)value;
+		mil.nga.sf.Geometry geometry = gjPolygon.getGeometry();
+		assertTrue(geometry instanceof mil.nga.sf.Polygon);
+		mil.nga.sf.Polygon polygon = (mil.nga.sf.Polygon)geometry;
+		List<LinearRing> rings = polygon.getRings();
+		assertTrue(rings.size() == 1);
+		mil.nga.sf.LinearRing ring = rings.get(0);
+		List<mil.nga.sf.Position> positions = ring.getPositions();
+		TestUtils.assertPosition(100d, 10d, null, null, positions.get(0));
+		TestUtils.assertPosition(101d,  1d, null, null, positions.get(1));
+		TestUtils.assertPosition(101d, 10d, null, null, positions.get(2));
+		TestUtils.assertPosition(100d, 10d, null, null, positions.get(3));
+	}
+
+	@Test
+	public void itShouldDeserializeALineStringWithAltitude() throws Exception {
+		GeoJsonObject value = mapper.readValue(POLYGON_WITH_ALT, GeoJsonObject.class);
+		assertNotNull(value);
+		assertTrue(value instanceof Polygon);
+		Polygon gjPolygon = (Polygon)value;
+		mil.nga.sf.Geometry geometry = gjPolygon.getGeometry();
+		assertTrue(geometry instanceof mil.nga.sf.Polygon);
+		mil.nga.sf.Polygon polygon = (mil.nga.sf.Polygon)geometry;
+		List<LinearRing> rings = polygon.getRings();
+		assertTrue(rings.size() == 1);
+		mil.nga.sf.LinearRing ring = rings.get(0);
+		List<mil.nga.sf.Position> positions = ring.getPositions();
+		TestUtils.assertPosition(100d, 10d,  5d, null, positions.get(0));
+		TestUtils.assertPosition(101d,  1d, 10d, null, positions.get(1));
+		TestUtils.assertPosition(101d, 10d, 15d, null, positions.get(2));
+		TestUtils.assertPosition(100d, 10d,  5d, null, positions.get(3));
+	}
+
+	@Test
+	public void itShouldDeserializeALineStringWithRings() throws Exception {
+		GeoJsonObject value = mapper.readValue(POLYGON_WITH_RINGS, GeoJsonObject.class);
+		assertNotNull(value);
+		assertTrue(value instanceof Polygon);
+		Polygon gjPolygon = (Polygon)value;
+		mil.nga.sf.Geometry geometry = gjPolygon.getGeometry();
+		assertTrue(geometry instanceof mil.nga.sf.Polygon);
+		mil.nga.sf.Polygon polygon = (mil.nga.sf.Polygon)geometry;
+		List<LinearRing> rings = polygon.getRings();
+		assertTrue(rings.size() == 2);
+		mil.nga.sf.LinearRing ring = rings.get(0);
+		List<mil.nga.sf.Position> positions = ring.getPositions();
+		TestUtils.assertPosition(-100d, -50d, null, null, positions.get(0));
+		TestUtils.assertPosition( 100d, -50d, null, null, positions.get(1));
+		TestUtils.assertPosition(   1d,  50d, null, null, positions.get(2));
+		TestUtils.assertPosition(-100d, -50d, null, null, positions.get(3));
+		ring = rings.get(1);
+		positions = ring.getPositions();
+		TestUtils.assertPosition(-50d, -25d, null, null, positions.get(0));
+		TestUtils.assertPosition( 50d, -25d, null, null, positions.get(1));
+		TestUtils.assertPosition( -1d,  25d, null, null, positions.get(2));
+		TestUtils.assertPosition(-50d, -25d, null, null, positions.get(3));
+	}
 }

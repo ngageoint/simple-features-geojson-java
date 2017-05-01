@@ -8,6 +8,8 @@ import mil.nga.sf.geojson.Point;
 import mil.nga.sf.geojson.Position;
 
 public class TestUtils {
+	
+	private static double EPSILON = 0.00001d;
 
 	public static void assertPoint(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
 									   Point point) {
@@ -15,18 +17,27 @@ public class TestUtils {
 	}
 
 	public static void assertPosition(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
-									   List<Double> expectedAdditionalElements, Position position) {
-		TestCase.assertEquals(expectedLongitude, position.getX(), 0.00001);
-		TestCase.assertEquals(expectedLatitude, position.getY(), 0.00001);
+									   List<Double> expectedAdditionalElements, mil.nga.sf.Position position) {
+		TestCase.assertEquals(expectedLongitude, position.getX(), EPSILON);
+		TestCase.assertEquals(expectedLatitude, position.getY(), EPSILON);
 		if(expectedAltitude == null) {
 			TestCase.assertNull(position.getZ());
 		} else {
-			TestCase.assertEquals(expectedAltitude, position.getZ(), 0.00001);
+			TestCase.assertEquals(expectedAltitude, position.getZ(), EPSILON);
 			if(expectedAdditionalElements == null){
-				final List<Double> ae = position.getAdditionalElements();
-				TestCase.assertTrue((ae == null) || ae.isEmpty());
+				if (position instanceof Position){
+					final List<Double> ae = ((Position)position).getAdditionalElements();
+					TestCase.assertTrue((ae == null) || ae.isEmpty());
+				} else {
+					TestCase.assertNull(position.getM());
+				}
 			} else {
-				TestCase.assertTrue(expectedAdditionalElements.equals(position.getAdditionalElements()));
+				if (position instanceof Position){
+					TestCase.assertTrue(expectedAdditionalElements.equals(((Position)position).getAdditionalElements()));
+				} else {
+					TestCase.assertEquals(expectedAdditionalElements.size(), 1);
+					TestCase.assertEquals(expectedAdditionalElements.get(0), position.getM(), EPSILON);
+				}
 			}
 		}
 	}

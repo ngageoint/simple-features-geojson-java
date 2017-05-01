@@ -12,7 +12,7 @@ import java.io.Serializable;
 @JsonTypeInfo(property = "type", use = Id.NAME)
 @JsonSubTypes({ 
 	@Type(Feature.class), 
-//	@Type(Polygon.class), 
+	@Type(Polygon.class), 
 //	@Type(MultiPolygon.class), 
 	@Type(FeatureCollection.class),
 		@Type(Point.class), 
