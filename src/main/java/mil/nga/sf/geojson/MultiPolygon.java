@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import mil.nga.sf.util.PositionUtils;
+
 public class MultiPolygon extends Geometry<List<List<Position>>> {
 
 	/**
@@ -57,7 +59,7 @@ public class MultiPolygon extends Geometry<List<List<Position>>> {
 				for (Position position: ringPositions){
 					positions.add(position);
 				}
-				mil.nga.sf.LinearRing ring = new mil.nga.sf.LinearRing(Position.hasZ(positions), Position.hasM(positions));
+				mil.nga.sf.LinearRing ring = new mil.nga.sf.LinearRing(PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
 				ring.setPositions(positions);
 				rings.add(ring);
 			}

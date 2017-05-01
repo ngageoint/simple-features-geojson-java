@@ -3,6 +3,8 @@ package mil.nga.sf;
 import java.util.ArrayList;
 import java.util.List;
 
+import mil.nga.sf.util.PositionUtils;
+
 /**
  * A restricted form of GeometryCollection where each Geometry in the collection
  * must be of type Point.
@@ -32,7 +34,7 @@ public class MultiPoint extends Geometry {
 	 *            A list of positions, which will be used to determine hasZ and hasM
 	 */
 	public MultiPoint(List<Position> positions) {
-		super(GeometryType.MULTIPOINT, Position.hasZ(positions), Position.hasM(positions));
+		super(GeometryType.MULTIPOINT, PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
 		setPositions(positions);
 	}
 

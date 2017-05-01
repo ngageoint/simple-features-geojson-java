@@ -78,6 +78,23 @@ public class GeometryEnvelope {
 	}
 
 	/**
+	 * Constructor
+	 * 
+	 * @param minX
+	 * @param minY
+	 * @param maxX
+	 * @param maxY
+	 */
+	public GeometryEnvelope(double minX, double minY, double maxX, double maxY) {
+		this.minX = minX;
+		this.minY = minY;
+		this.maxX = maxX;
+		this.maxY = maxY;
+		this.hasZ = false;
+		this.hasM = false;
+	}
+
+	/**
 	 * True if has Z coordinates
 	 * 
 	 * @return has z
@@ -283,6 +300,38 @@ public class GeometryEnvelope {
 	 */
 	public void setMaxM(Double maxM) {
 		this.maxM = maxM;
+	}
+	
+	/**
+	 * 
+	 * @return min X
+	 */
+	public double getMinLongitude() {
+		return getMinX();
+	}
+
+	/**
+	 * 
+	 * @return max X
+	 */
+	public double getMaxLongitude() {
+		return getMaxX();
+	}
+
+	/**
+	 * 
+	 * @return min Y
+	 */
+	public double getMinLatitude() {
+		return getMinY();
+	}
+	
+	/**
+	 * 
+	 * @return max Y
+	 */
+	public double getMaxLatitude() {
+		return getMaxY();
 	}
 
 }

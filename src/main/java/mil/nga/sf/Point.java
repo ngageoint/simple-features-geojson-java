@@ -31,8 +31,8 @@ public class Point extends Geometry {
 	/**
 	 * Constructor
 	 * 
-	 * @param position
-	 *            its position
+	 * @param pos
+	 *            its Position
 	 */
 	public Point(Position pos) {
 		super(GeometryType.POINT, !(pos.getZ() == null), !(pos.getM() == null));

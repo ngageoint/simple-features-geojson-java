@@ -2,6 +2,8 @@ package mil.nga.sf;
 
 import java.util.List;
 
+import mil.nga.sf.util.PositionUtils;
+
 /**
  * A restricted form of MultiCurve where each Curve in the collection must be of
  * type LineString.
@@ -23,7 +25,7 @@ public class MultiLineString extends MultiCurve<LineString> {
 	}
 
 	public MultiLineString(List<LineString> lineStrings) {
-		super(GeometryType.MULTILINESTRING, Position.hasZ(lineStrings), Position.hasM(lineStrings));
+		super(GeometryType.MULTILINESTRING, PositionUtils.hasZ(lineStrings), PositionUtils.hasM(lineStrings));
 		setLineStrings(lineStrings);
 	}
 

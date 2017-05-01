@@ -2,6 +2,8 @@ package mil.nga.sf;
 
 import java.util.List;
 
+import mil.nga.sf.util.PositionUtils;
+
 /**
  * The point of LinearRing is to enforce the rule
  * that the begin position must equal the end position
@@ -24,8 +26,7 @@ public class LinearRing extends LineString {
 	/**
 	 * Main constructor
 	 * 
-	 * @param hasZ
-	 * @param hasM
+	 * @param ls the curve providing the positions
 	 */
 	public LinearRing(Curve ls) {
 		super(ls.hasZ(), ls.hasM());
@@ -37,7 +38,7 @@ public class LinearRing extends LineString {
 	 * @param positions a list of positions
 	 */
 	public LinearRing(List<Position> positions) {
-		super(Position.hasZ(positions), Position.hasM(positions));
+		super(PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
 		setPositions(positions);
 	}
 

@@ -2,6 +2,8 @@ package mil.nga.sf;
 
 import java.util.List;
 
+import mil.nga.sf.util.PositionUtils;
+
 /**
  * A restricted form of MultiSurface where each Surface in the collection must
  * be of type Polygon.
@@ -23,7 +25,7 @@ public class MultiPolygon extends MultiSurface<Polygon> {
 	}
 
 	public MultiPolygon(List<Polygon> polygons) {
-		super(GeometryType.MULTIPOLYGON, Position.hasZ(polygons), Position.hasM(polygons));
+		super(GeometryType.MULTIPOLYGON, PositionUtils.hasZ(polygons), PositionUtils.hasM(polygons));
 		setPolygons(polygons);
 	}
 

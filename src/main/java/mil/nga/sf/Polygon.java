@@ -2,6 +2,8 @@ package mil.nga.sf;
 
 import java.util.List;
 
+import mil.nga.sf.util.PositionUtils;
+
 /**
  * A restricted form of CurvePolygon where each ring is defined as a simple,
  * closed LineString.
@@ -37,7 +39,7 @@ public class Polygon extends CurvePolygon<LinearRing> {
 	}
 
 	public Polygon(List<LinearRing> rings) {
-		super(GeometryType.POLYGON, Position.hasZ(rings), Position.hasM(rings));
+		super(GeometryType.POLYGON, PositionUtils.hasZ(rings), PositionUtils.hasM(rings));
 		setRings(rings);
 	}
 }
