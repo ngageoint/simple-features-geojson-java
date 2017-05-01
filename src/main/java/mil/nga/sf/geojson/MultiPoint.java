@@ -45,7 +45,11 @@ public class MultiPoint extends Geometry<Position> {
 		for (Position pos : input) {
 			positions.add(pos);
 		}
-		multiPoint.setPositions(positions);
+		if (multiPoint == null) {
+			multiPoint = new mil.nga.sf.MultiPoint(positions);
+		} else {
+			multiPoint.setPositions(positions);
+		}
 	}
 
 	@Override

@@ -50,6 +50,7 @@ public class LineStringTest {
 		assertTrue(value instanceof LineString);
 		LineString lineString = (LineString)value;
 		List<Position> positions = lineString.getCoordinates();
+		assertEquals(2, positions.size());
 		TestUtils.assertPosition(100d, 0d, null, null, positions.get(0));
 		TestUtils.assertPosition(101d, 1.0d, null, null, positions.get(1));
 	}
@@ -62,6 +63,7 @@ public class LineStringTest {
 		assertTrue(value instanceof LineString);
 		LineString lineString = (LineString)value;
 		List<Position> positions = lineString.getCoordinates();
+		assertEquals(2, positions.size());
 		TestUtils.assertPosition(100d, 10d, -20d, null, positions.get(0));
 		TestUtils.assertPosition(101d, 1d, -10d, null, positions.get(1));
 	}

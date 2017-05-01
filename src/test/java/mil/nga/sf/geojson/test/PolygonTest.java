@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import mil.nga.sf.LinearRing;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.GeoJsonObjectFactory;
-import mil.nga.sf.geojson.LineString;
 import mil.nga.sf.geojson.Polygon;
 import mil.nga.sf.geojson.Position;
 

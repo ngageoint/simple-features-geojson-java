@@ -13,11 +13,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.GeoJsonObjectFactory;
-import mil.nga.sf.geojson.LineString;
+import mil.nga.sf.geojson.MultiPoint;
 import mil.nga.sf.geojson.Position;
 
 public class MultiPointTest {
 
+	private static String MULTIPOINT = "{\"type\":\"MultiPoint\",\"coordinates\":[[100.0,10.0],[101.0,1.0]]}";
+	private static String MULTIPOINT_WITH_ALT = "{\"type\":\"MultiPoint\",\"coordinates\":[[100.0,10.0,-20.0],[101.0,1.0,-10.0]]}";
 	private ObjectMapper mapper = new ObjectMapper();
 
 
@@ -26,43 +28,41 @@ public class MultiPointTest {
 		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
 		positions.add(new Position(100d, 10d));
 		positions.add(new Position(101d, 1d));
-		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(positions);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(lineString));
-		assertEquals("{\"type\":\"LineString\",\"coordinates\":[[100.0,10.0],[101.0,1.0]]}",
-				text);
+		mil.nga.sf.MultiPoint multiPoint = new mil.nga.sf.MultiPoint(positions);
+		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(multiPoint));
+		assertEquals(MULTIPOINT, text);
 	}
 
 	@Test
 	public void itShouldSerializeASFMultiPointWithAltitude() throws Exception {
 		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
-		positions.add(new Position(100d, 10d, 15d));
-		positions.add(new Position(101d, 1d, 11d));
+		positions.add(new Position(100d, 10d, -20d));
+		positions.add(new Position(101d, 1d, -10d));
 		mil.nga.sf.MultiPoint multiPoint = new mil.nga.sf.MultiPoint(positions);
 		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(multiPoint));
-		assertEquals("{\"type\":\"MultiPoint\",\"coordinates\":[[100.0,10.0,15.0],[101.0,1.0,11.0]]}",
-				text);
+		assertEquals(MULTIPOINT_WITH_ALT, text);
 	}
 
 	@Test
-	public void itShouldDeserializeALineString() throws Exception {
-		GeoJsonObject value = mapper
-				.readValue("{\"type\":\"LineString\",\"coordinates\":[[100.0, 0.0],[101.0, 1.0]]}", GeoJsonObject.class);
+	public void itShouldDeserializeAMultiPoint() throws Exception {
+		GeoJsonObject value = mapper.readValue(MULTIPOINT, GeoJsonObject.class);
 		assertNotNull(value);
-		assertTrue(value instanceof LineString);
-		LineString lineString = (LineString)value;
-		List<Position> positions = lineString.getCoordinates();
-		TestUtils.assertPosition(100d, 0d, null, null, positions.get(0));
+		assertTrue(value instanceof MultiPoint);
+		MultiPoint multiPoint = (MultiPoint)value;
+		List<Position> positions = multiPoint.getCoordinates();
+		assertEquals(2, positions.size());
+		TestUtils.assertPosition(100d, 10d, null, null, positions.get(0));
 		TestUtils.assertPosition(101d, 1.0d, null, null, positions.get(1));
 	}
 
 	@Test
-	public void itShouldDeserializeALineStringWithAltitude() throws Exception {
-		GeoJsonObject value = mapper
-				.readValue("{\"type\":\"LineString\",\"coordinates\":[[100.0, 10.0, -20.0],[101.0, 1.0, -10.0]]}", GeoJsonObject.class);
+	public void itShouldDeserializeAMultiPointWithAltitude() throws Exception {
+		GeoJsonObject value = mapper.readValue(MULTIPOINT_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
-		assertTrue(value instanceof LineString);
-		LineString lineString = (LineString)value;
-		List<Position> positions = lineString.getCoordinates();
+		assertTrue(value instanceof MultiPoint);
+		MultiPoint multiPoint = (MultiPoint)value;
+		List<Position> positions = multiPoint.getCoordinates();
+		assertEquals(2, positions.size());
 		TestUtils.assertPosition(100d, 10d, -20d, null, positions.get(0));
 		TestUtils.assertPosition(101d, 1d, -10d, null, positions.get(1));
 	}
