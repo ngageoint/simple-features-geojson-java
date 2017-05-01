@@ -19,9 +19,9 @@ public interface GeoJsonObjectVisitor<T> {
 	T visit(MultiLineString geoJsonObject);
 
 	T visit(Polygon geoJsonObject);
-//
-//	T visit(MultiPolygon geoJsonObject);
-//
+
+	T visit(MultiPolygon geoJsonObject);
+
 	T visit(MultiPoint geoJsonObject);
 
 	T visit(LineString geoJsonObject);
@@ -65,11 +65,11 @@ public interface GeoJsonObjectVisitor<T> {
 			return null;
 		}
 
-//		@Override
-//		public T visit(MultiPolygon geoJsonObject) {
-//			return null;
-//		}
-//
+		@Override
+		public T visit(MultiPolygon geoJsonObject) {
+			return null;
+		}
+
 		@Override
 		public T visit(MultiPoint geoJsonObject) {
 			return null;

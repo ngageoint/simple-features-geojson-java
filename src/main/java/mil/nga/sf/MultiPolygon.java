@@ -22,6 +22,11 @@ public class MultiPolygon extends MultiSurface<Polygon> {
 		super(GeometryType.MULTIPOLYGON, hasZ, hasM);
 	}
 
+	public MultiPolygon(List<Polygon> polygons) {
+		super(GeometryType.MULTIPOLYGON, Position.hasZ(polygons), Position.hasM(polygons));
+		setPolygons(polygons);
+	}
+
 	/**
 	 * Get the polygons
 	 * 

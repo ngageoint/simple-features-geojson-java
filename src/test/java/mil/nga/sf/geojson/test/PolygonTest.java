@@ -93,7 +93,7 @@ public class PolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeALineStringWithAltitude() throws Exception {
+	public void itShouldDeserializeAPolygonWithAltitude() throws Exception {
 		GeoJsonObject value = mapper.readValue(POLYGON_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof Polygon);
@@ -112,7 +112,7 @@ public class PolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeALineStringWithRings() throws Exception {
+	public void itShouldDeserializeAPolygonWithRings() throws Exception {
 		GeoJsonObject value = mapper.readValue(POLYGON_WITH_RINGS, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof Polygon);

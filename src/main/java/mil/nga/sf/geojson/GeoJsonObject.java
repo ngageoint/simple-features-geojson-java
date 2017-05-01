@@ -13,7 +13,7 @@ import java.io.Serializable;
 @JsonSubTypes({ 
 	@Type(Feature.class), 
 	@Type(Polygon.class), 
-//	@Type(MultiPolygon.class), 
+	@Type(MultiPolygon.class), 
 	@Type(FeatureCollection.class),
 		@Type(Point.class), 
 		@Type(MultiPoint.class), 

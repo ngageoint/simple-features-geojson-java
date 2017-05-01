@@ -14,6 +14,8 @@ public class GeoJsonObjectFactory {
 			result = new Polygon((mil.nga.sf.Polygon)input);
 		} else if (input instanceof mil.nga.sf.MultiLineString) {
 			result = new MultiLineString((mil.nga.sf.MultiLineString)input);
+		} else if (input instanceof mil.nga.sf.MultiPolygon) {
+			result = new MultiPolygon((mil.nga.sf.MultiPolygon)input);
 		}
 		return result;
 	}
