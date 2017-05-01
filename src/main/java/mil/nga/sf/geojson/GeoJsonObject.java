@@ -17,7 +17,7 @@ import java.io.Serializable;
 	@Type(FeatureCollection.class),
 		@Type(Point.class), 
 		@Type(MultiPoint.class), 
-//		@Type(MultiLineString.class), 
+		@Type(MultiLineString.class), 
 		@Type(LineString.class),
 //                @Type(GeometryCollection.class) 
 	})

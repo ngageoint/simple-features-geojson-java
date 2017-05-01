@@ -22,6 +22,11 @@ public class MultiLineString extends MultiCurve<LineString> {
 		super(GeometryType.MULTILINESTRING, hasZ, hasM);
 	}
 
+	public MultiLineString(List<LineString> lineStrings) {
+		super(GeometryType.MULTILINESTRING, Position.hasZ(lineStrings), Position.hasM(lineStrings));
+		setLineStrings(lineStrings);
+	}
+
 	/**
 	 * Get the line strings
 	 * 

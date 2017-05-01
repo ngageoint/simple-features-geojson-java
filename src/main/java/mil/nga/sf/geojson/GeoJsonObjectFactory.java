@@ -6,15 +6,14 @@ public class GeoJsonObjectFactory {
 		GeoJsonObject result = null;
 		if (input instanceof mil.nga.sf.Point) {
 			result = new Point((mil.nga.sf.Point)input);
-		}
-		if (input instanceof mil.nga.sf.LineString) {
+		} else if (input instanceof mil.nga.sf.LineString) {
 			result = new LineString((mil.nga.sf.LineString)input);
-		}
-		if (input instanceof mil.nga.sf.MultiPoint) {
+		} else if (input instanceof mil.nga.sf.MultiPoint) {
 			result = new MultiPoint((mil.nga.sf.MultiPoint)input);
-		}
-		if (input instanceof mil.nga.sf.Polygon) {
+		} else if (input instanceof mil.nga.sf.Polygon) {
 			result = new Polygon((mil.nga.sf.Polygon)input);
+		} else if (input instanceof mil.nga.sf.MultiLineString) {
+			result = new MultiLineString((mil.nga.sf.MultiLineString)input);
 		}
 		return result;
 	}
