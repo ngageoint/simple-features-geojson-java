@@ -3,6 +3,8 @@ package mil.nga.sf.geojson;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import mil.nga.sf.GeometryType;
+
 import java.util.Map;
 
 @JsonIgnoreProperties({"feature"})
@@ -15,8 +17,9 @@ public class Feature extends GeoJsonObject {
 	private String id;
 
 	@JsonInclude(JsonInclude.Include.ALWAYS)
-	public GeoJsonObject getGeometry() {
-		return (GeoJsonObject)GeoJsonObjectFactory.createObject(feature.getGeometry());
+	public Geometry getGeometry() {
+
+		return GeoJsonObjectFactory.createObject(feature.getGeometry());
 	}
 
 	public void setGeometry(GeoJsonObject gjObject) {
@@ -53,5 +56,9 @@ public class Feature extends GeoJsonObject {
 
 	public mil.nga.sf.Feature getFeature() {
 		return feature;
+	}
+	
+	public GeometryType getGeometryType() {
+		return getGeometry().getGeometry().getGeometryType();
 	}
 }

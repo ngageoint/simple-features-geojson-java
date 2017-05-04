@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class MultiPoint extends Geometry<Position> {
+public class MultiPoint extends GeoJsonObject implements Geometry, Coordinates<Position> {
 
 	/**
 	 * 

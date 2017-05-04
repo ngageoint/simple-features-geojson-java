@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import mil.nga.sf.util.PositionUtils;
 
-public class Polygon extends Geometry<List<Position>> {
+public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List<Position>> {
 
 	/**
 	 * 

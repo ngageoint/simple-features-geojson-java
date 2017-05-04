@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import mil.nga.sf.util.PositionUtils;
 
-public class MultiLineString extends Geometry<List<Position>> {
+public class MultiLineString  extends GeoJsonObject implements Geometry, Coordinates<List<Position>> {
 
 	/**
 	 * 

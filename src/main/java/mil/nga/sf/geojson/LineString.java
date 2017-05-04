@@ -5,12 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class LineString extends Geometry<Position> {
+public class LineString extends GeoJsonObject implements Geometry, Coordinates<Position> {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 983356730931818017L;
 	/**
 	 * 
 	 */
