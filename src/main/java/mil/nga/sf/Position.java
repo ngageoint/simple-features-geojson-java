@@ -1,7 +1,5 @@
 package mil.nga.sf;
 
-import java.util.List;
-
 /**
  * A single location in space. Each position has an X and Y coordinate. 
  * A point MAY optionally also have a Z and/or an M value.
@@ -19,6 +17,11 @@ public class Position {
 	 * has Z (because in some cases it can have M but no Z)
 	 */
 	final private boolean hasZ;
+
+	/**
+	 * has M
+	 */
+	final private boolean hasM;
 	
 	/**
 	 * Constructor
@@ -70,16 +73,20 @@ public class Position {
 		if ((x == null) || (y == null)) {
 			coordinates = new double[0];
 			hasZ = false;
+			hasM = false;
 		} else {
 			if (m != null) {
 				coordinates = new double[4];
 				hasZ = (z != null);
+				hasM = true;
 			} else if (z != null) {
 				coordinates = new double[3];
 				hasZ = true;
+				hasM = false;
 			} else {
 				coordinates = new double[2];
 				hasZ = false;
+				hasM = false;
 			}
 		}
 		
@@ -151,5 +158,13 @@ public class Position {
 			return (left == null) && (right == null);
 		}
 		return left.compareTo(right) == 0;
+	}
+	
+	public boolean hasZ() {
+		return hasZ;
+	}
+	
+	public boolean hasM() {
+		return hasM;
 	}
 }
