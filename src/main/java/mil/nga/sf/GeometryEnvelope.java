@@ -95,6 +95,19 @@ public class GeometryEnvelope {
 	}
 
 	/**
+	 * Copy Constructor
+	 * @param boundingBox Envelope to copy
+	 */
+	public GeometryEnvelope(GeometryEnvelope boundingBox) {
+		this.minX = boundingBox.minX;
+		this.maxX = boundingBox.maxX;
+		this.minY = boundingBox.minY;
+		this.maxX = boundingBox.maxX;
+		this.hasM = boundingBox.hasM;
+		this.hasZ = boundingBox.hasZ;
+	}
+
+	/**
 	 * True if has Z coordinates
 	 * 
 	 * @return has z
@@ -132,6 +145,16 @@ public class GeometryEnvelope {
 	}
 
 	/**
+	 * Set min x
+	 * 
+	 * @param minX
+	 *            min x
+	 */
+	public void setMinLongitude(double minX) {
+		this.minX = minX;
+	}
+
+	/**
 	 * Get max x
 	 * 
 	 * @return max x
@@ -147,6 +170,16 @@ public class GeometryEnvelope {
 	 *            max x
 	 */
 	public void setMaxX(double maxX) {
+		this.maxX = maxX;
+	}
+
+	/**
+	 * Set max x
+	 * 
+	 * @param maxX
+	 *            max x
+	 */
+	public void setMaxLongitude(double maxX) {
 		this.maxX = maxX;
 	}
 
@@ -170,6 +203,16 @@ public class GeometryEnvelope {
 	}
 
 	/**
+	 * Set min y
+	 * 
+	 * @param minY
+	 *            min y
+	 */
+	public void setMinLatitude(double minY) {
+		this.minY = minY;
+	}
+
+	/**
 	 * Get max y
 	 * 
 	 * @return max y
@@ -185,6 +228,16 @@ public class GeometryEnvelope {
 	 *            max y
 	 */
 	public void setMaxY(double maxY) {
+		this.maxY = maxY;
+	}
+
+	/**
+	 * Set max y
+	 * 
+	 * @param maxY
+	 *            max y
+	 */
+	public void setMaxLatitude(double maxY) {
 		this.maxY = maxY;
 	}
 
@@ -332,6 +385,68 @@ public class GeometryEnvelope {
 	 */
 	public double getMaxLatitude() {
 		return getMaxY();
+	}
+
+	/**
+	 * Get the overlapping bounding box between the two bounding boxes
+	 *
+	 * @param boundingBox
+	 *            bounding box 1
+	 * @param boundingBox2
+	 *            bounding box 2
+	 * @return bounding box
+	 */
+	public static GeometryEnvelope overlap(GeometryEnvelope boundingBox,
+			GeometryEnvelope boundingBox2) {
+
+		double minLongitude = Math.max(boundingBox.getMinLongitude(),
+				boundingBox2.getMinLongitude());
+		double maxLongitude = Math.min(boundingBox.getMaxLongitude(),
+				boundingBox2.getMaxLongitude());
+		double minLatitude = Math.max(boundingBox.getMinLatitude(),
+				boundingBox2.getMinLatitude());
+		double maxLatitude = Math.min(boundingBox.getMaxLatitude(),
+				boundingBox2.getMaxLatitude());
+
+		GeometryEnvelope overlap = null;
+
+		if (minLongitude < maxLongitude && minLatitude < maxLatitude) {
+			overlap = new GeometryEnvelope(minLongitude, minLatitude, maxLongitude, 
+					maxLatitude);
+		}
+
+		return overlap;
+	}
+
+	/**
+	 * Get the union bounding box combining the two bounding boxes
+	 *
+	 * @param boundingBox
+	 *            bounding box 1
+	 * @param boundingBox2
+	 *            bounding box 2
+	 * @return bounding box
+	 */
+	public static GeometryEnvelope union(GeometryEnvelope boundingBox,
+			GeometryEnvelope boundingBox2) {
+
+		double minLongitude = Math.min(boundingBox.getMinLongitude(),
+				boundingBox2.getMinLongitude());
+		double maxLongitude = Math.max(boundingBox.getMaxLongitude(),
+				boundingBox2.getMaxLongitude());
+		double minLatitude = Math.min(boundingBox.getMinLatitude(),
+				boundingBox2.getMinLatitude());
+		double maxLatitude = Math.max(boundingBox.getMaxLatitude(),
+				boundingBox2.getMaxLatitude());
+
+		GeometryEnvelope union = null;
+
+		if (minLongitude < maxLongitude && minLatitude < maxLatitude) {
+			union = new GeometryEnvelope(minLongitude, minLatitude, maxLongitude,
+					maxLatitude);
+		}
+
+		return union;
 	}
 
 }
