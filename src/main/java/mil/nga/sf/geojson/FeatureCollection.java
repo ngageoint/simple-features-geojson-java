@@ -6,8 +6,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import mil.nga.sf.GeometryType;
 
+@JsonIgnoreProperties({"propertiesMap"})
 public class FeatureCollection extends GeoJsonObject implements Iterable<Feature> {
 
 	/**

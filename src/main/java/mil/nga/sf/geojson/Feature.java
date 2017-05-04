@@ -7,7 +7,7 @@ import mil.nga.sf.GeometryType;
 
 import java.util.Map;
 
-@JsonIgnoreProperties({"feature"})
+@JsonIgnoreProperties({"feature", "geometryType"})
 public class Feature extends GeoJsonObject {
 	
 	private static final long serialVersionUID = -2507073025031506871L;
@@ -59,6 +59,10 @@ public class Feature extends GeoJsonObject {
 	}
 	
 	public GeometryType getGeometryType() {
-		return getGeometry().getGeometry().getGeometryType();
+		try {
+			return getGeometry().getGeometry().getGeometryType();
+		} catch (NullPointerException exc){
+			return null;
+		}
 	}
 }
