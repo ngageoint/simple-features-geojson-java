@@ -196,7 +196,7 @@ public class GeometryWriter {
 		writer.writeInt(multiPoint.numPositions());
 
 		for (Position position : multiPoint.getPositions()) {
-			writePosition(writer, position);
+			writeGeometry(writer, new Point(position));
 		}
 	}
 

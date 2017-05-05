@@ -101,7 +101,7 @@ public class GeometryProjectionTransform {
 	}
 
 	/**
-	 * Transform the projected point
+	 * Transform the projected position
 	 * 
 	 * @param from
 	 * @return projected from
@@ -122,17 +122,19 @@ public class GeometryProjectionTransform {
 		Double alt = from.hasZ() ? (Double.isNaN(toCoord.z) ? from.getZ() : toCoord.z) : null;
 
 		Position to = new Position(toCoord.x, toCoord.y, emm, alt);
-		if (from.hasZ()) {
-			if (Double.isNaN(toCoord.z)) {
-				to = new Position(toCoord.x, toCoord.y, from.getZ());
-			} else {
-				to = new Position(toCoord.x, toCoord.y, from.getZ());
-			}
-		} else {
-			to = new Position(toCoord.x, toCoord.y);
-		}
 
 		return to;
+	}
+
+	/**
+	 * Transform the projected point
+	 * 
+	 * @param point
+	 * @return projected point
+	 */
+	public Point transform(Point point) {
+
+		return new Point(transform(point.getPosition()));
 	}
 
 	/**

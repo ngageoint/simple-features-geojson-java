@@ -211,6 +211,8 @@ public enum GeometryType {
 		case 17:
 			geometryType = TRIANGLE;
 			break;
+		default:
+			break;
 		}
 
 		return geometryType;

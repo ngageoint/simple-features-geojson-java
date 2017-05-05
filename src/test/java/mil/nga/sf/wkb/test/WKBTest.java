@@ -1,17 +1,22 @@
 package mil.nga.sf.wkb.test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.ByteOrder;
 
 import junit.framework.TestCase;
 import mil.nga.sf.Curve;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
+import mil.nga.sf.LineString;
 import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
 import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.Polygon;
+import mil.nga.sf.Position;
+import mil.nga.sf.util.ByteReader;
+import mil.nga.sf.wkb.GeometryReader;
 
 import org.junit.Test;
 
@@ -35,7 +40,22 @@ public class WKBTest {
 	}
 
 	@Test
-	public void testPoint() throws IOException {
+	public void testPoint() throws IOException, URISyntaxException {
+
+		java.net.URL url = ClassLoader.getSystemResource("point.wkb");
+		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+		byte[] bytes = java.nio.file.Files.readAllBytes(resPath);
+		Geometry geometry = GeometryReader.readGeometry(new ByteReader(bytes));
+		TestCase.assertNotNull(geometry);
+		TestCase.assertTrue(geometry instanceof Point);
+		Point point = (Point)geometry;
+		Position position = point.getPosition();
+		TestCase.assertEquals(position.getX(), 1.0d);
+		TestCase.assertEquals(position.getY(), 2.0d);
+	}
+
+	@Test
+	public void testRTPoint() throws IOException {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a point
@@ -47,7 +67,26 @@ public class WKBTest {
 	}
 
 	@Test
-	public void testLineString() throws IOException {
+	public void testLineString() throws IOException, URISyntaxException {
+
+		java.net.URL url = ClassLoader.getSystemResource("linestring.wkb");
+		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+		byte[] bytes = java.nio.file.Files.readAllBytes(resPath);
+		Geometry geometry = GeometryReader.readGeometry(new ByteReader(bytes));
+		TestCase.assertNotNull(geometry);
+		TestCase.assertTrue(geometry instanceof LineString);
+		LineString ls = (LineString)geometry;
+		TestCase.assertEquals(ls.getPositions().size(), 2);
+		Position position = ls.getPositions().get(0);
+		TestCase.assertEquals(position.getX(), 1.0d);
+		TestCase.assertEquals(position.getY(), 2.0d);
+		Position position2 = ls.getPositions().get(1);
+		TestCase.assertEquals(position2.getX(), 3.0d);
+		TestCase.assertEquals(position2.getY(), 4.0d);
+	}
+
+	@Test
+	public void testRTLineString() throws IOException {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a line string
@@ -59,7 +98,7 @@ public class WKBTest {
 	}
 
 	@Test
-	public void testPolygon() throws IOException {
+	public void testRTPolygon() throws IOException {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a polygon
@@ -71,7 +110,7 @@ public class WKBTest {
 	}
 
 	@Test
-	public void testMultiPoint() throws IOException {
+	public void testRTMultiPoint() throws IOException {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a multi point
@@ -83,7 +122,26 @@ public class WKBTest {
 	}
 
 	@Test
-	public void testMultiLineString() throws IOException {
+	public void testMultiPoint() throws IOException, URISyntaxException {
+
+		java.net.URL url = ClassLoader.getSystemResource("multipoint.wkb");
+		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+		byte[] bytes = java.nio.file.Files.readAllBytes(resPath);
+		Geometry geometry = GeometryReader.readGeometry(new ByteReader(bytes));
+		TestCase.assertNotNull(geometry);
+		TestCase.assertTrue(geometry instanceof MultiPoint);
+		MultiPoint mp = (MultiPoint)geometry;
+		TestCase.assertEquals(mp.getPositions().size(), 2);
+		Position position = mp.getPositions().get(0);
+		TestCase.assertEquals(position.getX(), 0.0d);
+		TestCase.assertEquals(position.getY(), 1.0d);
+		Position position2 = mp.getPositions().get(1);
+		TestCase.assertEquals(position2.getX(), 2.0d);
+		TestCase.assertEquals(position2.getY(), 3.0d);
+	}
+
+	@Test
+	public void testRTMultiLineString() throws IOException {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a multi line string
@@ -96,7 +154,7 @@ public class WKBTest {
 	}
 
 	@Test
-	public void testMultiPolygon() throws IOException {
+	public void testRTMultiPolygon() throws IOException {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a multi polygon
@@ -108,7 +166,51 @@ public class WKBTest {
 	}
 
 	@Test
-	public void testGeometryCollection() throws IOException {
+	public void testGeometryCollection1() throws IOException, URISyntaxException {
+
+		java.net.URL url = ClassLoader.getSystemResource("gc1.wkb");
+		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+		byte[] bytes = java.nio.file.Files.readAllBytes(resPath);
+		Geometry geometry = GeometryReader.readGeometry(new ByteReader(bytes));
+		TestCase.assertNotNull(geometry);
+		TestCase.assertTrue(geometry instanceof GeometryCollection<?>);
+		GeometryCollection<Geometry> gc = (GeometryCollection<Geometry>)geometry;
+		TestCase.assertEquals(gc.numGeometries(), 6);
+		Geometry g0 = gc.getGeometries().get(0);
+		TestCase.assertTrue(g0 instanceof Point);
+		Geometry g1 = gc.getGeometries().get(1);
+		TestCase.assertTrue(g1 instanceof LineString);
+		Geometry g2 = gc.getGeometries().get(2);
+		TestCase.assertTrue(g2 instanceof Polygon);
+		Geometry g3 = gc.getGeometries().get(3);
+		TestCase.assertTrue(g3 instanceof MultiPoint);
+		Geometry g4 = gc.getGeometries().get(4);
+		TestCase.assertTrue(g4 instanceof MultiLineString);
+		Geometry g5 = gc.getGeometries().get(5);
+		TestCase.assertTrue(g5 instanceof MultiPolygon);
+	}
+
+	@Test
+	public void testGeometryCollection2() throws IOException, URISyntaxException {
+
+		java.net.URL url = ClassLoader.getSystemResource("gc2.wkb");
+		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+		byte[] bytes = java.nio.file.Files.readAllBytes(resPath);
+		Geometry geometry = GeometryReader.readGeometry(new ByteReader(bytes));
+		TestCase.assertNotNull(geometry);
+		TestCase.assertTrue(geometry instanceof MultiPoint);
+		MultiPoint mp = (MultiPoint)geometry;
+		TestCase.assertEquals(mp.getPositions().size(), 2);
+		Position position = mp.getPositions().get(0);
+		TestCase.assertEquals(position.getX(), 0.0d);
+		TestCase.assertEquals(position.getY(), 1.0d);
+		Position position2 = mp.getPositions().get(1);
+		TestCase.assertEquals(position2.getX(), 2.0d);
+		TestCase.assertEquals(position2.getY(), 3.0d);
+	}
+
+	@Test
+	public void testRTGeometryCollection() throws IOException {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a geometry collection

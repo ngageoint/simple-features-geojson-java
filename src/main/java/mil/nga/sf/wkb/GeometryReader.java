@@ -217,8 +217,7 @@ public class GeometryReader {
 		int numPoints = reader.readInt();
 
 		for (int i = 0; i < numPoints; i++) {
-			Position position = readPosition(reader, hasZ, hasM);
-			lineString.addPosition(position);
+			lineString.addPosition(readPosition(reader, hasZ, hasM));
 		}
 
 		return lineString;
@@ -263,9 +262,8 @@ public class GeometryReader {
 		int numPoints = reader.readInt();
 
 		for (int i = 0; i < numPoints; i++) {
-			Position position = readPosition(reader, hasZ, hasM);
-			multiPoint.addPosition(position);
-
+			Point point = readGeometry(reader, Point.class);
+			multiPoint.addPosition(point.getPosition());
 		}
 
 		return multiPoint;
