@@ -85,7 +85,37 @@ public class GeometryEnvelope {
 	 * @param maxX
 	 * @param maxY
 	 */
-	public GeometryEnvelope(double minX, double minY, double maxX, double maxY) {
+	public GeometryEnvelope(Double minX, Double minY, Double maxX, Double maxY) {
+		this(minX, minY, null, null, maxX, maxY, null, null);
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param minX
+	 * @param minY
+	 * @param minZ
+	 * @param maxX
+	 * @param maxY
+	 * @param maxZ
+	 */
+	public GeometryEnvelope(Double minX, Double minY, Double minZ, Double maxX, Double maxY, Double maxZ) {
+		this(minX, minY, minZ, null, maxX, maxY, maxZ, null);
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param minX
+	 * @param minY
+	 * @param minZ
+	 * @param minM
+	 * @param maxX
+	 * @param maxY
+	 * @param maxZ
+	 * @param maxM
+	 */
+	public GeometryEnvelope(Double minX, Double minY, Double minZ, Double minM, Double maxX, Double maxY, Double maxZ, Double maxM) {
 		this.minX = minX;
 		this.minY = minY;
 		this.maxX = maxX;
@@ -102,7 +132,11 @@ public class GeometryEnvelope {
 		this.minX = boundingBox.minX;
 		this.maxX = boundingBox.maxX;
 		this.minY = boundingBox.minY;
-		this.maxX = boundingBox.maxX;
+		this.maxY = boundingBox.maxY;
+		this.minZ = boundingBox.minZ;
+		this.maxZ = boundingBox.maxZ;
+		this.minM = boundingBox.minM;
+		this.maxM = boundingBox.maxM;
 		this.hasM = boundingBox.hasM;
 		this.hasZ = boundingBox.hasZ;
 	}
@@ -387,6 +421,58 @@ public class GeometryEnvelope {
 		return getMaxY();
 	}
 
+	@Override
+	public boolean equals(Object obj){
+		if (this == obj) {
+			return true;
+		}
+		
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof GeometryEnvelope))
+			return false;
+
+		GeometryEnvelope other = (GeometryEnvelope) obj;
+		if (Double.doubleToLongBits(maxY) != Double
+				.doubleToLongBits(other.maxY))
+			return false;
+		if (Double.doubleToLongBits(minY) != Double
+				.doubleToLongBits(other.minY))
+			return false;
+		if (Double.doubleToLongBits(maxX) != Double
+				.doubleToLongBits(other.maxX))
+			return false;
+		if (Double.doubleToLongBits(minX) != Double
+				.doubleToLongBits(other.minX))
+			return false;
+		if (hasZ != other.hasZ) {
+			return false;
+		}
+		if (hasZ) {
+			if (Double.doubleToLongBits(minZ) != Double
+					.doubleToLongBits(other.minZ))
+				return false;
+			if (Double.doubleToLongBits(maxZ) != Double
+					.doubleToLongBits(other.maxZ))
+				return false;
+		}
+		if (hasM != other.hasM) {
+			return false;
+		}
+		if (hasM) {
+			if (Double.doubleToLongBits(minM) != Double
+					.doubleToLongBits(other.minM))
+				return false;
+			if (Double.doubleToLongBits(maxM) != Double
+					.doubleToLongBits(other.maxM))
+				return false;
+		}
+		return true;		
+	}
+	
+	
 	/**
 	 * Get the overlapping bounding box between the two bounding boxes
 	 *
