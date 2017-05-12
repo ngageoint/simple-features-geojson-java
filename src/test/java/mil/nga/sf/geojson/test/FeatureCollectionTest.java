@@ -1,14 +1,15 @@
 package mil.nga.sf.geojson.test;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import junit.framework.TestCase;
 import mil.nga.sf.geojson.Feature;
 import mil.nga.sf.geojson.FeatureCollection;
 import mil.nga.sf.geojson.GeoJsonObject;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -36,8 +37,9 @@ public class FeatureCollectionTest {
 	@Test
 	public void itShouldSerializeFeatureCollection() throws Exception {
 		// A feature collection object must have a member with the name "features".
-		assertEquals("{\"type\":\"FeatureCollection\",\"features\":[]}",
-				mapper.writeValueAsString(testObject));
+		JsonNode nodeFromPojo = TestUtils.getMapper().valueToTree(testObject);
+		JsonNode nodeFromString = TestUtils.getMapper().readTree("{\"type\":\"FeatureCollection\",\"features\":[]}");
+		TestCase.assertEquals(nodeFromPojo, nodeFromString);
 	}
 	
 	@Test

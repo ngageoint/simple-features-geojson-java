@@ -65,4 +65,9 @@ public class Feature extends GeoJsonObject {
 			return null;
 		}
 	}
+
+	@Override
+	public String getType() {
+		return "Feature";
+	}
 }

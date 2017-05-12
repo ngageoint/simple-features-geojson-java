@@ -9,10 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.MultiPoint;
 import mil.nga.sf.geojson.Position;
 
@@ -20,7 +17,6 @@ public class MultiPointTest {
 
 	private static String MULTIPOINT = "{\"type\":\"MultiPoint\",\"coordinates\":[[100.0,10.0],[101.0,1.0]]}";
 	private static String MULTIPOINT_WITH_ALT = "{\"type\":\"MultiPoint\",\"coordinates\":[[100.0,10.0,-20.0],[101.0,1.0,-10.0]]}";
-	private ObjectMapper mapper = new ObjectMapper();
 
 
 	@Test
@@ -29,8 +25,7 @@ public class MultiPointTest {
 		positions.add(new Position(100d, 10d));
 		positions.add(new Position(101d, 1d));
 		mil.nga.sf.MultiPoint multiPoint = new mil.nga.sf.MultiPoint(positions);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(multiPoint));
-		assertEquals(MULTIPOINT, text);
+		TestUtils.compareAsNodes(multiPoint, MULTIPOINT);
 	}
 
 	@Test
@@ -39,13 +34,12 @@ public class MultiPointTest {
 		positions.add(new Position(100d, 10d, -20d));
 		positions.add(new Position(101d, 1d, -10d));
 		mil.nga.sf.MultiPoint multiPoint = new mil.nga.sf.MultiPoint(positions);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(multiPoint));
-		assertEquals(MULTIPOINT_WITH_ALT, text);
+		TestUtils.compareAsNodes(multiPoint, MULTIPOINT_WITH_ALT);
 	}
 
 	@Test
 	public void itShouldDeserializeAMultiPoint() throws Exception {
-		GeoJsonObject value = mapper.readValue(MULTIPOINT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(MULTIPOINT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPoint);
 		MultiPoint multiPoint = (MultiPoint)value;
@@ -57,7 +51,7 @@ public class MultiPointTest {
 
 	@Test
 	public void itShouldDeserializeAMultiPointWithAltitude() throws Exception {
-		GeoJsonObject value = mapper.readValue(MULTIPOINT_WITH_ALT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(MULTIPOINT_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPoint);
 		MultiPoint multiPoint = (MultiPoint)value;

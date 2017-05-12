@@ -1,6 +1,5 @@
 package mil.nga.sf.geojson.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -9,11 +8,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mil.nga.sf.LinearRing;
 import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.Polygon;
 import mil.nga.sf.geojson.Position;
 
@@ -22,7 +19,6 @@ public class PolygonTest {
 	private static String POLYGON = "{\"type\":\"Polygon\",\"coordinates\":[[[100.0,10.0],[101.0,1.0],[101.0,10.0],[100.0,10.0]]]}";
 	private static String POLYGON_WITH_ALT = "{\"type\":\"Polygon\",\"coordinates\":[[[100.0,10.0,5.0],[101.0,1.0,10.0],[101.0,10.0,15.0],[100.0,10.0,5.0]]]}";
 	private static String POLYGON_WITH_RINGS = "{\"type\":\"Polygon\",\"coordinates\":[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0],[-100.0,-50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0],[-50.0,-25.0]]]}";
-	private ObjectMapper mapper = new ObjectMapper();
 
 	@Test
 	public void itShouldSerializeASFPolygon() throws Exception {
@@ -34,8 +30,7 @@ public class PolygonTest {
 		LinearRing ring = new LinearRing(positions);
 		rings.add(ring);
 		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(polygon));
-		assertEquals(POLYGON, text);
+		TestUtils.compareAsNodes(polygon, POLYGON);
 	}
 
 	@Test
@@ -48,8 +43,7 @@ public class PolygonTest {
 		LinearRing ring = new LinearRing(positions);
 		rings.add(ring);
 		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(polygon));
-		assertEquals(POLYGON_WITH_ALT, text);
+		TestUtils.compareAsNodes(polygon, POLYGON_WITH_ALT);
 	}
 
 	@Test
@@ -68,14 +62,13 @@ public class PolygonTest {
 		ring = new LinearRing(positions);
 		rings.add(ring);
 		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(polygon));
-		assertEquals(POLYGON_WITH_RINGS, text);
+		TestUtils.compareAsNodes(polygon, POLYGON_WITH_RINGS);
 	}
 
 
 	@Test
 	public void itShouldDeserializeAPolygon() throws Exception {
-		GeoJsonObject value = mapper.readValue(POLYGON, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(POLYGON, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof Polygon);
 		Polygon gjPolygon = (Polygon)value;
@@ -94,7 +87,7 @@ public class PolygonTest {
 
 	@Test
 	public void itShouldDeserializeAPolygonWithAltitude() throws Exception {
-		GeoJsonObject value = mapper.readValue(POLYGON_WITH_ALT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(POLYGON_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof Polygon);
 		Polygon gjPolygon = (Polygon)value;
@@ -113,7 +106,7 @@ public class PolygonTest {
 
 	@Test
 	public void itShouldDeserializeAPolygonWithRings() throws Exception {
-		GeoJsonObject value = mapper.readValue(POLYGON_WITH_RINGS, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(POLYGON_WITH_RINGS, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof Polygon);
 		Polygon gjPolygon = (Polygon)value;

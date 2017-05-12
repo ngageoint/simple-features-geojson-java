@@ -1,15 +1,29 @@
 package mil.nga.sf.geojson.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import junit.framework.TestCase;
+import mil.nga.sf.LinearRing;
+import mil.nga.sf.geojson.GeoJsonObjectFactory;
+import mil.nga.sf.geojson.Geometry;
 import mil.nga.sf.geojson.Point;
 import mil.nga.sf.geojson.Position;
 
 public class TestUtils {
 	
 	private static double EPSILON = 0.00001d;
+	
+	private static ObjectMapper mapper = new ObjectMapper();
+
+	public static ObjectMapper getMapper() {
+		return mapper;
+	}
 
 	public static void assertPoint(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
 									   Point point) {
@@ -42,8 +56,35 @@ public class TestUtils {
 		}
 	}
 
+	public static mil.nga.sf.MultiPolygon getMultiPolygonWithRings() {
+		List<mil.nga.sf.Polygon> polygons = new ArrayList<mil.nga.sf.Polygon>();
+		List<LinearRing> rings = new ArrayList<LinearRing>();
+		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
+		positions.add(new Position(-100d, -50d));
+		positions.add(new Position( 100d, -50d));
+		positions.add(new Position(   1d,  50d));
+		LinearRing ring = new LinearRing(positions);
+		rings.add(ring);
+		positions = new ArrayList<mil.nga.sf.Position>();
+		positions.add(new Position(-50d, -25d));
+		positions.add(new Position( 50d, -25d));
+		positions.add(new Position( -1d,  25d));
+		ring = new LinearRing(positions);
+		rings.add(ring);
+		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
+		polygons.add(polygon);
+		mil.nga.sf.MultiPolygon multiPolygon = new mil.nga.sf.MultiPolygon(polygons);
+		return multiPolygon;
+	}
 	public static void assertPoint(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,
 									   List<Double> expectedAdditionalElements, Point point) {
 		assertPosition(expectedLongitude, expectedLatitude, expectedAltitude, expectedAdditionalElements, point.getCoordinates());
+	}
+	
+	public static void compareAsNodes(Object obj, String input) throws JsonProcessingException, IOException{
+		Geometry geometry = GeoJsonObjectFactory.createObject(obj);
+		JsonNode nodeFromPojo = mapper.valueToTree(geometry);
+		JsonNode nodeFromString = mapper.readTree(input);
+		TestCase.assertEquals(nodeFromPojo, nodeFromString);
 	}
 }

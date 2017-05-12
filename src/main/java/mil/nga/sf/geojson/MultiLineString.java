@@ -73,4 +73,9 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 	public mil.nga.sf.Geometry getGeometry() {
 		return multiLineString;
 	}
+
+	@Override
+	public String getType() {
+		return "MultiLineString";
+	}
 }

@@ -50,5 +50,7 @@ public abstract class GeoJsonObject implements Serializable {
 		this.bbox = bbox;
 	}
 
+	public abstract String getType();
+
 	public abstract <T> T accept(GeoJsonObjectVisitor<T> geoJsonObjectVisitor);
 }

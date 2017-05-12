@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import mil.nga.sf.util.PositionUtils;
 
@@ -81,5 +83,10 @@ public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates
 	@Override
 	public mil.nga.sf.Geometry getGeometry() {
 		return multiPolygon;
+	}
+
+	@Override
+	public String getType() {
+		return "MultiPolygon";
 	}
 }

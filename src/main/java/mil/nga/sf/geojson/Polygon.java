@@ -73,4 +73,9 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 	public mil.nga.sf.Geometry getGeometry() {
 		return polygon;
 	}
+
+	@Override
+	public String getType() {
+		return "Polygon";
+	}
 }

@@ -1,13 +1,16 @@
 package mil.nga.sf.geojson.test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import mil.nga.sf.geojson.Feature;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.GeoJsonObjectFactory;
+import mil.nga.sf.geojson.MultiPolygon;
 import mil.nga.sf.geojson.Point;
 
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import junit.framework.TestCase;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,26 +20,35 @@ import java.util.Map;
 
 public class FeatureTest {
 
-	private Feature testObject = new Feature();
-	private ObjectMapper mapper = new ObjectMapper();
-
-	@Test
-	public void itShouldHaveProperties() throws Exception {
-		assertNotNull(testObject.getProperties());
-	}
-
 	@Test
 	public void itShouldSerializeFeature() throws Exception {
+		Feature testObject = new Feature();
+
 		// http://geojson.org/geojson-spec.html#feature-objects
 		// A feature object must have a member with the name "properties".
 		// The value of the properties member is an object (any JSON object or a JSON null value).
-		assertEquals("{\"type\":\"Feature\",\"properties\":{},\"geometry\":null}",
-				mapper.writeValueAsString(testObject));
+		assertNotNull(testObject.getProperties());
+
+		JsonNode nodeFromPojo = TestUtils.getMapper().valueToTree(testObject);
+		JsonNode nodeFromString = TestUtils.getMapper().readTree("{\"type\":\"Feature\",\"properties\":{},\"geometry\":null}");
+		TestCase.assertEquals(nodeFromPojo, nodeFromString);
+	}
+
+	@Test
+	public void itShouldSerializeAMoreInterestingFeature() throws Exception {
+		Feature testObject = new Feature();
+		
+		testObject.getProperties().put("foo", "bar");
+		testObject.setGeometry((MultiPolygon)GeoJsonObjectFactory.createObject(TestUtils.getMultiPolygonWithRings()));
+		
+		JsonNode nodeFromPojo = TestUtils.getMapper().valueToTree(testObject);
+		JsonNode nodeFromString = TestUtils.getMapper().readTree("{\"type\":\"Feature\",\"properties\":{\"foo\":\"bar\"},\"geometry\":{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0],[-100.0,-50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0],[-50.0,-25.0]]]]}}");
+		TestCase.assertEquals(nodeFromPojo, nodeFromString);
 	}
 	
 	@Test
 	public void itShouldDeserializeFeature() throws Exception {
-		GeoJsonObject value = mapper
+		GeoJsonObject value = TestUtils.getMapper()
 				.readValue("{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[100.0,5.0]},\"properties\":{}}", GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof Feature);
@@ -50,7 +62,7 @@ public class FeatureTest {
 	
 	@Test
 	public void itShouldDeserializeFeatureWithProperty() throws Exception {
-		GeoJsonObject value = mapper
+		GeoJsonObject value = TestUtils.getMapper()
 				.readValue("{\"type\":\"Feature\",\"geometry\":null,\"properties\":{\"foo\":\"bar\"}}", GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof Feature);

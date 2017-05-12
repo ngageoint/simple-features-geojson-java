@@ -66,5 +66,10 @@ public class FeatureCollection extends GeoJsonObject implements Iterable<Feature
     	}
     	return result;
     }
+
+	@Override
+	public String getType() {
+		return "FeatureCollection";
+	}
 	
 }

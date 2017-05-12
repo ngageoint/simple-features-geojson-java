@@ -54,4 +54,9 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 			lineString.setPositions(positions);
 		}
 	}
+
+	@Override
+	public String getType() {
+		return "LineString";
+	}
 }

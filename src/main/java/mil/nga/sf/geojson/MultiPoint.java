@@ -61,4 +61,9 @@ public class MultiPoint extends GeoJsonObject implements Geometry, Coordinates<P
 	public mil.nga.sf.Geometry getGeometry() {
 		return multiPoint;
 	}
+
+	@Override
+	public String getType() {
+		return "MultiPoint";
+	}
 }

@@ -3,8 +3,6 @@ package mil.nga.sf.geojson;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import mil.nga.sf.GeometryType;
-
 @JsonIgnoreProperties({"geometry"})
 public class Point extends GeoJsonObject implements Geometry {
 
@@ -64,5 +62,10 @@ public class Point extends GeoJsonObject implements Geometry {
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public mil.nga.sf.Geometry getGeometry() {
 		return point;
+	}
+
+	@Override
+	public String getType() {
+		return "Point";
 	}
 }

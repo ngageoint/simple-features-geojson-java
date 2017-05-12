@@ -1,6 +1,5 @@
 package mil.nga.sf.geojson.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -9,10 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.MultiLineString;
 import mil.nga.sf.geojson.Position;
 
@@ -21,7 +17,6 @@ public class MultiLineStringTest {
 	private static String MULTILINESTRING = "{\"type\":\"MultiLineString\",\"coordinates\":[[[100.0,10.0],[101.0,1.0],[101.0,10.0]]]}";
 	private static String MULTILINESTRING_WITH_ALT = "{\"type\":\"MultiLineString\",\"coordinates\":[[[100.0,10.0,5.0],[101.0,1.0,10.0],[101.0,10.0,15.0]]]}";
 	private static String MULTILINESTRING_WITH_MULTIPLE = "{\"type\":\"MultiLineString\",\"coordinates\":[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0]]]}";
-	private ObjectMapper mapper = new ObjectMapper();
 
 	@Test
 	public void itShouldSerializeASFMLS() throws Exception {
@@ -32,9 +27,8 @@ public class MultiLineStringTest {
 		positions.add(new Position(101d, 10d));
 		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(positions);
 		lineStrings.add(lineString);
-		mil.nga.sf.MultiLineString multiLineString = new mil.nga.sf.MultiLineString(lineStrings);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(multiLineString));
-		assertEquals(MULTILINESTRING, text);
+		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(lineStrings);
+		TestUtils.compareAsNodes(mls, MULTILINESTRING);
 	}
 
 	@Test
@@ -47,8 +41,7 @@ public class MultiLineStringTest {
 		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(positions);
 		lineStrings.add(lineString);
 		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(lineStrings);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(mls));
-		assertEquals(MULTILINESTRING_WITH_ALT, text);
+		TestUtils.compareAsNodes(mls, MULTILINESTRING_WITH_ALT);
 	}
 
 	@Test
@@ -67,13 +60,12 @@ public class MultiLineStringTest {
 		lineString = new mil.nga.sf.LineString(positions);
 		lineStrings.add(lineString);
 		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(lineStrings);
-		String text = mapper.writeValueAsString(GeoJsonObjectFactory.createObject(mls));
-		assertEquals(MULTILINESTRING_WITH_MULTIPLE, text);
+		TestUtils.compareAsNodes(mls, MULTILINESTRING_WITH_MULTIPLE);
 	}
 
 	@Test
 	public void itShouldDeserializeAMLS() throws Exception {
-		GeoJsonObject value = mapper.readValue(MULTILINESTRING, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(MULTILINESTRING, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiLineString);
 		MultiLineString gjMLS = (MultiLineString)value;
@@ -91,7 +83,7 @@ public class MultiLineStringTest {
 
 	@Test
 	public void itShouldDeserializeALineStringWithAltitude() throws Exception {
-		GeoJsonObject value = mapper.readValue(MULTILINESTRING_WITH_ALT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(MULTILINESTRING_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiLineString);
 		MultiLineString gjMLS = (MultiLineString)value;
@@ -109,7 +101,7 @@ public class MultiLineStringTest {
 
 	@Test
 	public void itShouldDeserializeAMLSWithRings() throws Exception {
-		GeoJsonObject value = mapper.readValue(MULTILINESTRING_WITH_MULTIPLE, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(MULTILINESTRING_WITH_MULTIPLE, GeoJsonObject.class);
 		assertTrue(value instanceof MultiLineString);
 		MultiLineString gjMLS = (MultiLineString)value;
 		mil.nga.sf.Geometry geometry = gjMLS.getGeometry();
