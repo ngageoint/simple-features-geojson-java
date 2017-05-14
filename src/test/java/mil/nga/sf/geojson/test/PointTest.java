@@ -16,7 +16,7 @@ public class PointTest {
 
 	@Test
 	public void itShouldSerializeASFPoint() throws Exception {
-		mil.nga.sf.Point simplePoint = new mil.nga.sf.SimplePoint(new mil.nga.sf.Position(100d, 10d));
+		mil.nga.sf.Point simplePoint = new mil.nga.sf.Point(100d, 10d);
 		TestUtils.compareAsNodes(simplePoint, "{\"type\":\"Point\",\"coordinates\":[100.0,10.0]}");
 	}
 
@@ -39,7 +39,7 @@ public class PointTest {
 
 	@Test
 	public void itShouldSerializeAPointWithAltitude() throws Exception {
-		mil.nga.sf.Point simplePoint = new mil.nga.sf.SimplePoint(new mil.nga.sf.Position(100d, 10d, 256d));
+		mil.nga.sf.Point simplePoint = new mil.nga.sf.Point(100d, 10d, 256d);
 		TestUtils.compareAsNodes(simplePoint, "{\"type\":\"Point\",\"coordinates\":[100.0,10.0,256.0]}");
 	}
 
@@ -54,7 +54,7 @@ public class PointTest {
 	@Test
 	public void itShouldSerializeAPointWithAdditionalAttributes() throws IOException {
 		Position position = new Position(100d, 0d, 256d, 345d, 678d);
-		mil.nga.sf.Point simplePoint = new mil.nga.sf.SimplePoint(position);
-		TestUtils.compareAsNodes(simplePoint, "{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}");
+		Point point = new Point(position);
+		TestUtils.compareAsNodes(point, "{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}");
 	}
 }

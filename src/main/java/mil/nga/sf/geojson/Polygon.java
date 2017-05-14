@@ -12,7 +12,7 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 	/**
 	 * 
 	 */
-	private mil.nga.sf.SimplePolygon polygon;
+	private mil.nga.sf.Polygon polygon;
 
 	public Polygon() {
 	}
@@ -21,7 +21,7 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 		setCoordinates(positions);
 	}
 	
-	public Polygon(mil.nga.sf.SimplePolygon input) {
+	public Polygon(mil.nga.sf.Polygon input) {
 		polygon = input;
 	}
 
@@ -32,7 +32,7 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<Position>> getCoordinates() {
 		List<List<Position>> result = new ArrayList<List<Position>>();
-		for(mil.nga.sf.SimpleLinearRing ring : polygon.getRings()){
+		for(mil.nga.sf.LinearRing ring : polygon.getRings()){
 			List<Position> positions = new ArrayList<Position>();
 			for(mil.nga.sf.Position pos : ring.getPoints()){
 				positions.add(new Position(pos));
@@ -47,18 +47,18 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 	 * @param input the list
 	 */
 	private void setCoordinates(List<List<Position>> input) {
-		List<mil.nga.sf.SimpleLinearRing> rings = new ArrayList<mil.nga.sf.SimpleLinearRing>();
+		List<mil.nga.sf.LinearRing> rings = new ArrayList<mil.nga.sf.LinearRing>();
 		for (List<Position> ringPositions : input) {
-			List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
+			List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
 			for (Position position: ringPositions){
-				positions.add(position);
+				points.add(new mil.nga.sf.Point(position));
 			}
-			mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PointUtils.hasZ(positions), PointUtils.hasM(positions));
-			ring.getPoints(positions);
+			mil.nga.sf.LinearRing ring = new mil.nga.sf.LinearRing(PointUtils.hasZ(points), PointUtils.hasM(points));
+			ring.setPoints(points);
 			rings.add(ring);
 		}
 		if (polygon == null){
-			polygon = new mil.nga.sf.SimplePolygon(rings);
+			polygon = new mil.nga.sf.Polygon(rings);
 		} else {
 			polygon.setRings(rings);
 		}

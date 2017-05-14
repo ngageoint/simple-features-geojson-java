@@ -10,7 +10,7 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 	/**
 	 * 
 	 */
-	private mil.nga.sf.SimpleLineString lineString;
+	private mil.nga.sf.LineString lineString;
 
 	public LineString() {
 	}
@@ -19,7 +19,7 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 		setCoordinates(positions);
 	}
 
-	public LineString(mil.nga.sf.SimpleLineString input) {
+	public LineString(mil.nga.sf.LineString input) {
 		lineString = input;
 	}
 
@@ -37,21 +37,21 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Position> getCoordinates() {
 		List<Position> positions = new ArrayList<Position>();
-		for(mil.nga.sf.Position pos : lineString.getPoints()){
-			positions.add(new Position(pos));
+		for(mil.nga.sf.Point point : lineString.getPoints()){
+			positions.add(new Position(point));
 		}
 		return positions;
 	}
 
 	public void setCoordinates(List<Position> input) {
-		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
+		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
 		for (Position pos : input) {
-			positions.add(pos);
+			points.add(new mil.nga.sf.Point(pos));
 		}
 		if (lineString == null) {
-			lineString = new mil.nga.sf.SimpleLineString(positions);
+			lineString = new mil.nga.sf.LineString(points);
 		} else {
-			lineString.getPoints(positions);
+			lineString.setPoints(points);
 		}
 	}
 

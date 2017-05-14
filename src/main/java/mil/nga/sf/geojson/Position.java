@@ -12,31 +12,21 @@ import java.util.List;
 
 @JsonDeserialize(using = CoordinatesDeserializer.class)
 @JsonSerialize(using = CoordinatesSerializer.class)
-public class Position extends mil.nga.sf.Position implements Serializable {
+public class Position implements Serializable, mil.nga.sf.Position {
 
+	private final double[] coordinates;
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6991668001425440884L;
-	/**
-	 * 
-	 */
-	private List<Double> additionalElements = new ArrayList<Double>();
+	private final List<Double> additionalElements;
 
-	public Position() {
-		super();
+	public Position(mil.nga.sf.Position position){
+		this(position.getX(), position.getY(), position.getZ(), position.getM());
 	}
 	
-	public Position(mil.nga.sf.Position pos){
-		super(pos.getX(), pos.getY(), pos.getZ(), pos.getM());
-	}
-
-	public Position(double longitude, double latitude) {
-		super(longitude, latitude);
-	}
-
-	public Position(double longitude, double latitude, double altitude) {
-		super(longitude, latitude, altitude);
+	public Position(Double longitude, Double latitude) {
+		this(longitude, latitude, null);
 	}
 
 	/**
@@ -49,18 +39,28 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	 * @param additionalElements The additional elements.
      */
 	public Position(Double longitude, Double latitude, Double altitude, Double... additionalElements) {
-		super(longitude, latitude, altitude, additionalElementsPresent(additionalElements) ? additionalElements[0] : null);
+		if ((longitude == null) || (latitude == null)){
+			coordinates = new double[0];
+			this.additionalElements = new ArrayList<Double>();
+		} else if (altitude == null){
+			coordinates = new double[]{longitude, latitude};
+			this.additionalElements = new ArrayList<Double>();
+		} else {
+			coordinates = new double[]{longitude, latitude, altitude};
 
-		if (additionalElementsPresent(additionalElements)) {
-			this.additionalElements = Arrays.asList(additionalElements);
-
-			for(Double element : this.additionalElements) {
-				if (Double.isNaN(element)) {
-					throw new IllegalArgumentException("No additional elements may be NaN.");
+			if (additionalElementsPresent(additionalElements)) {
+				this.additionalElements = Arrays.asList(additionalElements);
+	
+				for(Double element : this.additionalElements) {
+					if (Double.isNaN(element)) {
+						throw new IllegalArgumentException("No additional elements may be NaN.");
+					}
+					if (Double.isInfinite(element)) {
+						throw new IllegalArgumentException("No additional elements may be infinite.");
+					}
 				}
-				if (Double.isInfinite(element)) {
-					throw new IllegalArgumentException("No additional elements may be infinite.");
-				}
+			} else {
+				this.additionalElements = new ArrayList<Double>();
 			}
 		}
 
@@ -76,12 +76,32 @@ public class Position extends mil.nga.sf.Position implements Serializable {
 	}
 
 	private void checkAltitudeAndAdditionalElements() {
-		if ((this.getY() == null) && hasAdditionalElements()) {
+		if ((this.getZ() == null) && hasAdditionalElements()) {
 			throw new IllegalArgumentException("Additional Elements are only valid if Altitude is also provided.");
 		}
 	}
 	
 	private static boolean additionalElementsPresent(Double[] additionalElements){
-		 return (additionalElements != null) && (additionalElements.length > 0) && (additionalElements[0] != null);
+		 return (additionalElements.length > 0) && (additionalElements[0] != null);
+	}
+
+	@Override
+	public Double getX() {
+		return coordinates.length > 0 ? coordinates[0] : null;
+	}
+
+	@Override
+	public Double getY() {
+		return coordinates.length > 1 ? coordinates[1] : null;
+	}
+
+	@Override
+	public Double getZ() {
+		return coordinates.length > 2 ? coordinates[2] : null;
+	}
+
+	@Override
+	public Double getM() {
+		return additionalElements.size() > 0 ? additionalElements.get(0) : null;
 	}
 }

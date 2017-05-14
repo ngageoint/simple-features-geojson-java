@@ -21,18 +21,18 @@ public class MultiPointTest {
 
 	@Test
 	public void itShouldSerializeASFMultiPoint() throws Exception {
-		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
-		positions.add(new Position(100d, 10d));
-		positions.add(new Position(101d, 1d));
-		mil.nga.sf.MultiPoint multiPoint = new mil.nga.sf.MultiPoint(positions);
+		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		points.add(new mil.nga.sf.Point(100d, 10d));
+		points.add(new mil.nga.sf.Point(101d, 1d));
+		mil.nga.sf.MultiPoint multiPoint = new mil.nga.sf.MultiPoint(points);
 		TestUtils.compareAsNodes(multiPoint, MULTIPOINT);
 	}
 
 	@Test
 	public void itShouldSerializeASFMultiPointWithAltitude() throws Exception {
-		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
-		positions.add(new Position(100d, 10d, -20d));
-		positions.add(new Position(101d, 1d, -10d));
+		List<mil.nga.sf.Point> positions = new ArrayList<mil.nga.sf.Point>();
+		positions.add(new mil.nga.sf.Point(100d, 10d, -20d));
+		positions.add(new mil.nga.sf.Point(101d, 1d, -10d));
 		mil.nga.sf.MultiPoint multiPoint = new mil.nga.sf.MultiPoint(positions);
 		TestUtils.compareAsNodes(multiPoint, MULTIPOINT_WITH_ALT);
 	}

@@ -14,7 +14,7 @@ public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates
 	/**
 	 * 
 	 */
-	private mil.nga.sf.SimpleMultiPolygon multiPolygon;
+	private mil.nga.sf.MultiPolygon multiPolygon;
 
 	public MultiPolygon() {
 	}
@@ -23,7 +23,7 @@ public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates
 		setCoordinates(positions);
 	}
 	
-	public MultiPolygon(mil.nga.sf.SimpleMultiPolygon input) {
+	public MultiPolygon(mil.nga.sf.MultiPolygon input) {
 		multiPolygon = input;
 	}
 
@@ -34,9 +34,9 @@ public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<List<Position>>> getCoordinates() {
 		List<List<List<Position>>> result = new ArrayList<List<List<Position>>>();
-		for(mil.nga.sf.SimplePolygon polygon : multiPolygon.getPolygons()){
+		for(mil.nga.sf.Polygon polygon : multiPolygon.getGeometries()){
 			List<List<Position>> polygonPositions = new ArrayList<List<Position>>();
-			for(mil.nga.sf.SimpleLinearRing ring : polygon.getRings()){
+			for(mil.nga.sf.LinearRing ring : polygon.getRings()){
 				List<Position> positions = new ArrayList<Position>();
 				for(mil.nga.sf.Position pos : ring.getPoints()){
 					positions.add(new Position(pos));
@@ -53,25 +53,25 @@ public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates
 	 * @param input the list
 	 */
 	private void setCoordinates(List<List<List<Position>>> input) {
-		List<mil.nga.sf.SimplePolygon> polygons = new ArrayList<mil.nga.sf.SimplePolygon>();
+		List<mil.nga.sf.Polygon> polygons = new ArrayList<mil.nga.sf.Polygon>();
 		for (List<List<Position>> polygonPositions : input){
-			List<mil.nga.sf.SimpleLinearRing> rings = new ArrayList<mil.nga.sf.SimpleLinearRing>();
+			List<mil.nga.sf.LinearRing> rings = new ArrayList<mil.nga.sf.LinearRing>();
 			for (List<Position> ringPositions : polygonPositions) {
-				List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
+				List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
 				for (Position position: ringPositions){
-					positions.add(position);
+					points.add(new mil.nga.sf.Point(position));
 				}
-				mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PointUtils.hasZ(positions), PointUtils.hasM(positions));
-				ring.getPoints(positions);
+				mil.nga.sf.LinearRing ring = new mil.nga.sf.LinearRing(PointUtils.hasZ(points), PointUtils.hasM(points));
+				ring.setPoints(points);
 				rings.add(ring);
 			}
-			mil.nga.sf.SimplePolygon polygon = new mil.nga.sf.SimplePolygon(rings);
+			mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
 			polygons.add(polygon);
 		}
 		if (multiPolygon == null){
-			multiPolygon = new mil.nga.sf.SimpleMultiPolygon(polygons);
+			multiPolygon = new mil.nga.sf.MultiPolygon(polygons);
 		} else {
-			multiPolygon.setPolygons(polygons);
+			multiPolygon.setGeometries(polygons);
 		}
 	}
 

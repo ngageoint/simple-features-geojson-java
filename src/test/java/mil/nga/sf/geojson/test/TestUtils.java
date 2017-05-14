@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import junit.framework.TestCase;
-import mil.nga.sf.SimpleLinearRing;
+import mil.nga.sf.LinearRing;
 import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.Geometry;
 import mil.nga.sf.geojson.Point;
@@ -56,24 +56,23 @@ public class TestUtils {
 		}
 	}
 
-	public static mil.nga.sf.SimpleMultiPolygon getMultiPolygonWithRings() {
-		List<mil.nga.sf.SimplePolygon> polygons = new ArrayList<mil.nga.sf.SimplePolygon>();
-		List<SimpleLinearRing> rings = new ArrayList<SimpleLinearRing>();
-		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
-		positions.add(new Position(-100d, -50d));
-		positions.add(new Position( 100d, -50d));
-		positions.add(new Position(   1d,  50d));
-		SimpleLinearRing ring = new SimpleLinearRing(positions);
+	public static mil.nga.sf.MultiPolygon getMultiPolygonWithRings() {
+		List<mil.nga.sf.Polygon> polygons = new ArrayList<mil.nga.sf.Polygon>();
+		List<LinearRing> rings = new ArrayList<LinearRing>();
+		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		points.add(new mil.nga.sf.Point(-100d, -50d));
+		points.add(new mil.nga.sf.Point( 100d, -50d));
+		points.add(new mil.nga.sf.Point(   1d,  50d));
+		LinearRing ring = new LinearRing(points);
+		rings.add(ring);points = new ArrayList<mil.nga.sf.Point>();
+		points.add(new mil.nga.sf.Point(-50d, -25d));
+		points.add(new mil.nga.sf.Point( 50d, -25d));
+		points.add(new mil.nga.sf.Point( -1d,  25d));
+		ring = new LinearRing(points);
 		rings.add(ring);
-		positions = new ArrayList<mil.nga.sf.Position>();
-		positions.add(new Position(-50d, -25d));
-		positions.add(new Position( 50d, -25d));
-		positions.add(new Position( -1d,  25d));
-		ring = new SimpleLinearRing(positions);
-		rings.add(ring);
-		mil.nga.sf.SimplePolygon polygon = new mil.nga.sf.SimplePolygon(rings);
+		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
 		polygons.add(polygon);
-		mil.nga.sf.SimpleMultiPolygon multiPolygon = new mil.nga.sf.SimpleMultiPolygon(polygons);
+		mil.nga.sf.MultiPolygon multiPolygon = new mil.nga.sf.MultiPolygon(polygons);
 		return multiPolygon;
 	}
 	public static void assertPoint(Double expectedLongitude, Double expectedLatitude, Double expectedAltitude,

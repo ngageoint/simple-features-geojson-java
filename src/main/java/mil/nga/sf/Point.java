@@ -1,6 +1,6 @@
 package mil.nga.sf;
 
-public class Point extends Geometry {
+public class Point extends Geometry implements Position {
 
 	/**
 	 * coordinate
@@ -13,6 +13,16 @@ public class Point extends Geometry {
 	 */
 	public Point() {
 		this(null, null, null, null);
+	}
+	
+	/**
+	 * Constructor for the Position interface
+	 * 
+	 * @param position
+	 *                position
+	 */
+	public Point(Position position){
+		this(position.getX(), position.getY(), position.getZ(), position.getM());
 	}
 
 	/**

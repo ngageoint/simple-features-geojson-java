@@ -12,7 +12,7 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 	/**
 	 * 
 	 */
-	private mil.nga.sf.SimpleMultiLineString multiLineString;
+	private mil.nga.sf.MultiLineString multiLineString;
 
 	public MultiLineString() {
 	}
@@ -21,7 +21,7 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 		setCoordinates(positions);
 	}
 	
-	public MultiLineString(mil.nga.sf.SimpleMultiLineString input) {
+	public MultiLineString(mil.nga.sf.MultiLineString input) {
 		multiLineString = input;
 	}
 
@@ -32,7 +32,7 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<Position>> getCoordinates() {
 		List<List<Position>> result = new ArrayList<List<Position>>();
-		for(mil.nga.sf.SimpleLineString lineString : multiLineString.getCurves()){
+		for(mil.nga.sf.LineString lineString : multiLineString.getGeometries()){
 			List<Position> positions = new ArrayList<Position>();
 			for(mil.nga.sf.Position pos : lineString.getPoints()){
 				positions.add(new Position(pos));
@@ -47,20 +47,20 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 	 * @param input the list
 	 */
 	private void setCoordinates(List<List<Position>> input) {
-		List<mil.nga.sf.Curve> lineStrings = new ArrayList<mil.nga.sf.Curve>();
+		List<mil.nga.sf.LineString> lineStrings = new ArrayList<mil.nga.sf.LineString>();
 		for (List<Position> lineStringPositions : input) {
-			List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
+			List<mil.nga.sf.Point> positions = new ArrayList<mil.nga.sf.Point>();
 			for (Position position: lineStringPositions){
-				positions.add(position);
+				positions.add(new mil.nga.sf.Point(position));
 			}
-			mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PointUtils.hasZ(positions), PointUtils.hasM(positions));
-			ring.getPoints(positions);
-			lineStrings.add(ring);
+			mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(PointUtils.hasZ(positions), PointUtils.hasM(positions));
+			lineString.setPoints(positions);
+			lineStrings.add(lineString);
 		}
 		if (multiLineString == null){
-			multiLineString = new mil.nga.sf.SimpleMultiLineString(lineStrings);
+			multiLineString = new mil.nga.sf.MultiLineString(lineStrings);
 		} else {
-			multiLineString.setCurves(lineStrings);
+			multiLineString.setGeometries(lineStrings);
 		}
 	}
 

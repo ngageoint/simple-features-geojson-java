@@ -3,6 +3,8 @@ package mil.nga.sf;
 import java.util.ArrayList;
 import java.util.List;
 
+import mil.nga.sf.util.PointUtils;
+
 public class Polygon extends Surface {
 
 	/**
@@ -28,6 +30,16 @@ public class Polygon extends Surface {
 	 */
 	protected Polygon(GeometryType type, boolean hasZ, boolean hasM) {
 		super(type, hasZ, hasM);
+	}
+	
+	/**
+	 * Constructor
+	 * @param rings
+	 *             rings
+	 */
+	public Polygon(List<LinearRing> rings){
+		super(GeometryType.POLYGON, PointUtils.hasZ(rings), PointUtils.hasM(rings));
+		setRings(rings);
 	}
 
 	/**

@@ -4,18 +4,20 @@ public class GeoJsonObjectFactory {
 
 	public static Geometry createObject(Object input) {
 		Geometry result = null;
-		if (input instanceof mil.nga.sf.SimplePoint) {
-			result = new Point((mil.nga.sf.SimplePoint)input);
+		if (input instanceof Geometry) {
+			result = (Geometry)input;
+		} else if (input instanceof mil.nga.sf.Point) {
+			result = new Point((mil.nga.sf.Point)input);
 		} else if (input instanceof mil.nga.sf.LineString) {
-			result = new LineString((mil.nga.sf.SimpleLineString)input);
+			result = new LineString((mil.nga.sf.LineString)input);
 		} else if (input instanceof mil.nga.sf.MultiPoint) {
 			result = new MultiPoint((mil.nga.sf.MultiPoint)input);
 		} else if (input instanceof mil.nga.sf.Polygon) {
-			result = new Polygon((mil.nga.sf.SimplePolygon)input);
-		} else if (input instanceof mil.nga.sf.SimpleMultiLineString) {
-			result = new MultiLineString((mil.nga.sf.SimpleMultiLineString)input);
-		} else if (input instanceof mil.nga.sf.SimpleMultiPolygon) {
-			result = new MultiPolygon((mil.nga.sf.SimpleMultiPolygon)input);
+			result = new Polygon((mil.nga.sf.Polygon)input);
+		} else if (input instanceof mil.nga.sf.MultiLineString) {
+			result = new MultiLineString((mil.nga.sf.MultiLineString)input);
+		} else if (input instanceof mil.nga.sf.MultiPolygon) {
+			result = new MultiPolygon((mil.nga.sf.MultiPolygon)input);
 		}
 		return result;
 	}
