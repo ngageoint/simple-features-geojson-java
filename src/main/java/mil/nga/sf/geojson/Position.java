@@ -97,11 +97,21 @@ public class Position implements Serializable, mil.nga.sf.Position {
 
 	@Override
 	public Double getZ() {
-		return coordinates.length > 2 ? coordinates[2] : null;
+		return hasZ() ? coordinates[2] : null;
 	}
 
 	@Override
 	public Double getM() {
-		return additionalElements.size() > 0 ? additionalElements.get(0) : null;
+		return hasM() ? additionalElements.get(0) : null;
+	}
+
+	@Override
+	public boolean hasZ() {
+		return coordinates.length > 2;
+	}
+
+	@Override
+	public boolean hasM() {
+		return additionalElements.size() > 0;
 	}
 }

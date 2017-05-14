@@ -29,4 +29,18 @@ public interface Position {
 	 * @return m
 	 */
 	public Double getM();
+
+	/**
+	 * Has z
+	 * 
+	 * @return true: this position has a Z value
+	 */
+	public boolean hasZ();
+
+	/**
+	 * Has m
+	 * 
+	 * @return true: this position has a M value
+	 */
+	public boolean hasM();
 }

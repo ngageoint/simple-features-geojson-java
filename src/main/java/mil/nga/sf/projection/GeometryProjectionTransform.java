@@ -14,6 +14,7 @@ import mil.nga.sf.MultiPoint;
 import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.PolyhedralSurface;
+import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
 import mil.nga.sf.Triangle;
 import mil.nga.sf.util.SFException;
@@ -100,12 +101,12 @@ public class GeometryProjectionTransform {
 	}
 
 	/**
-	 * Transform the projected point
+	 * Transform the projected position
 	 * 
 	 * @param from
 	 * @return projected from
 	 */
-	public Point transform(Point from) {
+	public Position transform(Position from) {
 
 		ProjCoordinate fromCoord;
 		if (from.hasZ()) {
@@ -123,6 +124,17 @@ public class GeometryProjectionTransform {
 		Point to = new Point(toCoord.x, toCoord.y, emm, alt);
 
 		return to;
+	}
+
+	/**
+	 * Transform the projected point
+	 * 
+	 * @param from
+	 * @return projected from
+	 */
+	public Point transform(Point from) {
+
+		return new Point(transform((Position)from));
 	}
 
 	/**

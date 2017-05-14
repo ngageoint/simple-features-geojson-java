@@ -2,7 +2,7 @@ package mil.nga.sf.projection;
 
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryEnvelope;
-import mil.nga.sf.Point;
+import mil.nga.sf.Position;
 
 import org.osgeo.proj4j.CoordinateTransform;
 import org.osgeo.proj4j.CoordinateTransformFactory;
@@ -68,11 +68,11 @@ public class ProjectionTransform {
 	 *            point
 	 * @return projected point
 	 */
-	public Point transform(Point from) {
+	public Position transform(Position from) {
 
 		GeometryProjectionTransform geometryTransform = new GeometryProjectionTransform(
 				this);
-		Point to = geometryTransform.transform(from);
+		Position to = geometryTransform.transform(from);
 
 		return to;
 	}
