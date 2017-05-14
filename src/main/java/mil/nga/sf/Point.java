@@ -5,7 +5,7 @@ public class Point extends Geometry implements Position {
 	/**
 	 * coordinate
 	 */
-	final private double[] coordinates;
+	private double[] coordinates;
 	
 	/**
 	 * Default Constructor. It is best not to use this unless another process 
@@ -66,33 +66,7 @@ public class Point extends Geometry implements Position {
 	public Point(Double x, Double y, Double z, Double m) {
 		super(GeometryType.POINT, (z != null), (m != null));
 		
-		if ((x == null) || (y == null)) {
-			coordinates = new double[0];
-		} else {
-			if (m != null) {
-				coordinates = new double[4];
-			} else if (z != null) {
-				coordinates = new double[3];
-			} else {
-				coordinates = new double[2];
-			}
-		}
-		
-		if (coordinates.length >= 1) {
-			coordinates[0] = x;
-		}
-		if (coordinates.length >= 2) {
-			coordinates[1] = y;
-		}
-		if (coordinates.length >= 3) {
-			// In the rare event of M but no Z...
-			if (hasZ()) {
-				coordinates[2] = z;
-			}
-		}
-		if (coordinates.length >= 4) {
-			coordinates[3] = m;
-		}
+		setPosition(x, y, z, m);
 	}
 
 	/**
@@ -158,4 +132,43 @@ public class Point extends Geometry implements Position {
 		return false;
 	}
 	
+	/**
+	 * Set Position (coordinates)
+	 * 
+	 * @param pos
+	 *           Position
+	 */
+	public void setPosition(Position pos){
+		setPosition(pos.getX(), pos.getY(), pos.getZ(), pos.getM());
+	}
+	
+	private void setPosition(Double x, Double y, Double z, Double m){
+		if ((x == null) || (y == null)) {
+			coordinates = new double[0];
+		} else {
+			if (m != null) {
+				coordinates = new double[4];
+			} else if (z != null) {
+				coordinates = new double[3];
+			} else {
+				coordinates = new double[2];
+			}
+		}
+		
+		if (coordinates.length >= 1) {
+			coordinates[0] = x;
+		}
+		if (coordinates.length >= 2) {
+			coordinates[1] = y;
+		}
+		if (coordinates.length >= 3) {
+			// In the rare event of M but no Z...
+			if (hasZ()) {
+				coordinates[2] = z;
+			}
+		}
+		if (coordinates.length >= 4) {
+			coordinates[3] = m;
+		}
+	}
 }
