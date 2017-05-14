@@ -50,7 +50,7 @@ public class LinearRing extends LineString {
 		if (!isEmpty() && !isRing()){
 			addPoint(points.get(0));
 		}
-		if (points.size() < 3) {
+		if (numPoints() < 3) {
 			throw new SFException ("A linear ring must have at least three positions.");
 		}
 	}
