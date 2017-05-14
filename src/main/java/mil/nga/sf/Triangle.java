@@ -5,7 +5,7 @@ package mil.nga.sf;
  * 
  * @author osbornb
  */
-public class Triangle extends SimplePolygon {
+public class Triangle extends Polygon {
 
 	/**
 	 * Constructor

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-import mil.nga.sf.util.PositionUtils;
+import mil.nga.sf.util.PointUtils;
 
 public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates<List<List<Position>>> {
 
@@ -38,7 +38,7 @@ public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates
 			List<List<Position>> polygonPositions = new ArrayList<List<Position>>();
 			for(mil.nga.sf.SimpleLinearRing ring : polygon.getRings()){
 				List<Position> positions = new ArrayList<Position>();
-				for(mil.nga.sf.Position pos : ring.getPositions()){
+				for(mil.nga.sf.Position pos : ring.getPoints()){
 					positions.add(new Position(pos));
 				}
 				polygonPositions.add(positions);
@@ -61,8 +61,8 @@ public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates
 				for (Position position: ringPositions){
 					positions.add(position);
 				}
-				mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
-				ring.setPositions(positions);
+				mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PointUtils.hasZ(positions), PointUtils.hasM(positions));
+				ring.getPoints(positions);
 				rings.add(ring);
 			}
 			mil.nga.sf.SimplePolygon polygon = new mil.nga.sf.SimplePolygon(rings);

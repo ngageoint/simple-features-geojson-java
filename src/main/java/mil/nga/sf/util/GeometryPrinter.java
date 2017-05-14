@@ -5,21 +5,17 @@ import java.util.List;
 import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
 import mil.nga.sf.Curve;
+import mil.nga.sf.Polygon;
 import mil.nga.sf.Geometry;
-import mil.nga.sf.SimpleGeometryCollection;
+import mil.nga.sf.GeometryCollection;
 import mil.nga.sf.GeometryType;
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
-import mil.nga.sf.SimpleLineString;
-import mil.nga.sf.SimpleMultiLineString;
+import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
-import mil.nga.sf.SimpleMultiPolygon;
+import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
-import mil.nga.sf.Polygon;
-import mil.nga.sf.SimplePoint;
-import mil.nga.sf.SimplePolygon;
 import mil.nga.sf.PolyhedralSurface;
-import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
 import mil.nga.sf.Triangle;
 
@@ -44,25 +40,25 @@ public class GeometryPrinter {
 		GeometryType geometryType = simpleGeometry.getGeometryType();
 		switch (geometryType) {
 		case POINT:
-			addPositionMessage(message, ((Point) simpleGeometry).getPosition());
+			addPointMessage(message, ((Point) simpleGeometry));
 			break;
 		case LINESTRING:
-			addLineStringMessage(message, (Curve) simpleGeometry);
+			addCurveMessage(message, (Curve) simpleGeometry);
 			break;
 		case POLYGON:
-			addPolygonMessage(message, (SimplePolygon) simpleGeometry);
+			addPolygonMessage(message, (Polygon) simpleGeometry);
 			break;
 		case MULTIPOINT:
 			addMultiPointMessage(message, (MultiPoint) simpleGeometry);
 			break;
 		case MULTILINESTRING:
-			addMultiLineStringMessage(message, (SimpleMultiLineString) simpleGeometry);
+			addMultiLineStringMessage(message, (MultiLineString) simpleGeometry);
 			break;
 		case MULTIPOLYGON:
-			addMultiPolygonMessage(message, (SimpleMultiPolygon) simpleGeometry);
+			addMultiPolygonMessage(message, (MultiPolygon) simpleGeometry);
 			break;
 		case CIRCULARSTRING:
-			addLineStringMessage(message, (CircularString) simpleGeometry);
+			addCurveMessage(message, (CircularString) simpleGeometry);
 			break;
 		case COMPOUNDCURVE:
 			addCompoundCurveMessage(message, (CompoundCurve) simpleGeometry);
@@ -78,7 +74,7 @@ public class GeometryPrinter {
 			break;
 		case GEOMETRYCOLLECTION:
 			@SuppressWarnings("unchecked")
-			SimpleGeometryCollection<Geometry> geomCollection = (SimpleGeometryCollection<Geometry>) simpleGeometry;
+			GeometryCollection<Geometry> geomCollection = (GeometryCollection<Geometry>) simpleGeometry;
 			message.append("Geometries: " + geomCollection.numGeometries());
 			List<Geometry> simpleGeometries = geomCollection.getGeometries();
 			for (int i = 0; i < simpleGeometries.size(); i++) {
@@ -103,9 +99,13 @@ public class GeometryPrinter {
 	 * @param message
 	 * @param position
 	 */
-	private static void addPositionMessage(StringBuilder message, Position position) {
-		message.append("Latitude: ").append(position.getY());
-		message.append("\nLongitude: ").append(position.getX());
+	private static void addPointMessage(StringBuilder message, Point point) {
+		message.append("Latitude: ").append(point.getY());
+		message.append("\nLongitude: ").append(point.getX());
+		Double alt = point.getZ();
+		if (alt != null){
+			message.append("\nAltitude: ").append(alt);
+		}
 	}
 
 	/**
@@ -116,31 +116,31 @@ public class GeometryPrinter {
 	 */
 	private static void addMultiPointMessage(StringBuilder message,
 			MultiPoint multiPoint) {
-		message.append(SimplePoint.class.getSimpleName() + "s: "
-				+ multiPoint.numPositions());
-		List<Position> positions = multiPoint.getPositions();
-		for (int i = 0; i < positions.size(); i++) {
-			Position position = positions.get(i);
+		message.append(Point.class.getSimpleName() + "s: "
+				+ multiPoint.numGeometries());
+		List<Point> points = multiPoint.getGeometries();
+		for (int i = 0; i < points.size(); i++) {
+			Point point = points.get(i);
 			message.append("\n\n");
-			message.append(SimplePoint.class.getSimpleName() + " " + (i + 1));
+			message.append(Point.class.getSimpleName() + " " + (i + 1));
 			message.append("\n");
-			addPositionMessage(message, position);
+			addPointMessage(message, point);
 		}
 	}
 
 	/**
-	 * Add LineString message
+	 * Add Curve message
 	 * 
 	 * @param message
-	 * @param lineString
+	 * @param curve
 	 */
-	private static void addLineStringMessage(StringBuilder message,
-			Curve lineString) {
-		message.append(SimplePoint.class.getSimpleName() + "s: "
-				+ lineString.numPositions());
-		for (Position position : lineString.getPositions()) {
+	private static void addCurveMessage(StringBuilder message,
+			Curve curve) {
+		message.append(Point.class.getSimpleName() + "s: "
+				+ curve.numPoints());
+		for (Point point : curve.getPoints()) {
 			message.append("\n\n");
-			addPositionMessage(message, position);
+			addPointMessage(message, point);
 		}
 	}
 
@@ -151,16 +151,16 @@ public class GeometryPrinter {
 	 * @param multiLineString
 	 */
 	private static void addMultiLineStringMessage(StringBuilder message,
-			SimpleMultiLineString multiLineString) {
-		message.append(SimpleLineString.class.getSimpleName() + "s: "
-				+ multiLineString.numLineStrings());
-		List<LineString> lineStrings = multiLineString.getLineStrings();
+			MultiLineString multiLineString) {
+		message.append(LineString.class.getSimpleName() + "s: "
+				+ multiLineString.numGeometries());
+		List<LineString> lineStrings = multiLineString.getGeometries();
 		for (int i = 0; i < lineStrings.size(); i++) {
 			Curve lineString = lineStrings.get(i);
 			message.append("\n\n");
-			message.append(SimpleLineString.class.getSimpleName() + " " + (i + 1));
+			message.append(LineString.class.getSimpleName() + " " + (i + 1));
 			message.append("\n");
-			addLineStringMessage(message, lineString);
+			addCurveMessage(message, lineString);
 		}
 	}
 
@@ -180,7 +180,7 @@ public class GeometryPrinter {
 				message.append("Hole " + i);
 				message.append("\n");
 			}
-			addLineStringMessage(message, ring);
+			addCurveMessage(message, ring);
 		}
 	}
 
@@ -191,10 +191,10 @@ public class GeometryPrinter {
 	 * @param multiPolygon
 	 */
 	private static void addMultiPolygonMessage(StringBuilder message,
-			SimpleMultiPolygon multiPolygon) {
-		message.append(SimplePolygon.class.getSimpleName() + "s: "
-				+ multiPolygon.numPolygons());
-		List<Polygon> polygons = multiPolygon.getPolygons();
+			MultiPolygon multiPolygon) {
+		message.append(MultiPolygon.class.getSimpleName() + "s: "
+				+ multiPolygon.numGeometries());
+		List<Polygon> polygons = multiPolygon.getGeometries();
 		for (int i = 0; i < polygons.size(); i++) {
 			Polygon polygon = polygons.get(i);
 			message.append("\n\n");
@@ -212,15 +212,15 @@ public class GeometryPrinter {
 	 */
 	private static void addCompoundCurveMessage(StringBuilder message,
 			CompoundCurve compoundCurve) {
-		message.append(SimpleLineString.class.getSimpleName() + "s: "
-				+ compoundCurve.numLineStrings());
-		List<SimpleLineString> lineStrings = compoundCurve.getLineStrings();
-		for (int i = 0; i < lineStrings.size(); i++) {
-			LineString lineString = lineStrings.get(i);
+		message.append(LineString.class.getSimpleName() + "s: "
+				+ compoundCurve.numCurves());
+		List<Curve> curves = compoundCurve.getCurves();
+		for (int i = 0; i < curves.size(); i++) {
+			Curve curve = curves.get(i);
 			message.append("\n\n");
 			message.append(LineString.class.getSimpleName() + " " + (i + 1));
 			message.append("\n");
-			addLineStringMessage(message, lineString);
+			addCurveMessage(message, curve);
 		}
 	}
 
@@ -232,13 +232,13 @@ public class GeometryPrinter {
 	 */
 	private static void addPolyhedralSurfaceMessage(StringBuilder message,
 			PolyhedralSurface polyhedralSurface) {
-		message.append(SimplePolygon.class.getSimpleName() + "s: "
+		message.append(Polygon.class.getSimpleName() + "s: "
 				+ polyhedralSurface.numPolygons());
 		List<Polygon> polygons = polyhedralSurface.getPolygons();
 		for (int i = 0; i < polygons.size(); i++) {
 			Polygon polygon = polygons.get(i);
 			message.append("\n\n");
-			message.append(SimplePolygon.class.getSimpleName() + " " + (i + 1));
+			message.append(Polygon.class.getSimpleName() + " " + (i + 1));
 			message.append("\n");
 			addPolygonMessage(message, polygon);
 		}

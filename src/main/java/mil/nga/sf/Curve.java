@@ -1,42 +1,84 @@
 package mil.nga.sf;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Curve extends Orientable {
+public abstract class Curve extends Geometry {
 
 	/**
-	 * Get the positions
-	 * 
-	 * @return positions
+	 * List of points
 	 */
-	List<Position> getPositions();
+	private List<Point> points = new ArrayList<Point>();
 
 	/**
-	 * Set the positions
+	 * Constructor for overrides
 	 * 
-	 * @param positions
-	 *            positions
+	 * @param type
+	 *            geometry type
+	 * @param hasZ
+	 *            has z
+	 * @param hasM
+	 *            has m
 	 */
-	void setPositions(List<Position> positions);
+	protected Curve(GeometryType type, boolean hasZ, boolean hasM) {
+		super(type, hasZ, hasM);
+	}
 
 	/**
-	 * Add a position
+	 * Get the points
 	 * 
-	 * @param pos
-	 *            position
+	 * @return points
 	 */
-	void addPosition(Position pos);
+	public List<Point> getPoints(){
+		return points;
+	}
 
 	/**
-	 * Get the number of positions
+	 * Set the points
 	 * 
-	 * @return number of positions
+	 * @param points
+	 *            points
 	 */
-	int numPositions();
+	public void setPoints(List<Point> points){
+		this.points.clear();
+		if(points != null){
+			this.points.addAll(points);
+		}
+	}
+
+	/**
+	 * Add a point
+	 * 
+	 * @param point
+	 *            point
+	 */
+	public void addPoint(Point point){
+		points.add(point);
+	}
+
+	/**
+	 * Get the number of points
+	 * 
+	 * @return number of points
+	 */
+	public int numPoints(){
+		return points.size();
+	}
 
 	/**
 	 * 
 	 * @return true: is a (closed) ring
 	 */
-	boolean isRing();
+	public boolean isRing(){
+		if (isEmpty()){
+			return false;
+		} else {
+			return points.get(0).equals(points.get(points.size() - 1));
+		}
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return points.isEmpty();
+	}
 }

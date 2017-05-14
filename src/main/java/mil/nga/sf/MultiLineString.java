@@ -2,35 +2,31 @@ package mil.nga.sf;
 
 import java.util.List;
 
-public interface MultiLineString extends GeometryCollection<LineString> {
+import mil.nga.sf.util.PointUtils;
+
+public class MultiLineString extends GeometryCollection<LineString> {
 
 	/**
-	 * Get the line strings
+	 * Constructor
 	 * 
-	 * @return line strings
+	 * @param hasZ
+	 *            has z
+	 * @param hasM
+	 *            has m
 	 */
-	public List<LineString> getLineStrings();
+	public MultiLineString(boolean hasZ, boolean hasM) {
+		super(GeometryType.MULTILINESTRING, hasZ, hasM);
+	}
 
 	/**
-	 * Set the line string
+	 * Constructor, which uses contents of provided lineStrings
+	 * to determine hasZ and hasM
 	 * 
-	 * @param lineStrings
-	 *            line strings
+	 * @param lineStrings 
+	 *        lineStrings
 	 */
-	public void setLineStrings(List<LineString> lineStrings);
-
-	/**
-	 * Add a line string
-	 * 
-	 * @param lineString
-	 *            line string
-	 */
-	public void addLineString(LineString lineString);
-
-	/**
-	 * Get the number of line strings
-	 * 
-	 * @return number of line strings
-	 */
-	public int numLineStrings();
+	public MultiLineString(List<LineString> lineStrings) {
+		super(GeometryType.MULTILINESTRING, PointUtils.hasZ(lineStrings), PointUtils.hasM(lineStrings));
+		setGeometries(lineStrings);
+	}
 }

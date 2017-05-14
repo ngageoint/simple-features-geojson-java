@@ -2,35 +2,30 @@ package mil.nga.sf;
 
 import java.util.List;
 
-public interface MultiPolygon extends GeometryCollection<Polygon> {
+import mil.nga.sf.util.PointUtils;
 
+public class MultiPolygon extends GeometryCollection<Polygon> {
+	
 	/**
-	 * Get the polygons
+	 * Constructor
 	 * 
-	 * @return polygons
+	 * @param hasZ
+	 *            has z
+	 * @param hasM
+	 *            has m
 	 */
-	public List<Polygon> getPolygons();
+	public MultiPolygon(boolean hasZ, boolean hasM) {
+		super(GeometryType.MULTIPOLYGON, hasZ, hasM);
+	}
 
 	/**
-	 * Set the polygons
+	 * Constructor
 	 * 
 	 * @param polygons
-	 *            polygons
+	 *            A list of polygons, which will be used to determine hasZ and hasM
 	 */
-	public void setPolygons(List<Polygon> polygons);
-
-	/**
-	 * Add a polygon
-	 * 
-	 * @param polygon
-	 *            polygon
-	 */
-	public void addPolygon(Polygon polygon);
-
-	/**
-	 * Get the number of polygons
-	 * 
-	 * @return number of polygons
-	 */
-	public int numPolygons();
+	public MultiPolygon(List<Polygon> polygons) {
+		super(GeometryType.MULTIPOLYGON, PointUtils.hasZ(polygons), PointUtils.hasM(polygons));
+		setGeometries(polygons);
+	}
 }

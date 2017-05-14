@@ -2,15 +2,15 @@ package mil.nga.sf.util;
 
 import java.util.List;
 
-import mil.nga.sf.Position;
+import mil.nga.sf.Point;
 
-public class PositionUtils {
+public class PointUtils {
 	
 	public static <T> boolean hasZ(List<T> input){
 		boolean result = false;
 		for(T tobject : input){
-			if (tobject instanceof Position){
-				if (((Position)tobject).getZ() != null) {
+			if (tobject instanceof Point){
+				if (((Point)tobject).getZ() != null) {
 					result = true;
 					break;
 				}
@@ -27,8 +27,8 @@ public class PositionUtils {
 	public static <T> boolean hasM(List<T> input){
 		boolean result = false;
 		for(T tobject : input){
-			if (tobject instanceof Position){
-				if (((Position)tobject).getM() != null) {
+			if (tobject instanceof Point){
+				if (((Point)tobject).getM() != null) {
 					result = true;
 					break;
 				}

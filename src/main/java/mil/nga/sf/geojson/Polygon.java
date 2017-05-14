@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import mil.nga.sf.util.PositionUtils;
+import mil.nga.sf.util.PointUtils;
 
 public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List<Position>> {
 
@@ -34,7 +34,7 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 		List<List<Position>> result = new ArrayList<List<Position>>();
 		for(mil.nga.sf.SimpleLinearRing ring : polygon.getRings()){
 			List<Position> positions = new ArrayList<Position>();
-			for(mil.nga.sf.Position pos : ring.getPositions()){
+			for(mil.nga.sf.Position pos : ring.getPoints()){
 				positions.add(new Position(pos));
 			}
 			result.add(positions);
@@ -53,8 +53,8 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 			for (Position position: ringPositions){
 				positions.add(position);
 			}
-			mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
-			ring.setPositions(positions);
+			mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PointUtils.hasZ(positions), PointUtils.hasM(positions));
+			ring.getPoints(positions);
 			rings.add(ring);
 		}
 		if (polygon == null){

@@ -5,7 +5,7 @@ package mil.nga.sf;
  * 
  * @author osbornb
  */
-public class CircularString extends SimpleLineString {
+public class CircularString extends LineString {
 
 	/**
 	 * Constructor

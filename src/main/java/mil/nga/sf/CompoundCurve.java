@@ -8,12 +8,12 @@ import java.util.List;
  * 
  * @author osbornb
  */
-public class CompoundCurve extends AbstractCurve {
+public class CompoundCurve extends Curve {
 
 	/**
-	 * List of line strings
+	 * List of curves
 	 */
-	private List<SimpleLineString> lineStrings = new ArrayList<SimpleLineString>();
+	private List<Curve> curves = new ArrayList<Curve>();
 
 	/**
 	 * Constructor
@@ -32,42 +32,41 @@ public class CompoundCurve extends AbstractCurve {
 	 * 
 	 * @return line strings
 	 */
-	public List<SimpleLineString> getLineStrings() {
-		return lineStrings;
+	public List<Curve> getCurves() {
+		return curves;
 	}
 
 	/**
-	 * Set the line strings
+	 * Set the curves
 	 * 
-	 * @param lineStrings
-	 *            line strings
+	 * @param curves
+	 *            surves
 	 */
-	public void setLineStrings(List<SimpleLineString> lineStrings) {
-		this.lineStrings = lineStrings;
+	public void setCurves(List<Curve> curves) {
+		this.curves = curves;
 	}
 
 	/**
 	 * Add a line string
 	 * 
-	 * @param lineString
+	 * @param curve
 	 *            line string
 	 */
-	public void addLineString(SimpleLineString lineString) {
-		lineStrings.add(lineString);
+	public void addCurve(Curve curve) {
+		curves.add(curve);
 	}
 
 	/**
-	 * Get the number of line strings
+	 * Get the number of curves
 	 * 
-	 * @return number of line strings
+	 * @return number of curves
 	 */
-	public int numLineStrings() {
-		return lineStrings.size();
+	public int numCurves() {
+		return curves.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return lineStrings.isEmpty();
+		return curves.isEmpty();
 	}
-
 }

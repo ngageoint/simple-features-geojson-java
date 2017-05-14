@@ -1,33 +1,70 @@
 package mil.nga.sf;
 
-public interface Geometry {
+/**
+ * The root of the geometry type hierarchy
+ * 
+ * @author osbornb
+ */
+public abstract class Geometry {
 
 	/**
-	 * Get the geometry type
+	 * Geometry type
+	 */
+	private final GeometryType geometryType;
+
+	/**
+	 * Has z coordinates
+	 */
+	private final boolean hasZ;
+
+	/**
+	 * Has m values
+	 */
+	private final boolean hasM;
+
+	/**
+	 * Constructor for overrides
 	 * 
+	 * @param type
+	 *            geometry type
+	 * @param hasZ
+	 *            has z
+	 * @param hasM
+	 *            has m
+	 */
+	protected Geometry(GeometryType geometryType, boolean hasZ, boolean hasM) {
+		this.geometryType = geometryType;
+		this.hasZ = hasZ;
+		this.hasM = hasM;
+	}
+
+	/**
+	 * geometry type
 	 * @return geometry type
 	 */
-	GeometryType getGeometryType();
+	public GeometryType getGeometryType() {
+		return geometryType;
+	}
 
 	/**
-	 * Does the geometry have z coordinates
 	 * 
-	 * @return true if has z coordinates
+	 * @return true: has Z value
 	 */
-	boolean hasZ();
+	public boolean hasZ() {
+		return hasZ;
+	}
 
 	/**
-	 * Does the geometry have m coordinates
 	 * 
-	 * @return true if has m coordinates
+	 * @return true: has M value
 	 */
-	boolean hasM();
+	public boolean hasM() {
+		return hasM;
+	}
 
 	/**
-	 * Is the geometry empty?
 	 * 
-	 * @return true if it is empty
+	 * @return true: geometry is empty
 	 */
-	boolean isEmpty();
-
+	public abstract boolean isEmpty();
 }

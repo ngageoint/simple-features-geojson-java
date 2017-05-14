@@ -37,7 +37,7 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Position> getCoordinates() {
 		List<Position> positions = new ArrayList<Position>();
-		for(mil.nga.sf.Position pos : lineString.getPositions()){
+		for(mil.nga.sf.Position pos : lineString.getPoints()){
 			positions.add(new Position(pos));
 		}
 		return positions;
@@ -51,7 +51,7 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 		if (lineString == null) {
 			lineString = new mil.nga.sf.SimpleLineString(positions);
 		} else {
-			lineString.setPositions(positions);
+			lineString.getPoints(positions);
 		}
 	}
 

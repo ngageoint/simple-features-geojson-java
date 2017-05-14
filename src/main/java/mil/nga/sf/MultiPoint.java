@@ -1,9 +1,8 @@
 package mil.nga.sf;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import mil.nga.sf.util.PositionUtils;
+import mil.nga.sf.util.PointUtils;
 
 /**
  * A restricted form of GeometryCollection where each Geometry in the collection
@@ -11,9 +10,7 @@ import mil.nga.sf.util.PositionUtils;
  * 
  * @author osbornb
  */
-public class MultiPoint extends AbstractGeometry {
-
-	private List<Position> positions = new ArrayList<Position>();
+public class MultiPoint extends GeometryCollection<Point> {
 	
 	/**
 	 * Constructor
@@ -30,54 +27,11 @@ public class MultiPoint extends AbstractGeometry {
 	/**
 	 * Constructor
 	 * 
-	 * @param positions
-	 *            A list of positions, which will be used to determine hasZ and hasM
+	 * @param points
+	 *            A list of points, which will be used to determine hasZ and hasM
 	 */
-	public MultiPoint(List<Position> positions) {
-		super(GeometryType.MULTIPOINT, PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
-		setPositions(positions);
+	public MultiPoint(List<Point> points) {
+		super(GeometryType.MULTIPOINT, PointUtils.hasZ(points), PointUtils.hasM(points));
+		setGeometries(points);
 	}
-
-	/**
-	 * Add a position
-	 * 
-	 * @param pos
-	 *            position
-	 */
-	public void addPosition(Position pos) {
-		this.positions.add(pos);
-	}
-
-	/**
-	 * Get the number of positions
-	 * 
-	 * @return number of positions
-	 */
-	public int numPositions() {
-		return this.positions.size();
-	}
-
-	/**
-	 * Get the positions
-	 * 
-	 * @return the positions
-	 */
-	public List<Position> getPositions() {
-		return positions;
-	}
-
-	/**
-	 * Set the positions
-	 * 
-	 * @param positions the positions to set
-	 */
-	public void setPositions(List<Position> positions) {
-		this.positions = positions;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return this.positions.isEmpty();
-	}
-
 }

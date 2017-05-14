@@ -5,18 +5,14 @@ import java.net.URISyntaxException;
 import java.nio.ByteOrder;
 
 import junit.framework.TestCase;
+import mil.nga.sf.Polygon;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.SimpleGeometryCollection;
 import mil.nga.sf.LineString;
-import mil.nga.sf.SimpleLineString;
-import mil.nga.sf.SimpleMultiLineString;
+import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
-import mil.nga.sf.SimpleMultiPolygon;
+import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
-import mil.nga.sf.Polygon;
-import mil.nga.sf.SimplePoint;
-import mil.nga.sf.SimplePolygon;
-import mil.nga.sf.Position;
 import mil.nga.sf.util.ByteReader;
 import mil.nga.sf.wkb.GeometryReader;
 
@@ -49,11 +45,10 @@ public class WKBTest {
 		byte[] bytes = java.nio.file.Files.readAllBytes(resPath);
 		Geometry simpleGeometry = GeometryReader.readGeometry(new ByteReader(bytes));
 		TestCase.assertNotNull(simpleGeometry);
-		TestCase.assertTrue(simpleGeometry instanceof SimplePoint);
+		TestCase.assertTrue(simpleGeometry instanceof Point);
 		Point simplePoint = (Point)simpleGeometry;
-		Position position = simplePoint.getPosition();
-		TestCase.assertEquals(position.getX(), 1.0d);
-		TestCase.assertEquals(position.getY(), 2.0d);
+		TestCase.assertEquals(simplePoint.getX(), 1.0d);
+		TestCase.assertEquals(simplePoint.getY(), 2.0d);
 	}
 
 	@Test
@@ -61,7 +56,7 @@ public class WKBTest {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a point
-			SimplePoint simplePoint = WKBTestUtils.createPoint(WKBTestUtils.coinFlip(),
+			Point simplePoint = WKBTestUtils.createPoint(WKBTestUtils.coinFlip(),
 					WKBTestUtils.coinFlip());
 			geometryTester(simplePoint);
 		}
@@ -74,17 +69,17 @@ public class WKBTest {
 		java.net.URL url = ClassLoader.getSystemResource("linestring.wkb");
 		java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
 		byte[] bytes = java.nio.file.Files.readAllBytes(resPath);
-		Geometry simpleGeometry = GeometryReader.readGeometry(new ByteReader(bytes));
-		TestCase.assertNotNull(simpleGeometry);
-		TestCase.assertTrue(simpleGeometry instanceof LineString);
-		SimpleLineString ls = (SimpleLineString)simpleGeometry;
-		TestCase.assertEquals(ls.getPositions().size(), 2);
-		Position position = ls.getPositions().get(0);
-		TestCase.assertEquals(position.getX(), 1.0d);
-		TestCase.assertEquals(position.getY(), 2.0d);
-		Position position2 = ls.getPositions().get(1);
-		TestCase.assertEquals(position2.getX(), 3.0d);
-		TestCase.assertEquals(position2.getY(), 4.0d);
+		Geometry geometry = GeometryReader.readGeometry(new ByteReader(bytes));
+		TestCase.assertNotNull(geometry);
+		TestCase.assertTrue(geometry instanceof LineString);
+		LineString ls = (LineString)geometry;
+		TestCase.assertEquals(ls.getPoints().size(), 2);
+		Point point = ls.getPoints().get(0);
+		TestCase.assertEquals(point.getX(), 1.0d);
+		TestCase.assertEquals(point.getY(), 2.0d);
+		Point point2 = ls.getPoints().get(1);
+		TestCase.assertEquals(point2.getX(), 3.0d);
+		TestCase.assertEquals(point2.getY(), 4.0d);
 	}
 
 	@Test
@@ -133,13 +128,13 @@ public class WKBTest {
 		TestCase.assertNotNull(simpleGeometry);
 		TestCase.assertTrue(simpleGeometry instanceof MultiPoint);
 		MultiPoint mp = (MultiPoint)simpleGeometry;
-		TestCase.assertEquals(mp.getPositions().size(), 2);
-		Position position = mp.getPositions().get(0);
-		TestCase.assertEquals(position.getX(), 0.0d);
-		TestCase.assertEquals(position.getY(), 1.0d);
-		Position position2 = mp.getPositions().get(1);
-		TestCase.assertEquals(position2.getX(), 2.0d);
-		TestCase.assertEquals(position2.getY(), 3.0d);
+		TestCase.assertEquals(mp.getGeometries().size(), 2);
+		Point point = mp.getGeometries().get(0);
+		TestCase.assertEquals(point.getX(), 0.0d);
+		TestCase.assertEquals(point.getY(), 1.0d);
+		Point point2 = mp.getGeometries().get(1);
+		TestCase.assertEquals(point2.getX(), 2.0d);
+		TestCase.assertEquals(point2.getY(), 3.0d);
 	}
 
 	@Test
@@ -147,7 +142,7 @@ public class WKBTest {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a multi line string
-			SimpleMultiLineString multiLineString = WKBTestUtils
+			MultiLineString multiLineString = WKBTestUtils
 					.createMultiLineString(WKBTestUtils.coinFlip(),
 							WKBTestUtils.coinFlip());
 			geometryTester(multiLineString);
@@ -160,7 +155,7 @@ public class WKBTest {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a multi polygon
-			SimpleMultiPolygon multiPolygon = WKBTestUtils.createMultiPolygon(
+			MultiPolygon multiPolygon = WKBTestUtils.createMultiPolygon(
 					WKBTestUtils.coinFlip(), WKBTestUtils.coinFlip());
 			geometryTester(multiPolygon);
 		}
@@ -175,11 +170,11 @@ public class WKBTest {
 		byte[] bytes = java.nio.file.Files.readAllBytes(resPath);
 		Geometry simpleGeometry = GeometryReader.readGeometry(new ByteReader(bytes));
 		TestCase.assertNotNull(simpleGeometry);
-		TestCase.assertTrue(simpleGeometry instanceof SimpleGeometryCollection<?>);
-		SimpleGeometryCollection<Geometry> gc = (SimpleGeometryCollection<Geometry>)simpleGeometry;
+		TestCase.assertTrue(simpleGeometry instanceof SimpleGeometryCollection);
+		SimpleGeometryCollection gc = (SimpleGeometryCollection)simpleGeometry;
 		TestCase.assertEquals(gc.numGeometries(), 6);
 		Geometry g0 = gc.getGeometries().get(0);
-		TestCase.assertTrue(g0 instanceof SimplePoint);
+		TestCase.assertTrue(g0 instanceof Point);
 		Geometry g1 = gc.getGeometries().get(1);
 		TestCase.assertTrue(g1 instanceof LineString);
 		Geometry g2 = gc.getGeometries().get(2);
@@ -187,9 +182,9 @@ public class WKBTest {
 		Geometry g3 = gc.getGeometries().get(3);
 		TestCase.assertTrue(g3 instanceof MultiPoint);
 		Geometry g4 = gc.getGeometries().get(4);
-		TestCase.assertTrue(g4 instanceof SimpleMultiLineString);
+		TestCase.assertTrue(g4 instanceof MultiLineString);
 		Geometry g5 = gc.getGeometries().get(5);
-		TestCase.assertTrue(g5 instanceof SimpleMultiPolygon);
+		TestCase.assertTrue(g5 instanceof MultiPolygon);
 	}
 
 	@Test
@@ -202,13 +197,13 @@ public class WKBTest {
 		TestCase.assertNotNull(simpleGeometry);
 		TestCase.assertTrue(simpleGeometry instanceof MultiPoint);
 		MultiPoint mp = (MultiPoint)simpleGeometry;
-		TestCase.assertEquals(mp.getPositions().size(), 2);
-		Position position = mp.getPositions().get(0);
-		TestCase.assertEquals(position.getX(), 0.0d);
-		TestCase.assertEquals(position.getY(), 1.0d);
-		Position position2 = mp.getPositions().get(1);
-		TestCase.assertEquals(position2.getX(), 2.0d);
-		TestCase.assertEquals(position2.getY(), 3.0d);
+		TestCase.assertEquals(mp.getGeometries().size(), 2);
+		Point point = mp.getGeometries().get(0);
+		TestCase.assertEquals(point.getX(), 0.0d);
+		TestCase.assertEquals(point.getY(), 1.0d);
+		Point point2 = mp.getGeometries().get(1);
+		TestCase.assertEquals(point2.getX(), 2.0d);
+		TestCase.assertEquals(point2.getY(), 3.0d);
 	}
 
 	@Test
@@ -216,7 +211,7 @@ public class WKBTest {
 
 		for (int i = 0; i < GEOMETRIES_PER_TEST; i++) {
 			// Create and test a geometry collection
-			SimpleGeometryCollection<Geometry> geometryCollection = WKBTestUtils
+			SimpleGeometryCollection geometryCollection = WKBTestUtils
 					.createGeometryCollection(WKBTestUtils.coinFlip(),
 							WKBTestUtils.coinFlip());
 			geometryTester(geometryCollection);

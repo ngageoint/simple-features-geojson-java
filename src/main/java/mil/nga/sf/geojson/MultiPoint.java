@@ -30,7 +30,7 @@ public class MultiPoint extends GeoJsonObject implements Geometry, Coordinates<P
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Position> getCoordinates() {
 		List<Position> positions = new ArrayList<Position>();
-		for(mil.nga.sf.Position pos : multiPoint.getPositions()){
+		for(mil.nga.sf.Position pos : multiPoint.getPoints()){
 			positions.add(new Position(pos));
 		}
 		return positions;
@@ -48,7 +48,7 @@ public class MultiPoint extends GeoJsonObject implements Geometry, Coordinates<P
 		if (multiPoint == null) {
 			multiPoint = new mil.nga.sf.MultiPoint(positions);
 		} else {
-			multiPoint.setPositions(positions);
+			multiPoint.getPoints(positions);
 		}
 	}
 

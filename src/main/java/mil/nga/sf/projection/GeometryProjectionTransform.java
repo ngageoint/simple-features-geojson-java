@@ -2,21 +2,18 @@ package mil.nga.sf.projection;
 
 import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
+import mil.nga.sf.Curve;
+import mil.nga.sf.Polygon;
 import mil.nga.sf.Geometry;
-import mil.nga.sf.AbstractGeometry;
 import mil.nga.sf.SimpleGeometryCollection;
 import mil.nga.sf.GeometryType;
-import mil.nga.sf.SimpleLineString;
-import mil.nga.sf.SimpleLinearRing;
-import mil.nga.sf.SimpleMultiLineString;
+import mil.nga.sf.LineString;
+import mil.nga.sf.LinearRing;
+import mil.nga.sf.MultiLineString;
 import mil.nga.sf.MultiPoint;
-import mil.nga.sf.SimpleMultiPolygon;
+import mil.nga.sf.MultiPolygon;
 import mil.nga.sf.Point;
-import mil.nga.sf.Polygon;
-import mil.nga.sf.SimplePoint;
-import mil.nga.sf.SimplePolygon;
 import mil.nga.sf.PolyhedralSurface;
-import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
 import mil.nga.sf.Triangle;
 import mil.nga.sf.util.SFException;
@@ -48,51 +45,50 @@ public class GeometryProjectionTransform {
 	/**
 	 * Transform the geometry
 	 * 
-	 * @param simpleGeometry
+	 * @param geometry
 	 * @return projected geometry
 	 */
-	public AbstractGeometry transform(Geometry simpleGeometry) {
+	public Geometry transform(Geometry geometry) {
 
-		AbstractGeometry to = null;
+		Geometry to = null;
 
-		GeometryType geometryType = simpleGeometry.getGeometryType();
+		GeometryType geometryType = geometry.getGeometryType();
 		switch (geometryType) {
 		case POINT:
-			to = transform((Point) simpleGeometry);
+			to = transform((Point) geometry);
 			break;
 		case LINESTRING:
-			to = transform((SimpleLineString) simpleGeometry);
+			to = transform((LineString) geometry);
 			break;
 		case POLYGON:
-			to = transform((SimplePolygon) simpleGeometry);
+			to = transform((Polygon) geometry);
 			break;
 		case MULTIPOINT:
-			to = transform((MultiPoint) simpleGeometry);
+			to = transform((MultiPoint) geometry);
 			break;
 		case MULTILINESTRING:
-			to = transform((SimpleMultiLineString) simpleGeometry);
+			to = transform((MultiLineString) geometry);
 			break;
 		case MULTIPOLYGON:
-			to = transform((SimpleMultiPolygon) simpleGeometry);
+			to = transform((MultiPolygon) geometry);
 			break;
 		case CIRCULARSTRING:
-			to = transform((CircularString) simpleGeometry);
+			to = transform((CircularString) geometry);
 			break;
 		case COMPOUNDCURVE:
-			to = transform((CompoundCurve) simpleGeometry);
+			to = transform((CompoundCurve) geometry);
 			break;
 		case POLYHEDRALSURFACE:
-			to = transform((PolyhedralSurface) simpleGeometry);
+			to = transform((PolyhedralSurface) geometry);
 			break;
 		case TIN:
-			to = transform((TIN) simpleGeometry);
+			to = transform((TIN) geometry);
 			break;
 		case TRIANGLE:
-			to = transform((Triangle) simpleGeometry);
+			to = transform((Triangle) geometry);
 			break;
 		case GEOMETRYCOLLECTION:
-			@SuppressWarnings("unchecked")
-			SimpleGeometryCollection<AbstractGeometry> toCollection = transform((SimpleGeometryCollection<AbstractGeometry>) simpleGeometry);
+			SimpleGeometryCollection toCollection = transform((SimpleGeometryCollection) geometry);
 			to = toCollection;
 			break;
 		default:
@@ -104,12 +100,12 @@ public class GeometryProjectionTransform {
 	}
 
 	/**
-	 * Transform the projected position
+	 * Transform the projected point
 	 * 
 	 * @param from
 	 * @return projected from
 	 */
-	public Position transform(Position from) {
+	public Point transform(Point from) {
 
 		ProjCoordinate fromCoord;
 		if (from.hasZ()) {
@@ -124,20 +120,27 @@ public class GeometryProjectionTransform {
 		Double emm = from.hasM() ? from.getM() : null;
 		Double alt = from.hasZ() ? (Double.isNaN(toCoord.z) ? from.getZ() : toCoord.z) : null;
 
-		Position to = new Position(toCoord.x, toCoord.y, emm, alt);
+		Point to = new Point(toCoord.x, toCoord.y, emm, alt);
 
 		return to;
 	}
 
 	/**
-	 * Transform the projected point
+	 * Transform the projected line string
 	 * 
-	 * @param simplePoint
-	 * @return projected point
+	 * @param curve
+	 * @return projected line string
 	 */
-	public SimplePoint transform(Point simplePoint) {
+	public Curve transform(Curve curve) {
 
-		return new SimplePoint(transform(simplePoint.getPosition()));
+		Curve to = new LineString(curve.hasZ(), curve.hasM());
+
+		for (Point point : curve.getPoints()) {
+			Point toPoint = transform(point);
+			to.addPoint(toPoint);
+		}
+
+		return to;
 	}
 
 	/**
@@ -146,16 +149,22 @@ public class GeometryProjectionTransform {
 	 * @param lineString
 	 * @return projected line string
 	 */
-	public SimpleLineString transform(SimpleLineString lineString) {
+	public LineString transform(LineString lineString) {
 
-		SimpleLineString to = new SimpleLineString(lineString.hasZ(), lineString.hasM());
-
-		for (Position position : lineString.getPositions()) {
-			Position toPosition = transform(position);
-			to.addPosition(toPosition);
-		}
+		LineString to = (LineString)transform((Curve)lineString);
 
 		return to;
+	}
+
+	/**
+	 * Transform the projected linear ring
+	 * 
+	 * @param linearRing
+	 * @return projected linear ring
+	 */
+	public LinearRing transform(LinearRing linearRing) {
+
+		return new LinearRing(transform((Curve)linearRing));
 	}
 
 	/**
@@ -164,12 +173,12 @@ public class GeometryProjectionTransform {
 	 * @param polygon
 	 * @return projected polygon
 	 */
-	public SimplePolygon transform(SimplePolygon polygon) {
+	public Polygon transform(Polygon polygon) {
 
-		SimplePolygon to = new SimplePolygon(polygon.hasZ(), polygon.hasM());
+		Polygon to = new Polygon(polygon.hasZ(), polygon.hasM());
 
-		for (SimpleLinearRing ring : polygon.getRings()) {
-			SimpleLinearRing toRing = new SimpleLinearRing(transform(ring));
+		for (LinearRing ring : polygon.getRings()) {
+			LinearRing toRing = new LinearRing(transform(ring));
 			to.addRing(toRing);
 		}
 
@@ -186,9 +195,9 @@ public class GeometryProjectionTransform {
 
 		MultiPoint to = new MultiPoint(multiPoint.hasZ(), multiPoint.hasM());
 
-		for (Position position : multiPoint.getPositions()) {
-			Position toPosition = transform(position);
-			to.addPosition(toPosition);
+		for (Point point : multiPoint.getGeometries()) {
+			Point toPoint = transform(point);
+			to.addGeometry(toPoint);
 		}
 
 		return to;
@@ -200,14 +209,14 @@ public class GeometryProjectionTransform {
 	 * @param multiLineString
 	 * @return projected multi line string
 	 */
-	public SimpleMultiLineString transform(SimpleMultiLineString multiLineString) {
+	public MultiLineString transform(MultiLineString multiLineString) {
 
-		SimpleMultiLineString to = new SimpleMultiLineString(multiLineString.hasZ(),
+		MultiLineString to = new MultiLineString(multiLineString.hasZ(),
 				multiLineString.hasM());
 
-		for (SimpleLineString lineString : multiLineString.getLineStrings()) {
-			SimpleLineString toLineString = transform(lineString);
-			to.addLineString(toLineString);
+		for (LineString lineString : multiLineString.getGeometries()) {
+			LineString toLineString = transform(lineString);
+			to.addGeometry(toLineString);
 		}
 
 		return to;
@@ -219,14 +228,14 @@ public class GeometryProjectionTransform {
 	 * @param multiPolygon
 	 * @return projected multi polygon
 	 */
-	public SimpleMultiPolygon transform(SimpleMultiPolygon multiPolygon) {
+	public MultiPolygon transform(MultiPolygon multiPolygon) {
 
-		SimpleMultiPolygon to = new SimpleMultiPolygon(multiPolygon.hasZ(),
+		MultiPolygon to = new MultiPolygon(multiPolygon.hasZ(),
 				multiPolygon.hasM());
 
-		for (SimplePolygon polygon : multiPolygon.getPolygons()) {
+		for (Polygon polygon : multiPolygon.getGeometries()) {
 			Polygon toPolygon = transform(polygon);
-			to.addPolygon(toPolygon);
+			to.addGeometry(toPolygon);
 		}
 
 		return to;
@@ -243,28 +252,9 @@ public class GeometryProjectionTransform {
 		CircularString to = new CircularString(circularString.hasZ(),
 				circularString.hasM());
 
-		for (Position position : circularString.getPositions()) {
-			Position toPosition = transform(position);
-			to.addPosition(toPosition);
-		}
-
-		return to;
-	}
-
-	/**
-	 * Transform the projected compound curve
-	 * 
-	 * @param compoundCurve
-	 * @return projected compound curve
-	 */
-	public CompoundCurve transform(CompoundCurve compoundCurve) {
-
-		CompoundCurve to = new CompoundCurve(compoundCurve.hasZ(),
-				compoundCurve.hasM());
-
-		for (SimpleLineString lineString : compoundCurve.getLineStrings()) {
-			SimpleLineString toLineString = transform(lineString);
-			to.addLineString(toLineString);
+		for (Point point : circularString.getPoints()) {
+			Point toPoint = transform(point);
+			to.addPoint(toPoint);
 		}
 
 		return to;
@@ -281,8 +271,8 @@ public class GeometryProjectionTransform {
 		PolyhedralSurface to = new PolyhedralSurface(polyhedralSurface.hasZ(),
 				polyhedralSurface.hasM());
 
-		for (SimplePolygon polygon : polyhedralSurface.getPolygons()) {
-			SimplePolygon toPolygon = transform(polygon);
+		for (Polygon polygon : polyhedralSurface.getPolygons()) {
+			Polygon toPolygon = transform(polygon);
 			to.addPolygon(toPolygon);
 		}
 
@@ -299,8 +289,8 @@ public class GeometryProjectionTransform {
 
 		TIN to = new TIN(tin.hasZ(), tin.hasM());
 
-		for (SimplePolygon polygon : tin.getPolygons()) {
-			SimplePolygon toPolygon = transform(polygon);
+		for (Polygon polygon : tin.getPolygons()) {
+			Polygon toPolygon = transform(polygon);
 			to.addPolygon(toPolygon);
 		}
 
@@ -317,8 +307,8 @@ public class GeometryProjectionTransform {
 
 		Triangle to = new Triangle(triangle.hasZ(), triangle.hasM());
 
-		for (SimpleLineString ring : triangle.getRings()) {
-			SimpleLinearRing toRing = new SimpleLinearRing(transform(ring));
+		for (LinearRing ring : triangle.getRings()) {
+			LinearRing toRing = new LinearRing(transform(ring));
 			to.addRing(toRing);
 		}
 
@@ -331,14 +321,14 @@ public class GeometryProjectionTransform {
 	 * @param geometryCollection
 	 * @return projected geometry collection
 	 */
-	public SimpleGeometryCollection<AbstractGeometry> transform(
-			SimpleGeometryCollection<AbstractGeometry> geometryCollection) {
+	public SimpleGeometryCollection transform(
+			SimpleGeometryCollection geometryCollection) {
 
-		SimpleGeometryCollection<AbstractGeometry> to = new SimpleGeometryCollection<AbstractGeometry>(
+		SimpleGeometryCollection to = new SimpleGeometryCollection(
 				geometryCollection.hasZ(), geometryCollection.hasM());
 
-		for (Geometry simpleGeometry : geometryCollection.getGeometries()) {
-			AbstractGeometry toGeometry = transform(simpleGeometry);
+		for (Geometry geometry : geometryCollection.getGeometries()) {
+			Geometry toGeometry = transform(geometry);
 			to.addGeometry(toGeometry);
 		}
 

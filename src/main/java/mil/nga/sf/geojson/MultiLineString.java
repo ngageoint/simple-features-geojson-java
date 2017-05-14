@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import mil.nga.sf.util.PositionUtils;
+import mil.nga.sf.util.PointUtils;
 
 public class MultiLineString  extends GeoJsonObject implements Geometry, Coordinates<List<Position>> {
 
@@ -32,9 +32,9 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<Position>> getCoordinates() {
 		List<List<Position>> result = new ArrayList<List<Position>>();
-		for(mil.nga.sf.SimpleLineString lineString : multiLineString.getLineStrings()){
+		for(mil.nga.sf.SimpleLineString lineString : multiLineString.getCurves()){
 			List<Position> positions = new ArrayList<Position>();
-			for(mil.nga.sf.Position pos : lineString.getPositions()){
+			for(mil.nga.sf.Position pos : lineString.getPoints()){
 				positions.add(new Position(pos));
 			}
 			result.add(positions);
@@ -53,14 +53,14 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 			for (Position position: lineStringPositions){
 				positions.add(position);
 			}
-			mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
-			ring.setPositions(positions);
+			mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PointUtils.hasZ(positions), PointUtils.hasM(positions));
+			ring.getPoints(positions);
 			lineStrings.add(ring);
 		}
 		if (multiLineString == null){
 			multiLineString = new mil.nga.sf.SimpleMultiLineString(lineStrings);
 		} else {
-			multiLineString.setLineStrings(lineStrings);
+			multiLineString.setCurves(lineStrings);
 		}
 	}
 

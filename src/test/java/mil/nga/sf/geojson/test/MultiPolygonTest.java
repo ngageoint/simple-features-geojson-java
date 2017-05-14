@@ -102,7 +102,7 @@ public class MultiPolygonTest {
 		List<SimpleLinearRing> rings = polygon.getRings();
 		assertTrue(rings.size() == 1);
 		mil.nga.sf.SimpleLinearRing ring = rings.get(0);
-		List<mil.nga.sf.Position> positions = ring.getPositions();
+		List<mil.nga.sf.Position> positions = ring.getPoints();
 		TestUtils.assertPosition(100d, 10d, null, null, positions.get(0));
 		TestUtils.assertPosition(101d,  1d, null, null, positions.get(1));
 		TestUtils.assertPosition(101d, 10d, null, null, positions.get(2));
@@ -124,7 +124,7 @@ public class MultiPolygonTest {
 		List<SimpleLinearRing> rings = polygon.getRings();
 		assertTrue(rings.size() == 1);
 		mil.nga.sf.SimpleLinearRing ring = rings.get(0);
-		List<mil.nga.sf.Position> positions = ring.getPositions();
+		List<mil.nga.sf.Position> positions = ring.getPoints();
 		TestUtils.assertPosition(100d, 10d,  5d, null, positions.get(0));
 		TestUtils.assertPosition(101d,  1d, 10d, null, positions.get(1));
 		TestUtils.assertPosition(101d, 10d, 15d, null, positions.get(2));
@@ -146,13 +146,13 @@ public class MultiPolygonTest {
 		List<SimpleLinearRing> rings = polygon.getRings();
 		assertTrue(rings.size() == 2);
 		mil.nga.sf.SimpleLinearRing ring = rings.get(0);
-		List<mil.nga.sf.Position> positions = ring.getPositions();
+		List<mil.nga.sf.Position> positions = ring.getPoints();
 		TestUtils.assertPosition(-100d, -50d, null, null, positions.get(0));
 		TestUtils.assertPosition( 100d, -50d, null, null, positions.get(1));
 		TestUtils.assertPosition(   1d,  50d, null, null, positions.get(2));
 		TestUtils.assertPosition(-100d, -50d, null, null, positions.get(3));
 		ring = rings.get(1);
-		positions = ring.getPositions();
+		positions = ring.getPoints();
 		TestUtils.assertPosition(-50d, -25d, null, null, positions.get(0));
 		TestUtils.assertPosition( 50d, -25d, null, null, positions.get(1));
 		TestUtils.assertPosition( -1d,  25d, null, null, positions.get(2));
@@ -174,7 +174,7 @@ public class MultiPolygonTest {
 		List<SimpleLinearRing> rings = polygon.getRings();
 		assertTrue(rings.size() == 1);
 		mil.nga.sf.SimpleLinearRing ring = rings.get(0);
-		List<mil.nga.sf.Position> positions = ring.getPositions();
+		List<mil.nga.sf.Position> positions = ring.getPoints();
 		TestUtils.assertPosition(-100d, -50d, null, null, positions.get(0));
 		TestUtils.assertPosition( 100d, -50d, null, null, positions.get(1));
 		TestUtils.assertPosition(   1d,  50d, null, null, positions.get(2));
@@ -183,7 +183,7 @@ public class MultiPolygonTest {
 		rings = polygon.getRings();
 		assertTrue(rings.size() == 1);
 		ring = rings.get(0);
-		positions = ring.getPositions();
+		positions = ring.getPoints();
 		TestUtils.assertPosition(-50d, -25d, null, null, positions.get(0));
 		TestUtils.assertPosition( 50d, -25d, null, null, positions.get(1));
 		TestUtils.assertPosition( -1d,  25d, null, null, positions.get(2));
