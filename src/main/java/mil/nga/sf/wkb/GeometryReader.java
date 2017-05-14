@@ -5,17 +5,20 @@ import java.nio.ByteOrder;
 import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
 import mil.nga.sf.Curve;
-import mil.nga.sf.CurvePolygon;
+import mil.nga.sf.SimpleCurvePolygon;
 import mil.nga.sf.Geometry;
-import mil.nga.sf.GeometryCollection;
+import mil.nga.sf.SimpleGeometryCollection;
 import mil.nga.sf.GeometryType;
-import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
-import mil.nga.sf.MultiLineString;
+import mil.nga.sf.SimpleLineString;
+import mil.nga.sf.SimpleLinearRing;
+import mil.nga.sf.SimpleMultiLineString;
 import mil.nga.sf.MultiPoint;
-import mil.nga.sf.MultiPolygon;
+import mil.nga.sf.SimpleMultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.Polygon;
+import mil.nga.sf.SimplePoint;
+import mil.nga.sf.SimplePolygon;
 import mil.nga.sf.PolyhedralSurface;
 import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
@@ -37,8 +40,8 @@ public class GeometryReader {
 	 * @return geometry
 	 */
 	public static Geometry readGeometry(ByteReader reader) {
-		Geometry geometry = readGeometry(reader, null);
-		return geometry;
+		Geometry simpleGeometry = readGeometry(reader, null);
+		return simpleGeometry;
 	}
 
 	/**
@@ -93,7 +96,7 @@ public class GeometryReader {
 
 		GeometryType geometryType = GeometryType.fromCode(geometryTypeCode);
 
-		Geometry geometry = null;
+		Geometry simpleGeometry = null;
 
 		switch (geometryType) {
 
@@ -101,34 +104,34 @@ public class GeometryReader {
 			throw new SFException("Unexpected Geometry Type of "
 					+ geometryType.name() + " which is abstract");
 		case POINT:
-			geometry = readPoint(reader, hasZ, hasM);
+			simpleGeometry = readPoint(reader, hasZ, hasM);
 			break;
 		case LINESTRING:
-			geometry = readLineString(reader, hasZ, hasM);
+			simpleGeometry = readLineString(reader, hasZ, hasM);
 			break;
 		case POLYGON:
-			geometry = readPolygon(reader, hasZ, hasM);
+			simpleGeometry = readPolygon(reader, hasZ, hasM);
 			break;
 		case MULTIPOINT:
-			geometry = readMultiPoint(reader, hasZ, hasM);
+			simpleGeometry = readMultiPoint(reader, hasZ, hasM);
 			break;
 		case MULTILINESTRING:
-			geometry = readMultiLineString(reader, hasZ, hasM);
+			simpleGeometry = readMultiLineString(reader, hasZ, hasM);
 			break;
 		case MULTIPOLYGON:
-			geometry = readMultiPolygon(reader, hasZ, hasM);
+			simpleGeometry = readMultiPolygon(reader, hasZ, hasM);
 			break;
 		case GEOMETRYCOLLECTION:
-			geometry = readGeometryCollection(reader, hasZ, hasM);
+			simpleGeometry = readGeometryCollection(reader, hasZ, hasM);
 			break;
 		case CIRCULARSTRING:
-			geometry = readCircularString(reader, hasZ, hasM);
+			simpleGeometry = readCircularString(reader, hasZ, hasM);
 			break;
 		case COMPOUNDCURVE:
-			geometry = readCompoundCurve(reader, hasZ, hasM);
+			simpleGeometry = readCompoundCurve(reader, hasZ, hasM);
 			break;
 		case CURVEPOLYGON:
-			geometry = readCurvePolygon(reader, hasZ, hasM);
+			simpleGeometry = readCurvePolygon(reader, hasZ, hasM);
 			break;
 		case MULTICURVE:
 			throw new SFException("Unexpected Geometry Type of "
@@ -143,13 +146,13 @@ public class GeometryReader {
 			throw new SFException("Unexpected Geometry Type of "
 					+ geometryType.name() + " which is abstract");
 		case POLYHEDRALSURFACE:
-			geometry = readPolyhedralSurface(reader, hasZ, hasM);
+			simpleGeometry = readPolyhedralSurface(reader, hasZ, hasM);
 			break;
 		case TIN:
-			geometry = readTIN(reader, hasZ, hasM);
+			simpleGeometry = readTIN(reader, hasZ, hasM);
 			break;
 		case TRIANGLE:
-			geometry = readTriangle(reader, hasZ, hasM);
+			simpleGeometry = readTriangle(reader, hasZ, hasM);
 			break;
 		default:
 			throw new SFException("Geometry Type not supported: "
@@ -157,17 +160,17 @@ public class GeometryReader {
 		}
 
 		// If there is an expected type, verify the geometry if of that type
-		if (expectedType != null && geometry != null
-				&& !expectedType.isAssignableFrom(geometry.getClass())) {
+		if (expectedType != null && simpleGeometry != null
+				&& !expectedType.isAssignableFrom(simpleGeometry.getClass())) {
 			throw new SFException("Unexpected Geometry Type. Expected: "
 					+ expectedType.getSimpleName() + ", Actual: "
-					+ geometry.getClass().getSimpleName());
+					+ simpleGeometry.getClass().getSimpleName());
 		}
 
 		// Restore the byte order
 		reader.setByteOrder(originalByteOrder);
 
-		return (T) geometry;
+		return (T) simpleGeometry;
 	}
 
 	/**
@@ -197,8 +200,8 @@ public class GeometryReader {
 	 * @param hasM
 	 * @return point
 	 */
-	public static Point readPoint(ByteReader reader, boolean hasZ, boolean hasM) {
-		return new Point(readPosition(reader, hasZ, hasM));
+	public static SimplePoint readPoint(ByteReader reader, boolean hasZ, boolean hasM) {
+		return new SimplePoint(readPosition(reader, hasZ, hasM));
 	}
 
 	/**
@@ -209,10 +212,10 @@ public class GeometryReader {
 	 * @param hasM
 	 * @return line string
 	 */
-	public static LineString readLineString(ByteReader reader, boolean hasZ,
+	public static SimpleLineString readLineString(ByteReader reader, boolean hasZ,
 			boolean hasM) {
 
-		LineString lineString = new LineString(hasZ, hasM);
+		SimpleLineString lineString = new SimpleLineString(hasZ, hasM);
 
 		int numPoints = reader.readInt();
 
@@ -231,15 +234,15 @@ public class GeometryReader {
 	 * @param hasM
 	 * @return polygon
 	 */
-	public static Polygon readPolygon(ByteReader reader, boolean hasZ,
+	public static SimplePolygon readPolygon(ByteReader reader, boolean hasZ,
 			boolean hasM) {
 
-		Polygon polygon = new Polygon(hasZ, hasM);
+		SimplePolygon polygon = new SimplePolygon(hasZ, hasM);
 
 		int numRings = reader.readInt();
 
 		for (int i = 0; i < numRings; i++) {
-			polygon.addRing(new LinearRing(readLineString(reader, hasZ, hasM)));
+			polygon.addRing(new SimpleLinearRing(readLineString(reader, hasZ, hasM)));
 
 		}
 
@@ -262,8 +265,8 @@ public class GeometryReader {
 		int numPoints = reader.readInt();
 
 		for (int i = 0; i < numPoints; i++) {
-			Point point = readGeometry(reader, Point.class);
-			multiPoint.addPosition(point.getPosition());
+			Point simplePoint = readGeometry(reader, SimplePoint.class);
+			multiPoint.addPosition(simplePoint.getPosition());
 		}
 
 		return multiPoint;
@@ -277,15 +280,15 @@ public class GeometryReader {
 	 * @param hasM
 	 * @return multi line string
 	 */
-	public static MultiLineString readMultiLineString(ByteReader reader,
+	public static SimpleMultiLineString readMultiLineString(ByteReader reader,
 			boolean hasZ, boolean hasM) {
 
-		MultiLineString multiLineString = new MultiLineString(hasZ, hasM);
+		SimpleMultiLineString multiLineString = new SimpleMultiLineString(hasZ, hasM);
 
 		int numLineStrings = reader.readInt();
 
 		for (int i = 0; i < numLineStrings; i++) {
-			multiLineString.addLineString(readGeometry(reader, LineString.class));
+			multiLineString.addLineString(readGeometry(reader, SimpleLineString.class));
 		}
 
 		return multiLineString;
@@ -299,15 +302,15 @@ public class GeometryReader {
 	 * @param hasM
 	 * @return multi polygon
 	 */
-	public static MultiPolygon readMultiPolygon(ByteReader reader,
+	public static SimpleMultiPolygon readMultiPolygon(ByteReader reader,
 			boolean hasZ, boolean hasM) {
 
-		MultiPolygon multiPolygon = new MultiPolygon(hasZ, hasM);
+		SimpleMultiPolygon multiPolygon = new SimpleMultiPolygon(hasZ, hasM);
 
 		int numPolygons = reader.readInt();
 
 		for (int i = 0; i < numPolygons; i++) {
-			Polygon polygon = readGeometry(reader, Polygon.class);
+			Polygon polygon = readGeometry(reader, SimplePolygon.class);
 			multiPolygon.addPolygon(polygon);
 
 		}
@@ -323,17 +326,17 @@ public class GeometryReader {
 	 * @param hasM
 	 * @return geometry collection
 	 */
-	public static GeometryCollection<Geometry> readGeometryCollection(
+	public static SimpleGeometryCollection<Geometry> readGeometryCollection(
 			ByteReader reader, boolean hasZ, boolean hasM) {
 
-		GeometryCollection<Geometry> geometryCollection = new GeometryCollection<Geometry>(
+		SimpleGeometryCollection<Geometry> geometryCollection = new SimpleGeometryCollection<Geometry>(
 				hasZ, hasM);
 
 		int numGeometries = reader.readInt();
 
 		for (int i = 0; i < numGeometries; i++) {
-			Geometry geometry = readGeometry(reader, Geometry.class);
-			geometryCollection.addGeometry(geometry);
+			Geometry simpleGeometry = readGeometry(reader, Geometry.class);
+			geometryCollection.addGeometry(simpleGeometry);
 
 		}
 
@@ -379,7 +382,7 @@ public class GeometryReader {
 		int numLineStrings = reader.readInt();
 
 		for (int i = 0; i < numLineStrings; i++) {
-			LineString lineString = readGeometry(reader, LineString.class);
+			SimpleLineString lineString = readGeometry(reader, SimpleLineString.class);
 			compoundCurve.addLineString(lineString);
 
 		}
@@ -395,15 +398,15 @@ public class GeometryReader {
 	 * @param hasM
 	 * @return curve polygon
 	 */
-	public static CurvePolygon<Curve> readCurvePolygon(ByteReader reader,
+	public static SimpleCurvePolygon readCurvePolygon(ByteReader reader,
 			boolean hasZ, boolean hasM) {
 
-		CurvePolygon<Curve> curvePolygon = new CurvePolygon<Curve>(hasZ, hasM);
+		SimpleCurvePolygon curvePolygon = new SimpleCurvePolygon(hasZ, hasM);
 
 		int numRings = reader.readInt();
 
 		for (int i = 0; i < numRings; i++) {
-			Curve ring = readGeometry(reader, Curve.class);
+			LinearRing ring = readGeometry(reader, LinearRing.class);
 			curvePolygon.addRing(ring);
 
 		}
@@ -427,7 +430,7 @@ public class GeometryReader {
 		int numPolygons = reader.readInt();
 
 		for (int i = 0; i < numPolygons; i++) {
-			Polygon polygon = readGeometry(reader, Polygon.class);
+			SimplePolygon polygon = readGeometry(reader, SimplePolygon.class);
 			polyhedralSurface.addPolygon(polygon);
 
 		}
@@ -450,7 +453,7 @@ public class GeometryReader {
 		int numPolygons = reader.readInt();
 
 		for (int i = 0; i < numPolygons; i++) {
-			Polygon polygon = readGeometry(reader, Polygon.class);
+			SimplePolygon polygon = readGeometry(reader, SimplePolygon.class);
 			tin.addPolygon(polygon);
 
 		}
@@ -474,7 +477,7 @@ public class GeometryReader {
 		int numRings = reader.readInt();
 
 		for (int i = 0; i < numRings; i++) {
-			triangle.addRing(new LinearRing(readLineString(reader, hasZ, hasM)));
+			triangle.addRing(new SimpleLinearRing(readLineString(reader, hasZ, hasM)));
 
 		}
 

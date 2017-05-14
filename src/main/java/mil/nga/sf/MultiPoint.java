@@ -11,7 +11,7 @@ import mil.nga.sf.util.PositionUtils;
  * 
  * @author osbornb
  */
-public class MultiPoint extends Geometry {
+public class MultiPoint extends AbstractGeometry {
 
 	private List<Position> positions = new ArrayList<Position>();
 	

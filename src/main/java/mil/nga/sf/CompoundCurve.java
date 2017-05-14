@@ -8,12 +8,12 @@ import java.util.List;
  * 
  * @author osbornb
  */
-public class CompoundCurve extends Curve {
+public class CompoundCurve extends AbstractCurve {
 
 	/**
 	 * List of line strings
 	 */
-	private List<LineString> lineStrings = new ArrayList<LineString>();
+	private List<SimpleLineString> lineStrings = new ArrayList<SimpleLineString>();
 
 	/**
 	 * Constructor
@@ -32,7 +32,7 @@ public class CompoundCurve extends Curve {
 	 * 
 	 * @return line strings
 	 */
-	public List<LineString> getLineStrings() {
+	public List<SimpleLineString> getLineStrings() {
 		return lineStrings;
 	}
 
@@ -42,7 +42,7 @@ public class CompoundCurve extends Curve {
 	 * @param lineStrings
 	 *            line strings
 	 */
-	public void setLineStrings(List<LineString> lineStrings) {
+	public void setLineStrings(List<SimpleLineString> lineStrings) {
 		this.lineStrings = lineStrings;
 	}
 
@@ -52,7 +52,7 @@ public class CompoundCurve extends Curve {
 	 * @param lineString
 	 *            line string
 	 */
-	public void addLineString(LineString lineString) {
+	public void addLineString(SimpleLineString lineString) {
 		lineStrings.add(lineString);
 	}
 

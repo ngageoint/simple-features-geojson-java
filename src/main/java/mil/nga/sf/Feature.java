@@ -1,47 +1,15 @@
 package mil.nga.sf;
 
-import java.util.HashMap;
 import java.util.Map;
 
-/**
- * The a feature
- * 
- * @author yutzlejp
- */
-public class Feature {
+public interface Feature {
 
-	/**
-	 * Geometry type
-	 */
-	private Geometry geometry = null;
+	Geometry getGeometry();
 
-	/**
-	 * Properties map
-	 */
-	private Map<String, Object> properties;
+	void setGeometry(Geometry geometry);
 
-	public Feature() {
-		properties = new HashMap<String, Object>();
-	}
-	
-	public Feature(Geometry geometry, Map<String, Object> properties){
-		this.geometry = geometry;
-		this.properties = properties;
-	}
+	Map<String, Object> getProperties();
 
-	public Geometry getGeometry() {
-		return geometry;
-	}
-	
-	public void setGeometry(Geometry geometry) {
-		this.geometry = geometry;
-	}
+	void setProperties(Map<String, Object> properties);
 
-	public Map<String, Object> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(Map<String, Object> properties) {
-		this.properties = properties;
-	}
 }

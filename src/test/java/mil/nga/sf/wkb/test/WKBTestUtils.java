@@ -8,17 +8,19 @@ import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
 import mil.nga.sf.Curve;
 import mil.nga.sf.CurvePolygon;
+import mil.nga.sf.SimpleCurvePolygon;
 import mil.nga.sf.Geometry;
-import mil.nga.sf.GeometryCollection;
+import mil.nga.sf.SimpleGeometryCollection;
 import mil.nga.sf.GeometryEnvelope;
 import mil.nga.sf.GeometryType;
-import mil.nga.sf.LineString;
-import mil.nga.sf.LinearRing;
-import mil.nga.sf.MultiLineString;
+import mil.nga.sf.SimpleLineString;
+import mil.nga.sf.SimpleLinearRing;
+import mil.nga.sf.SimpleMultiLineString;
 import mil.nga.sf.MultiPoint;
-import mil.nga.sf.MultiPolygon;
-import mil.nga.sf.Point;
+import mil.nga.sf.SimpleMultiPolygon;
 import mil.nga.sf.Polygon;
+import mil.nga.sf.SimplePoint;
+import mil.nga.sf.SimplePolygon;
 import mil.nga.sf.PolyhedralSurface;
 import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
@@ -83,28 +85,28 @@ public class WKBTestUtils {
 				TestCase.fail("Unexpected Geometry Type of "
 						+ geometryType.name() + " which is abstract");
 			case POINT:
-				comparePoint((Point) actual, (Point) expected);
+				comparePoint((SimplePoint) actual, (SimplePoint) expected);
 				break;
 			case LINESTRING:
 				compareLineString((Curve) expected, (Curve) actual);
 				break;
 			case POLYGON:
-				comparePolygon((Polygon) expected, (Polygon) actual);
+				comparePolygon((SimplePolygon) expected, (SimplePolygon) actual);
 				break;
 			case MULTIPOINT:
 				compareMultiPoint((MultiPoint) expected, (MultiPoint) actual);
 				break;
 			case MULTILINESTRING:
-				compareMultiLineString((MultiLineString) expected,
-						(MultiLineString) actual);
+				compareMultiLineString((SimpleMultiLineString) expected,
+						(SimpleMultiLineString) actual);
 				break;
 			case MULTIPOLYGON:
-				compareMultiPolygon((MultiPolygon) expected,
-						(MultiPolygon) actual);
+				compareMultiPolygon((SimpleMultiPolygon) expected,
+						(SimpleMultiPolygon) actual);
 				break;
 			case GEOMETRYCOLLECTION:
-				compareGeometryCollection((GeometryCollection<?>) expected,
-						(GeometryCollection<?>) actual);
+				compareGeometryCollection((SimpleGeometryCollection<?>) expected,
+						(SimpleGeometryCollection<?>) actual);
 				break;
 			case CIRCULARSTRING:
 				compareCircularString((CircularString) expected,
@@ -115,8 +117,8 @@ public class WKBTestUtils {
 						(CompoundCurve) actual);
 				break;
 			case CURVEPOLYGON:
-				compareCurvePolygon((CurvePolygon<?>) expected,
-						(CurvePolygon<?>) actual);
+				compareCurvePolygon((SimpleCurvePolygon) expected,
+						(SimpleCurvePolygon) actual);
 				break;
 			case MULTICURVE:
 				TestCase.fail("Unexpected Geometry Type of "
@@ -182,7 +184,7 @@ public class WKBTestUtils {
 	 * @param expected
 	 * @param actual
 	 */
-	public static void comparePoint(Point expected, Point actual) {
+	public static void comparePoint(SimplePoint expected, SimplePoint actual) {
 
 		compareBaseGeometryAttributes(expected, actual);
 		comparePosition(expected.getPosition(), actual.getPosition());
@@ -240,8 +242,8 @@ public class WKBTestUtils {
 	 * @param expected
 	 * @param actual
 	 */
-	public static void compareMultiLineString(MultiLineString expected,
-			MultiLineString actual) {
+	public static void compareMultiLineString(SimpleMultiLineString expected,
+			SimpleMultiLineString actual) {
 
 		compareBaseGeometryAttributes(expected, actual);
 		TestCase.assertEquals(expected.numLineStrings(),
@@ -258,8 +260,8 @@ public class WKBTestUtils {
 	 * @param expected
 	 * @param actual
 	 */
-	public static void compareMultiPolygon(MultiPolygon expected,
-			MultiPolygon actual) {
+	public static void compareMultiPolygon(SimpleMultiPolygon expected,
+			SimpleMultiPolygon actual) {
 
 		compareBaseGeometryAttributes(expected, actual);
 		TestCase.assertEquals(expected.numPolygons(), actual.numPolygons());
@@ -276,7 +278,7 @@ public class WKBTestUtils {
 	 * @param actual
 	 */
 	public static void compareGeometryCollection(
-			GeometryCollection<?> expected, GeometryCollection<?> actual) {
+			SimpleGeometryCollection<?> expected, SimpleGeometryCollection<?> actual) {
 
 		compareBaseGeometryAttributes(expected, actual);
 		TestCase.assertEquals(expected.numGeometries(), actual.numGeometries());
@@ -326,8 +328,8 @@ public class WKBTestUtils {
 	 * @param expected
 	 * @param actual
 	 */
-	public static void compareCurvePolygon(CurvePolygon<?> expected,
-			CurvePolygon<?> actual) {
+	public static void compareCurvePolygon(CurvePolygon expected,
+			CurvePolygon actual) {
 
 		compareBaseGeometryAttributes(expected, actual);
 		TestCase.assertEquals(expected.numRings(), actual.numRings());
@@ -447,18 +449,18 @@ public class WKBTestUtils {
 	/**
 	 * Write the geometry to bytes as big endian
 	 * 
-	 * @param geometry
+	 * @param simpleGeometry
 	 * @return
 	 * @throws IOException
 	 */
-	public static byte[] writeBytes(Geometry geometry) throws IOException {
-		return writeBytes(geometry, ByteOrder.BIG_ENDIAN);
+	public static byte[] writeBytes(Geometry simpleGeometry) throws IOException {
+		return writeBytes(simpleGeometry, ByteOrder.BIG_ENDIAN);
 	}
 
 	/**
 	 * Write the geometry to bytes in the provided byte order
 	 * 
-	 * @param geometry
+	 * @param simpleGeometry
 	 * @param byteOrder
 	 * @return
 	 * @throws IOException
@@ -493,8 +495,8 @@ public class WKBTestUtils {
 	public static Geometry readGeometry(byte[] bytes, ByteOrder byteOrder) {
 		ByteReader reader = new ByteReader(bytes);
 		reader.setByteOrder(byteOrder);
-		Geometry geometry = GeometryReader.readGeometry(reader);
-		return geometry;
+		Geometry simpleGeometry = GeometryReader.readGeometry(reader);
+		return simpleGeometry;
 	}
 
 	/**
@@ -555,9 +557,9 @@ public class WKBTestUtils {
 	 * @param hasM
 	 * @return
 	 */
-	public static Point createPoint(boolean hasZ, boolean hasM) {
+	public static SimplePoint createPoint(boolean hasZ, boolean hasM) {
 
-		return new Point(createPosition(hasZ, hasM));
+		return new SimplePoint(createPosition(hasZ, hasM));
 	}
 
 	/**
@@ -567,9 +569,9 @@ public class WKBTestUtils {
 	 * @param hasM
 	 * @return
 	 */
-	public static LineString createLineString(boolean hasZ, boolean hasM) {
+	public static SimpleLineString createLineString(boolean hasZ, boolean hasM) {
 
-		LineString lineString = new LineString(hasZ, hasM);
+		SimpleLineString lineString = new SimpleLineString(hasZ, hasM);
 
 		int num = 2 + ((int) (Math.random() * 9));
 
@@ -587,9 +589,9 @@ public class WKBTestUtils {
 	 * @param hasM
 	 * @return
 	 */
-	public static LinearRing createLinearRing(boolean hasZ, boolean hasM) {
+	public static SimpleLinearRing createLinearRing(boolean hasZ, boolean hasM) {
 
-		LineString lineString = new LineString(hasZ, hasM);
+		SimpleLineString lineString = new SimpleLineString(hasZ, hasM);
 
 		int num = 3 + ((int) (Math.random() * 9));
 
@@ -599,7 +601,7 @@ public class WKBTestUtils {
 
 		lineString.addPosition(lineString.getPositions().get(0));
 
-		return new LinearRing(lineString);
+		return new SimpleLinearRing(lineString);
 	}
 
 	/**
@@ -611,7 +613,7 @@ public class WKBTestUtils {
 	 */
 	public static Polygon createPolygon(boolean hasZ, boolean hasM) {
 
-		Polygon polygon = new Polygon(hasZ, hasM);
+		Polygon polygon = new SimplePolygon(hasZ, hasM);
 
 		int num = 1 + ((int) (Math.random() * 5));
 
@@ -649,10 +651,10 @@ public class WKBTestUtils {
 	 * @param hasM
 	 * @return
 	 */
-	public static MultiLineString createMultiLineString(boolean hasZ,
+	public static SimpleMultiLineString createMultiLineString(boolean hasZ,
 			boolean hasM) {
 
-		MultiLineString multiLineString = new MultiLineString(hasZ, hasM);
+		SimpleMultiLineString multiLineString = new SimpleMultiLineString(hasZ, hasM);
 
 		int num = 1 + ((int) (Math.random() * 5));
 
@@ -670,9 +672,9 @@ public class WKBTestUtils {
 	 * @param hasM
 	 * @return
 	 */
-	public static MultiPolygon createMultiPolygon(boolean hasZ, boolean hasM) {
+	public static SimpleMultiPolygon createMultiPolygon(boolean hasZ, boolean hasM) {
 
-		MultiPolygon multiPolygon = new MultiPolygon(hasZ, hasM);
+		SimpleMultiPolygon multiPolygon = new SimpleMultiPolygon(hasZ, hasM);
 
 		int num = 1 + ((int) (Math.random() * 5));
 
@@ -690,41 +692,41 @@ public class WKBTestUtils {
 	 * @param hasM
 	 * @return
 	 */
-	public static GeometryCollection<Geometry> createGeometryCollection(
+	public static SimpleGeometryCollection<Geometry> createGeometryCollection(
 			boolean hasZ, boolean hasM) {
 
-		GeometryCollection<Geometry> geometryCollection = new GeometryCollection<Geometry>(
+		SimpleGeometryCollection<Geometry> geometryCollection = new SimpleGeometryCollection<Geometry>(
 				hasZ, hasM);
 
 		int num = 1 + ((int) (Math.random() * 5));
 
 		for (int i = 0; i < num; i++) {
 
-			Geometry geometry = null;
+			Geometry simpleGeometry = null;
 			int randomGeometry = (int) (Math.random() * 6);
 
 			switch (randomGeometry) {
 			case 0:
-				geometry = createPoint(hasZ, hasM);
+				simpleGeometry = createPoint(hasZ, hasM);
 				break;
 			case 1:
-				geometry = createLineString(hasZ, hasM);
+				simpleGeometry = createLineString(hasZ, hasM);
 				break;
 			case 2:
-				geometry = createPolygon(hasZ, hasM);
+				simpleGeometry = createPolygon(hasZ, hasM);
 				break;
 			case 3:
-				geometry = createMultiPoint(hasZ, hasM);
+				simpleGeometry = createMultiPoint(hasZ, hasM);
 				break;
 			case 4:
-				geometry = createMultiLineString(hasZ, hasM);
+				simpleGeometry = createMultiLineString(hasZ, hasM);
 				break;
 			case 5:
-				geometry = createMultiPolygon(hasZ, hasM);
+				simpleGeometry = createMultiPolygon(hasZ, hasM);
 				break;
 			}
 
-			geometryCollection.addGeometry(geometry);
+			geometryCollection.addGeometry(simpleGeometry);
 		}
 
 		return geometryCollection;

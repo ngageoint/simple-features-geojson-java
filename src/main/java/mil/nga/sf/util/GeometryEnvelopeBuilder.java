@@ -6,16 +6,18 @@ import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
 import mil.nga.sf.Curve;
 import mil.nga.sf.Geometry;
-import mil.nga.sf.GeometryCollection;
+import mil.nga.sf.SimpleGeometryCollection;
 import mil.nga.sf.GeometryEnvelope;
 import mil.nga.sf.GeometryType;
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
-import mil.nga.sf.MultiLineString;
+import mil.nga.sf.SimpleLineString;
+import mil.nga.sf.SimpleMultiLineString;
 import mil.nga.sf.MultiPoint;
-import mil.nga.sf.MultiPolygon;
-import mil.nga.sf.Point;
+import mil.nga.sf.SimpleMultiPolygon;
 import mil.nga.sf.Polygon;
+import mil.nga.sf.SimplePoint;
+import mil.nga.sf.SimplePolygon;
 import mil.nga.sf.PolyhedralSurface;
 import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
@@ -31,10 +33,10 @@ public class GeometryEnvelopeBuilder {
 	/**
 	 * Build Geometry Envelope
 	 * 
-	 * @param geometry
+	 * @param simpleGeometry
 	 * @return geometry envelope
 	 */
-	public static GeometryEnvelope buildEnvelope(Geometry geometry) {
+	public static GeometryEnvelope buildEnvelope(Geometry simpleGeometry) {
 
 		GeometryEnvelope envelope = new GeometryEnvelope();
 
@@ -43,7 +45,7 @@ public class GeometryEnvelopeBuilder {
 		envelope.setMinY(Double.MAX_VALUE);
 		envelope.setMaxY(-Double.MAX_VALUE);
 
-		buildEnvelope(geometry, envelope);
+		buildEnvelope(simpleGeometry, envelope);
 
 		return envelope;
 	}
@@ -51,53 +53,53 @@ public class GeometryEnvelopeBuilder {
 	/**
 	 * Build Geometry Envelope
 	 * 
-	 * @param geometry
+	 * @param simpleGeometry
 	 * @param envelope
 	 */
-	public static void buildEnvelope(Geometry geometry,
+	public static void buildEnvelope(Geometry simpleGeometry,
 			GeometryEnvelope envelope) {
 
-		GeometryType geometryType = geometry.getGeometryType();
+		GeometryType geometryType = simpleGeometry.getGeometryType();
 		switch (geometryType) {
 		case POINT:
-			addPointMessage(envelope, (Point) geometry);
+			addPointMessage(envelope, (SimplePoint) simpleGeometry);
 			break;
 		case LINESTRING:
-			addLineStringMessage(envelope, (Curve) geometry);
+			addLineStringMessage(envelope, (Curve) simpleGeometry);
 			break;
 		case POLYGON:
-			addPolygonMessage(envelope, (Polygon) geometry);
+			addPolygonMessage(envelope, (SimplePolygon) simpleGeometry);
 			break;
 		case MULTIPOINT:
-			addMultiPointMessage(envelope, (MultiPoint) geometry);
+			addMultiPointMessage(envelope, (MultiPoint) simpleGeometry);
 			break;
 		case MULTILINESTRING:
-			addMultiLineStringMessage(envelope, (MultiLineString) geometry);
+			addMultiLineStringMessage(envelope, (SimpleMultiLineString) simpleGeometry);
 			break;
 		case MULTIPOLYGON:
-			addMultiPolygonMessage(envelope, (MultiPolygon) geometry);
+			addMultiPolygonMessage(envelope, (SimpleMultiPolygon) simpleGeometry);
 			break;
 		case CIRCULARSTRING:
-			addLineStringMessage(envelope, (CircularString) geometry);
+			addLineStringMessage(envelope, (CircularString) simpleGeometry);
 			break;
 		case COMPOUNDCURVE:
-			addCompoundCurveMessage(envelope, (CompoundCurve) geometry);
+			addCompoundCurveMessage(envelope, (CompoundCurve) simpleGeometry);
 			break;
 		case POLYHEDRALSURFACE:
-			addPolyhedralSurfaceMessage(envelope, (PolyhedralSurface) geometry);
+			addPolyhedralSurfaceMessage(envelope, (PolyhedralSurface) simpleGeometry);
 			break;
 		case TIN:
-			addPolyhedralSurfaceMessage(envelope, (TIN) geometry);
+			addPolyhedralSurfaceMessage(envelope, (TIN) simpleGeometry);
 			break;
 		case TRIANGLE:
-			addPolygonMessage(envelope, (Triangle) geometry);
+			addPolygonMessage(envelope, (Triangle) simpleGeometry);
 			break;
 		case GEOMETRYCOLLECTION:
-			updateHasZandM(envelope, geometry);
+			updateHasZandM(envelope, simpleGeometry);
 			@SuppressWarnings("unchecked")
-			GeometryCollection<Geometry> geomCollection = (GeometryCollection<Geometry>) geometry;
-			List<Geometry> geometries = geomCollection.getGeometries();
-			for (Geometry subGeometry : geometries) {
+			SimpleGeometryCollection<Geometry> geomCollection = (SimpleGeometryCollection<Geometry>) simpleGeometry;
+			List<Geometry> simpleGeometries = geomCollection.getGeometries();
+			for (Geometry subGeometry : simpleGeometries) {
 				buildEnvelope(subGeometry, envelope);
 			}
 			break;
@@ -110,14 +112,14 @@ public class GeometryEnvelopeBuilder {
 	 * Update teh has z and m values
 	 * 
 	 * @param envelope
-	 * @param geometry
+	 * @param simpleGeometry
 	 */
 	private static void updateHasZandM(GeometryEnvelope envelope,
-			Geometry geometry) {
-		if (!envelope.hasZ() && geometry.hasZ()) {
+			Geometry simpleGeometry) {
+		if (!envelope.hasZ() && simpleGeometry.hasZ()) {
 			envelope.setHasZ(true);
 		}
-		if (!envelope.hasM() && geometry.hasM()) {
+		if (!envelope.hasM() && simpleGeometry.hasM()) {
 			envelope.setHasM(true);
 		}
 	}
@@ -128,10 +130,10 @@ public class GeometryEnvelopeBuilder {
 	 * @param envelope
 	 * @param position
 	 */
-	private static void addPointMessage(GeometryEnvelope envelope, Point point) {
+	private static void addPointMessage(GeometryEnvelope envelope, SimplePoint simplePoint) {
 
-		updateHasZandM(envelope, point);
-		addPositionMessage (envelope, point.getPosition());
+		updateHasZandM(envelope, simplePoint);
+		addPositionMessage (envelope, simplePoint.getPosition());
 	}
 
 	/**
@@ -216,12 +218,12 @@ public class GeometryEnvelopeBuilder {
 	 * @param multiLineString
 	 */
 	private static void addMultiLineStringMessage(GeometryEnvelope envelope,
-			MultiLineString multiLineString) {
+			SimpleMultiLineString multiLineString) {
 
 		updateHasZandM(envelope, multiLineString);
 
 		List<LineString> lineStrings = multiLineString.getLineStrings();
-		for (Curve lineString : lineStrings) {
+		for (LineString lineString : lineStrings) {
 			addLineStringMessage(envelope, lineString);
 		}
 	}
@@ -238,7 +240,7 @@ public class GeometryEnvelopeBuilder {
 		updateHasZandM(envelope, polygon);
 
 		List<LinearRing> rings = polygon.getRings();
-		for (Curve ring : rings) {
+		for (LinearRing ring : rings) {
 			addLineStringMessage(envelope, ring);
 		}
 	}
@@ -250,7 +252,7 @@ public class GeometryEnvelopeBuilder {
 	 * @param multiPolygon
 	 */
 	private static void addMultiPolygonMessage(GeometryEnvelope envelope,
-			MultiPolygon multiPolygon) {
+			SimpleMultiPolygon multiPolygon) {
 
 		updateHasZandM(envelope, multiPolygon);
 
@@ -271,8 +273,8 @@ public class GeometryEnvelopeBuilder {
 
 		updateHasZandM(envelope, compoundCurve);
 
-		List<LineString> lineStrings = compoundCurve.getLineStrings();
-		for (Curve lineString : lineStrings) {
+		List<SimpleLineString> lineStrings = compoundCurve.getLineStrings();
+		for (LineString lineString : lineStrings) {
 			addLineStringMessage(envelope, lineString);
 		}
 	}

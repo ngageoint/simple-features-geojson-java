@@ -8,7 +8,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import mil.nga.sf.LinearRing;
+import mil.nga.sf.Geometry;
+import mil.nga.sf.SimpleLinearRing;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.MultiPolygon;
 import mil.nga.sf.geojson.Position;
@@ -22,33 +23,33 @@ public class MultiPolygonTest {
 
 	@Test
 	public void itShouldSerializeASFMultiPolygon() throws Exception {
-		List<mil.nga.sf.Polygon> polygons = new ArrayList<mil.nga.sf.Polygon>();
-		List<LinearRing> rings = new ArrayList<LinearRing>();
+		List<mil.nga.sf.SimplePolygon> polygons = new ArrayList<mil.nga.sf.SimplePolygon>();
+		List<SimpleLinearRing> rings = new ArrayList<SimpleLinearRing>();
 		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
 		positions.add(new Position(100d, 10d));
 		positions.add(new Position(101d, 1d));
 		positions.add(new Position(101d, 10d));
-		LinearRing ring = new LinearRing(positions);
+		SimpleLinearRing ring = new SimpleLinearRing(positions);
 		rings.add(ring);
-		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
+		mil.nga.sf.SimplePolygon polygon = new mil.nga.sf.SimplePolygon(rings);
 		polygons.add(polygon);
-		mil.nga.sf.MultiPolygon multiPolygon = new mil.nga.sf.MultiPolygon(polygons);
+		mil.nga.sf.SimpleMultiPolygon multiPolygon = new mil.nga.sf.SimpleMultiPolygon(polygons);
 		TestUtils.compareAsNodes(multiPolygon, MULTIPOLYGON);
 	}
 
 	@Test
 	public void itShouldSerializeASFMultiPolygonWithAltitude() throws Exception {
-		List<mil.nga.sf.Polygon> polygons = new ArrayList<mil.nga.sf.Polygon>();
-		List<LinearRing> rings = new ArrayList<LinearRing>();
+		List<mil.nga.sf.SimplePolygon> polygons = new ArrayList<mil.nga.sf.SimplePolygon>();
+		List<SimpleLinearRing> rings = new ArrayList<SimpleLinearRing>();
 		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
 		positions.add(new Position(100d, 10d,  5d));
 		positions.add(new Position(101d,  1d, 10d));
 		positions.add(new Position(101d, 10d, 15d));
-		LinearRing ring = new LinearRing(positions);
+		SimpleLinearRing ring = new SimpleLinearRing(positions);
 		rings.add(ring);
-		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
+		mil.nga.sf.SimplePolygon polygon = new mil.nga.sf.SimplePolygon(rings);
 		polygons.add(polygon);
-		mil.nga.sf.MultiPolygon multiPolygon = new mil.nga.sf.MultiPolygon(polygons);
+		mil.nga.sf.SimpleMultiPolygon multiPolygon = new mil.nga.sf.SimpleMultiPolygon(polygons);
 		TestUtils.compareAsNodes(multiPolygon, MULTIPOLYGON_WITH_ALT);
 	}
 
@@ -59,30 +60,30 @@ public class MultiPolygonTest {
 
 	@Test
 	public void itShouldSerializeASFMultiPolygonWithMulti() throws Exception {
-		List<mil.nga.sf.Polygon> polygons = new ArrayList<mil.nga.sf.Polygon>();
+		List<mil.nga.sf.SimplePolygon> polygons = new ArrayList<mil.nga.sf.SimplePolygon>();
 		// Polygon 1
-		List<LinearRing> rings = new ArrayList<LinearRing>();
+		List<SimpleLinearRing> rings = new ArrayList<SimpleLinearRing>();
 		List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
 		positions.add(new Position(-100d, -50d));
 		positions.add(new Position( 100d, -50d));
 		positions.add(new Position(   1d,  50d));
-		LinearRing ring = new LinearRing(positions);
+		SimpleLinearRing ring = new SimpleLinearRing(positions);
 		rings.add(ring);
-		mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
+		mil.nga.sf.SimplePolygon polygon = new mil.nga.sf.SimplePolygon(rings);
 		polygons.add(polygon);
 
 		// P2R1
-		rings = new ArrayList<LinearRing>();
+		rings = new ArrayList<SimpleLinearRing>();
 		positions = new ArrayList<mil.nga.sf.Position>();
 		positions.add(new Position(-50d, -25d));
 		positions.add(new Position( 50d, -25d));
 		positions.add(new Position( -1d,  25d));
-		ring = new LinearRing(positions);
+		ring = new SimpleLinearRing(positions);
 		rings.add(ring);
-		polygon = new mil.nga.sf.Polygon(rings);
+		polygon = new mil.nga.sf.SimplePolygon(rings);
 		polygons.add(polygon);
 		
-		mil.nga.sf.MultiPolygon multiPolygon = new mil.nga.sf.MultiPolygon(polygons);
+		mil.nga.sf.SimpleMultiPolygon multiPolygon = new mil.nga.sf.SimpleMultiPolygon(polygons);
 		TestUtils.compareAsNodes(multiPolygon, MULTIPOLYGON_WITH_MULTI);
 	}
 
@@ -92,15 +93,15 @@ public class MultiPolygonTest {
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPolygon);
 		MultiPolygon gjMultiPolygon = (MultiPolygon)value;
-		mil.nga.sf.Geometry geometry = gjMultiPolygon.getGeometry();
-		assertTrue(geometry instanceof mil.nga.sf.MultiPolygon);
-		mil.nga.sf.MultiPolygon multiPolygon = (mil.nga.sf.MultiPolygon)geometry;
-		List<mil.nga.sf.Polygon> polygons = multiPolygon.getPolygons();
+		Geometry simpleGeometry = gjMultiPolygon.getGeometry();
+		assertTrue(simpleGeometry instanceof mil.nga.sf.SimpleMultiPolygon);
+		mil.nga.sf.SimpleMultiPolygon multiPolygon = (mil.nga.sf.SimpleMultiPolygon)simpleGeometry;
+		List<mil.nga.sf.SimplePolygon> polygons = multiPolygon.getPolygons();
 		assertTrue(polygons.size() == 1);
-		mil.nga.sf.Polygon polygon = polygons.get(0);
-		List<LinearRing> rings = polygon.getRings();
+		mil.nga.sf.SimplePolygon polygon = polygons.get(0);
+		List<SimpleLinearRing> rings = polygon.getRings();
 		assertTrue(rings.size() == 1);
-		mil.nga.sf.LinearRing ring = rings.get(0);
+		mil.nga.sf.SimpleLinearRing ring = rings.get(0);
 		List<mil.nga.sf.Position> positions = ring.getPositions();
 		TestUtils.assertPosition(100d, 10d, null, null, positions.get(0));
 		TestUtils.assertPosition(101d,  1d, null, null, positions.get(1));
@@ -114,15 +115,15 @@ public class MultiPolygonTest {
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPolygon);
 		MultiPolygon gjMultiPolygon = (MultiPolygon)value;
-		mil.nga.sf.Geometry geometry = gjMultiPolygon.getGeometry();
-		assertTrue(geometry instanceof mil.nga.sf.MultiPolygon);
-		mil.nga.sf.MultiPolygon multiPolygon = (mil.nga.sf.MultiPolygon)geometry;
-		List<mil.nga.sf.Polygon> polygons = multiPolygon.getPolygons();
+		Geometry simpleGeometry = gjMultiPolygon.getGeometry();
+		assertTrue(simpleGeometry instanceof mil.nga.sf.SimpleMultiPolygon);
+		mil.nga.sf.SimpleMultiPolygon multiPolygon = (mil.nga.sf.SimpleMultiPolygon)simpleGeometry;
+		List<mil.nga.sf.SimplePolygon> polygons = multiPolygon.getPolygons();
 		assertTrue(polygons.size() == 1);
-		mil.nga.sf.Polygon polygon = polygons.get(0);
-		List<LinearRing> rings = polygon.getRings();
+		mil.nga.sf.SimplePolygon polygon = polygons.get(0);
+		List<SimpleLinearRing> rings = polygon.getRings();
 		assertTrue(rings.size() == 1);
-		mil.nga.sf.LinearRing ring = rings.get(0);
+		mil.nga.sf.SimpleLinearRing ring = rings.get(0);
 		List<mil.nga.sf.Position> positions = ring.getPositions();
 		TestUtils.assertPosition(100d, 10d,  5d, null, positions.get(0));
 		TestUtils.assertPosition(101d,  1d, 10d, null, positions.get(1));
@@ -136,15 +137,15 @@ public class MultiPolygonTest {
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPolygon);
 		MultiPolygon gjMultiPolygon = (MultiPolygon)value;
-		mil.nga.sf.Geometry geometry = gjMultiPolygon.getGeometry();
-		assertTrue(geometry instanceof mil.nga.sf.MultiPolygon);
-		mil.nga.sf.MultiPolygon multiPolygon = (mil.nga.sf.MultiPolygon)geometry;
-		List<mil.nga.sf.Polygon> polygons = multiPolygon.getPolygons();
+		Geometry simpleGeometry = gjMultiPolygon.getGeometry();
+		assertTrue(simpleGeometry instanceof mil.nga.sf.SimpleMultiPolygon);
+		mil.nga.sf.SimpleMultiPolygon multiPolygon = (mil.nga.sf.SimpleMultiPolygon)simpleGeometry;
+		List<mil.nga.sf.SimplePolygon> polygons = multiPolygon.getPolygons();
 		assertTrue(polygons.size() == 1);
-		mil.nga.sf.Polygon polygon = polygons.get(0);
-		List<LinearRing> rings = polygon.getRings();
+		mil.nga.sf.SimplePolygon polygon = polygons.get(0);
+		List<SimpleLinearRing> rings = polygon.getRings();
 		assertTrue(rings.size() == 2);
-		mil.nga.sf.LinearRing ring = rings.get(0);
+		mil.nga.sf.SimpleLinearRing ring = rings.get(0);
 		List<mil.nga.sf.Position> positions = ring.getPositions();
 		TestUtils.assertPosition(-100d, -50d, null, null, positions.get(0));
 		TestUtils.assertPosition( 100d, -50d, null, null, positions.get(1));
@@ -164,15 +165,15 @@ public class MultiPolygonTest {
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPolygon);
 		MultiPolygon gjMultiPolygon = (MultiPolygon)value;
-		mil.nga.sf.Geometry geometry = gjMultiPolygon.getGeometry();
-		assertTrue(geometry instanceof mil.nga.sf.MultiPolygon);
-		mil.nga.sf.MultiPolygon multiPolygon = (mil.nga.sf.MultiPolygon)geometry;
-		List<mil.nga.sf.Polygon> polygons = multiPolygon.getPolygons();
+		Geometry simpleGeometry = gjMultiPolygon.getGeometry();
+		assertTrue(simpleGeometry instanceof mil.nga.sf.SimpleMultiPolygon);
+		mil.nga.sf.SimpleMultiPolygon multiPolygon = (mil.nga.sf.SimpleMultiPolygon)simpleGeometry;
+		List<mil.nga.sf.SimplePolygon> polygons = multiPolygon.getPolygons();
 		assertTrue(polygons.size() == 2);
-		mil.nga.sf.Polygon polygon = polygons.get(0);
-		List<LinearRing> rings = polygon.getRings();
+		mil.nga.sf.SimplePolygon polygon = polygons.get(0);
+		List<SimpleLinearRing> rings = polygon.getRings();
 		assertTrue(rings.size() == 1);
-		mil.nga.sf.LinearRing ring = rings.get(0);
+		mil.nga.sf.SimpleLinearRing ring = rings.get(0);
 		List<mil.nga.sf.Position> positions = ring.getPositions();
 		TestUtils.assertPosition(-100d, -50d, null, null, positions.get(0));
 		TestUtils.assertPosition( 100d, -50d, null, null, positions.get(1));

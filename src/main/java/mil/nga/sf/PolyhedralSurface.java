@@ -8,12 +8,12 @@ import java.util.List;
  * 
  * @author osbornb
  */
-public class PolyhedralSurface extends Surface {
+public class PolyhedralSurface extends AbstractGeometry implements Surface {
 
 	/**
 	 * List of polygons
 	 */
-	private List<Polygon> polygons = new ArrayList<Polygon>();
+	private List<CurvePolygon> polygons = new ArrayList<CurvePolygon>();
 
 	/**
 	 * Constructor
@@ -46,7 +46,7 @@ public class PolyhedralSurface extends Surface {
 	 * 
 	 * @return polygons
 	 */
-	public List<Polygon> getPolygons() {
+	public List<CurvePolygon> getPolygons() {
 		return polygons;
 	}
 
@@ -56,7 +56,7 @@ public class PolyhedralSurface extends Surface {
 	 * @param polygons
 	 *            polygons
 	 */
-	public void setPolygons(List<Polygon> polygons) {
+	public void setPolygons(List<CurvePolygon> polygons) {
 		this.polygons = polygons;
 	}
 
@@ -66,7 +66,7 @@ public class PolyhedralSurface extends Surface {
 	 * @param polygon
 	 *            polygon
 	 */
-	public void addPolygon(Polygon polygon) {
+	public void addPolygon(CurvePolygon polygon) {
 		polygons.add(polygon);
 	}
 
@@ -82,6 +82,24 @@ public class PolyhedralSurface extends Surface {
 	@Override
 	public boolean isEmpty() {
 		return polygons.isEmpty();
+	}
+
+	@Override
+	public GeometryType getGeometryType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasZ() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasM() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

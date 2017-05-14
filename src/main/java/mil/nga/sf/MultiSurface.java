@@ -6,21 +6,6 @@ package mil.nga.sf;
  * 
  * @author osbornb
  */
-public abstract class MultiSurface<T extends Surface> extends
-		GeometryCollection<T> {
-
-	/**
-	 * Constructor
-	 * 
-	 * @param type
-	 *            geometry type
-	 * @param hasZ
-	 *            has z
-	 * @param hasM
-	 *            has m
-	 */
-	protected MultiSurface(GeometryType type, boolean hasZ, boolean hasM) {
-		super(type, hasZ, hasM);
-	}
+public interface MultiSurface extends GeometryCollection<Surface> {
 
 }

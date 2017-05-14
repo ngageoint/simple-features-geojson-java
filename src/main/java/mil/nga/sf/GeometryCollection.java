@@ -1,54 +1,15 @@
 package mil.nga.sf;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A collection of zero or more Geometry instances.
- * 
- * @author osbornb
- */
-public class GeometryCollection<T extends Geometry> extends Geometry {
-
-	/**
-	 * List of geometries
-	 */
-	private List<T> geometries = new ArrayList<T>();
-
-	/**
-	 * Constructor
-	 * 
-	 * @param hasZ
-	 *            has z
-	 * @param hasM
-	 *            has m
-	 */
-	public GeometryCollection(boolean hasZ, boolean hasM) {
-		super(GeometryType.GEOMETRYCOLLECTION, hasZ, hasM);
-	}
-
-	/**
-	 * Constructor
-	 * 
-	 * @param type
-	 *            geometry type
-	 * @param hasZ
-	 *            has z
-	 * @param hasM
-	 *            has m
-	 */
-	protected GeometryCollection(GeometryType type, boolean hasZ, boolean hasM) {
-		super(type, hasZ, hasM);
-	}
+public interface GeometryCollection<T extends Geometry> {
 
 	/**
 	 * Get the list of geometries
 	 * 
 	 * @return geometries
 	 */
-	public List<T> getGeometries() {
-		return geometries;
-	}
+	List<T> getGeometries();
 
 	/**
 	 * Set the geometries
@@ -56,9 +17,7 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 	 * @param geometries
 	 *            geometries
 	 */
-	public void setGeometries(List<T> geometries) {
-		this.geometries = geometries;
-	}
+	void setGeometries(List<T> geometries);
 
 	/**
 	 * Add a geometry
@@ -66,22 +25,15 @@ public class GeometryCollection<T extends Geometry> extends Geometry {
 	 * @param geometry
 	 *            geometry
 	 */
-	public void addGeometry(T geometry) {
-		geometries.add(geometry);
-	}
+	void addGeometry(T geometry);
 
 	/**
 	 * Get the number of geometries in the collection
 	 * 
 	 * @return number of geometries
 	 */
-	public int numGeometries() {
-		return geometries.size();
-	}
+	int numGeometries();
 
-	@Override
-	public boolean isEmpty() {
-		return geometries.isEmpty();
-	}
+	boolean isEmpty();
 
 }

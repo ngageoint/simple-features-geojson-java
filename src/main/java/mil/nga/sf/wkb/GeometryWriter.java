@@ -7,14 +7,19 @@ import mil.nga.sf.CircularString;
 import mil.nga.sf.CompoundCurve;
 import mil.nga.sf.Curve;
 import mil.nga.sf.CurvePolygon;
+import mil.nga.sf.SimpleCurvePolygon;
 import mil.nga.sf.Geometry;
-import mil.nga.sf.GeometryCollection;
+import mil.nga.sf.SimpleGeometryCollection;
 import mil.nga.sf.GeometryType;
-import mil.nga.sf.MultiLineString;
+import mil.nga.sf.LineString;
+import mil.nga.sf.LinearRing;
+import mil.nga.sf.SimpleMultiLineString;
 import mil.nga.sf.MultiPoint;
-import mil.nga.sf.MultiPolygon;
+import mil.nga.sf.SimpleMultiPolygon;
 import mil.nga.sf.Point;
 import mil.nga.sf.Polygon;
+import mil.nga.sf.SimplePoint;
+import mil.nga.sf.SimplePolygon;
 import mil.nga.sf.PolyhedralSurface;
 import mil.nga.sf.Position;
 import mil.nga.sf.TIN;
@@ -61,19 +66,19 @@ public class GeometryWriter {
 			writeLineString(writer, (Curve) geometry);
 			break;
 		case POLYGON:
-			writePolygon(writer, (Polygon) geometry);
+			writePolygon(writer, (SimplePolygon) geometry);
 			break;
 		case MULTIPOINT:
 			writeMultiPoint(writer, (MultiPoint) geometry);
 			break;
 		case MULTILINESTRING:
-			writeMultiLineString(writer, (MultiLineString) geometry);
+			writeMultiLineString(writer, (SimpleMultiLineString) geometry);
 			break;
 		case MULTIPOLYGON:
-			writeMultiPolygon(writer, (MultiPolygon) geometry);
+			writeMultiPolygon(writer, (SimpleMultiPolygon) geometry);
 			break;
 		case GEOMETRYCOLLECTION:
-			writeGeometryCollection(writer, (GeometryCollection<?>) geometry);
+			writeGeometryCollection(writer, (SimpleGeometryCollection<?>) geometry);
 			break;
 		case CIRCULARSTRING:
 			writeCircularString(writer, (CircularString) geometry);
@@ -82,7 +87,7 @@ public class GeometryWriter {
 			writeCompoundCurve(writer, (CompoundCurve) geometry);
 			break;
 		case CURVEPOLYGON:
-			writeCurvePolygon(writer, (CurvePolygon<?>) geometry);
+			writeCurvePolygon(writer, (CurvePolygon) geometry);
 			break;
 		case MULTICURVE:
 			throw new SFException("Unexpected Geometry Type of "
@@ -140,13 +145,13 @@ public class GeometryWriter {
 	 * Write a Point
 	 * 
 	 * @param writer
-	 * @param point
+	 * @param simplePoint
 	 * @throws IOException
 	 */
-	public static void writePoint(ByteWriter writer, Point point)
+	public static void writePoint(ByteWriter writer, Point simplePoint)
 			throws IOException {
 
-		writePosition(writer, point.getPosition());
+		writePosition(writer, simplePoint.getPosition());
 	}
 
 	/**
@@ -173,12 +178,12 @@ public class GeometryWriter {
 	 * @param polygon
 	 * @throws IOException
 	 */
-	public static void writePolygon(ByteWriter writer, Polygon polygon)
+	public static void writePolygon(ByteWriter writer, SimplePolygon polygon)
 			throws IOException {
 
 		writer.writeInt(polygon.numRings());
 
-		for (Curve ring : polygon.getRings()) {
+		for (LinearRing ring : polygon.getRings()) {
 			writeLineString(writer, ring);
 		}
 	}
@@ -196,7 +201,7 @@ public class GeometryWriter {
 		writer.writeInt(multiPoint.numPositions());
 
 		for (Position position : multiPoint.getPositions()) {
-			writeGeometry(writer, new Point(position));
+			writeGeometry(writer, new SimplePoint(position));
 		}
 	}
 
@@ -208,11 +213,11 @@ public class GeometryWriter {
 	 * @throws IOException
 	 */
 	public static void writeMultiLineString(ByteWriter writer,
-			MultiLineString multiLineString) throws IOException {
+			SimpleMultiLineString multiLineString) throws IOException {
 
 		writer.writeInt(multiLineString.numLineStrings());
 
-		for (Curve lineString : multiLineString.getLineStrings()) {
+		for (LineString lineString : multiLineString.getLineStrings()) {
 			writeGeometry(writer, lineString);
 		}
 	}
@@ -225,7 +230,7 @@ public class GeometryWriter {
 	 * @throws IOException
 	 */
 	public static void writeMultiPolygon(ByteWriter writer,
-			MultiPolygon multiPolygon) throws IOException {
+			SimpleMultiPolygon multiPolygon) throws IOException {
 
 		writer.writeInt(multiPolygon.numPolygons());
 
@@ -242,12 +247,12 @@ public class GeometryWriter {
 	 * @throws IOException
 	 */
 	public static void writeGeometryCollection(ByteWriter writer,
-			GeometryCollection<?> geometryCollection) throws IOException {
+			SimpleGeometryCollection<?> geometryCollection) throws IOException {
 
 		writer.writeInt(geometryCollection.numGeometries());
 
-		for (Geometry geometry : geometryCollection.getGeometries()) {
-			writeGeometry(writer, geometry);
+		for (Geometry simpleGeometry : geometryCollection.getGeometries()) {
+			writeGeometry(writer, simpleGeometry);
 		}
 	}
 
@@ -280,8 +285,8 @@ public class GeometryWriter {
 
 		writer.writeInt(compoundCurve.numLineStrings());
 
-		for (Curve lineString : compoundCurve.getLineStrings()) {
-			writeGeometry(writer, lineString);
+		for (Curve curve : compoundCurve.getLineStrings()) {
+			writeGeometry(writer, curve);
 		}
 	}
 
@@ -293,11 +298,11 @@ public class GeometryWriter {
 	 * @throws IOException
 	 */
 	public static void writeCurvePolygon(ByteWriter writer,
-			CurvePolygon<?> curvePolygon) throws IOException {
+			CurvePolygon curvePolygon) throws IOException {
 
 		writer.writeInt(curvePolygon.numRings());
 
-		for (Curve ring : curvePolygon.getRings()) {
+		for (LinearRing ring : curvePolygon.getRings()) {
 			writeGeometry(writer, ring);
 		}
 	}
@@ -347,7 +352,7 @@ public class GeometryWriter {
 
 		writer.writeInt(triangle.numRings());
 
-		for (Curve ring : triangle.getRings()) {
+		for (LinearRing ring : triangle.getRings()) {
 			writeLineString(writer, ring);
 		}
 	}

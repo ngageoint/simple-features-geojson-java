@@ -13,21 +13,21 @@ public class Point extends GeoJsonObject implements Geometry {
 	/**
 	 * 
 	 */
-	private mil.nga.sf.Point point;
+	private mil.nga.sf.SimplePoint simplePoint;
 	
 	/**
 	 * Default Constructor, here to support deserialization.
 	 */
 	public Point() {
-		point = new mil.nga.sf.Point();
+		simplePoint = new mil.nga.sf.SimplePoint();
 	}
 
 	public Point(Position position) {
 		setCoordinates(position);
 	}
 
-	public Point(mil.nga.sf.Point input) {
-		point = input;
+	public Point(mil.nga.sf.SimplePoint input) {
+		simplePoint = input;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class Point extends GeoJsonObject implements Geometry {
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Position getCoordinates() {
-		mil.nga.sf.Position position = point.getPosition();
+		mil.nga.sf.Position position = simplePoint.getPosition();
 		if (position instanceof Position) {
 			return (Position)position;
 		} 
@@ -51,7 +51,7 @@ public class Point extends GeoJsonObject implements Geometry {
 	public void setCoordinates(Position position) {
 		// When we set new coordinates, 
 		// we need to completely replace the underlying geometry
-		point = new mil.nga.sf.Point(position);
+		simplePoint = new mil.nga.sf.SimplePoint(position);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class Point extends GeoJsonObject implements Geometry {
 
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public mil.nga.sf.Geometry getGeometry() {
-		return point;
+		return simplePoint;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class Feature extends GeoJsonObject {
 	
 	private static final long serialVersionUID = -2507073025031506871L;
 
-	private mil.nga.sf.Feature feature = new mil.nga.sf.Feature();
+	private mil.nga.sf.Feature feature = new mil.nga.sf.SimpleFeature();
 
 	private String id;
 

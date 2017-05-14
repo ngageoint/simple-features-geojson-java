@@ -55,9 +55,9 @@ public class FeatureTest {
 		Feature feature = (Feature) value;
 		assertNotNull(feature.getFeature().getGeometry());
 		Object geometryO = feature.getFeature().getGeometry();
-		assertTrue(geometryO instanceof mil.nga.sf.Point);
-		mil.nga.sf.Point point = (mil.nga.sf.Point)geometryO;
-		TestUtils.assertPoint(100d, 5d, null, (Point)GeoJsonObjectFactory.createObject(point));
+		assertTrue(geometryO instanceof mil.nga.sf.SimplePoint);
+		mil.nga.sf.Point simplePoint = (mil.nga.sf.Point)geometryO;
+		TestUtils.assertPoint(100d, 5d, null, (Point)GeoJsonObjectFactory.createObject(simplePoint));
 	}
 	
 	@Test

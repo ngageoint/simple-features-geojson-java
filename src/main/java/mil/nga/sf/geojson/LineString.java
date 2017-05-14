@@ -10,7 +10,7 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 	/**
 	 * 
 	 */
-	private mil.nga.sf.LineString lineString;
+	private mil.nga.sf.SimpleLineString lineString;
 
 	public LineString() {
 	}
@@ -19,7 +19,7 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 		setCoordinates(positions);
 	}
 
-	public LineString(mil.nga.sf.LineString input) {
+	public LineString(mil.nga.sf.SimpleLineString input) {
 		lineString = input;
 	}
 
@@ -49,7 +49,7 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 			positions.add(pos);
 		}
 		if (lineString == null) {
-			lineString = new mil.nga.sf.LineString(positions);
+			lineString = new mil.nga.sf.SimpleLineString(positions);
 		} else {
 			lineString.setPositions(positions);
 		}

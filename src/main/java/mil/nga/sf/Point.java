@@ -1,22 +1,13 @@
 package mil.nga.sf;
 
-/**
- * A geometry consisting of a single position.
- * 
- * @author osbornb
- */
-public class Point extends Geometry {
-
-	private Position position;
+public interface Point extends Geometry {
 
 	/**
 	 * Get the position
 	 * 
 	 * @return position
 	 */
-	public Position getPosition() {
-		return position;
-	}
+	Position getPosition();
 
 	/**
 	 * Set the position
@@ -24,32 +15,6 @@ public class Point extends Geometry {
 	 * @param position
 	 *            position
 	 */
-	public void setPosition(Position position) {
-		this.position = position;
-	}
+	void setPosition(Position position);
 
-	/**
-	 * Constructor
-	 * 
-	 * @param pos
-	 *            its Position
-	 */
-	public Point(Position pos) {
-		super(GeometryType.POINT, !(pos.getZ() == null), !(pos.getM() == null));
-		position = pos;
-	}
-	
-	/**
-	 * Default Constructor. It is best not to use this unless another process 
-	 * intends to immediately call setPosition().
-	 */
-	public Point() {
-		super(GeometryType.POINT, false, false);
-		this.position = new Position();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return (position.getX() == null) || (position.getY() == null);
-	}
 }

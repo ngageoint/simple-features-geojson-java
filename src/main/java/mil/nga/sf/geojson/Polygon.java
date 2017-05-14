@@ -12,7 +12,7 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 	/**
 	 * 
 	 */
-	private mil.nga.sf.Polygon polygon;
+	private mil.nga.sf.SimplePolygon polygon;
 
 	public Polygon() {
 	}
@@ -21,7 +21,7 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 		setCoordinates(positions);
 	}
 	
-	public Polygon(mil.nga.sf.Polygon input) {
+	public Polygon(mil.nga.sf.SimplePolygon input) {
 		polygon = input;
 	}
 
@@ -32,7 +32,7 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<Position>> getCoordinates() {
 		List<List<Position>> result = new ArrayList<List<Position>>();
-		for(mil.nga.sf.LinearRing ring : polygon.getRings()){
+		for(mil.nga.sf.SimpleLinearRing ring : polygon.getRings()){
 			List<Position> positions = new ArrayList<Position>();
 			for(mil.nga.sf.Position pos : ring.getPositions()){
 				positions.add(new Position(pos));
@@ -47,18 +47,18 @@ public class Polygon extends GeoJsonObject implements Geometry, Coordinates<List
 	 * @param input the list
 	 */
 	private void setCoordinates(List<List<Position>> input) {
-		List<mil.nga.sf.LinearRing> rings = new ArrayList<mil.nga.sf.LinearRing>();
+		List<mil.nga.sf.SimpleLinearRing> rings = new ArrayList<mil.nga.sf.SimpleLinearRing>();
 		for (List<Position> ringPositions : input) {
 			List<mil.nga.sf.Position> positions = new ArrayList<mil.nga.sf.Position>();
 			for (Position position: ringPositions){
 				positions.add(position);
 			}
-			mil.nga.sf.LinearRing ring = new mil.nga.sf.LinearRing(PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
+			mil.nga.sf.SimpleLinearRing ring = new mil.nga.sf.SimpleLinearRing(PositionUtils.hasZ(positions), PositionUtils.hasM(positions));
 			ring.setPositions(positions);
 			rings.add(ring);
 		}
 		if (polygon == null){
-			polygon = new mil.nga.sf.Polygon(rings);
+			polygon = new mil.nga.sf.SimplePolygon(rings);
 		} else {
 			polygon.setRings(rings);
 		}
