@@ -46,12 +46,12 @@ public class LinearRing extends LineString {
 
 	@Override
 	public void setPoints(List<Point> points){
-		if ((points == null) || (points.size() < 3)) {
-			throw new SFException ("A linear ring must have at least three positions.");
-		}
 		super.setPoints(points);
 		if (!isEmpty() && !isRing()){
 			addPoint(points.get(0));
+		}
+		if (points.size() < 3) {
+			throw new SFException ("A linear ring must have at least three positions.");
 		}
 	}
 }
