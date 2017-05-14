@@ -11,8 +11,6 @@ public class MultiCurve extends GeometryCollection<Curve> {
 	/**
 	 * Constructor
 	 * 
-	 * @param type
-	 *            geometry type
 	 * @param hasZ
 	 *            has z
 	 * @param hasM

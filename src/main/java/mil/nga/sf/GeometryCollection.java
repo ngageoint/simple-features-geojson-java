@@ -10,7 +10,7 @@ public abstract class GeometryCollection<T extends Geometry> extends Geometry {
 	/**
 	 * Constructor for overrides
 	 * 
-	 * @param type
+	 * @param geometryType
 	 *            geometry type
 	 * @param hasZ
 	 *            has z

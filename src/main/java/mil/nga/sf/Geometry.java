@@ -25,7 +25,7 @@ public abstract class Geometry {
 	/**
 	 * Constructor for overrides
 	 * 
-	 * @param type
+	 * @param geometryType
 	 *            geometry type
 	 * @param hasZ
 	 *            has z

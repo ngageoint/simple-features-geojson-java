@@ -14,7 +14,7 @@ public class LinearRing extends LineString {
 	/**
 	 * Main constructor
 	 * 
-	 * @param ls the curve providing the positions
+	 * @param curve the curve providing the positions
 	 */
 	public LinearRing(Curve curve) {
 		super(curve.hasZ(), curve.hasM());
