@@ -106,29 +106,4 @@ public class Projection {
 	public double toMeters(double value) {
 		return value / crs.getProjection().getFromMetres();
 	}
-
-	/**
-	 * Get the units of this projection
-	 * 
-	 * @return the projection unit
-	 * @since 1.2.0
-	 */
-	public Unit getUnit() {
-		Unit unit = null;
-		try {
-			// The unit is currently not publicly available, use reflection
-			Field f = org.osgeo.proj4j.proj.Projection.class
-					.getDeclaredField("unit");
-			f.setAccessible(true);
-			unit = (Unit) f.get(crs.getProjection());
-			if (unit == null) {
-				unit = Units.METRES;
-			}
-		} catch (Exception e) {
-			throw new SFException(
-					"Failed to get projection unit for epsg: " + epsg, e);
-		}
-		return unit;
-	}
-
 }
