@@ -90,8 +90,12 @@ public class TestUtils {
 		assertPosition(expectedLongitude, expectedLatitude, expectedAltitude, expectedAdditionalElements, point.getCoordinates());
 	}
 	
-	public static void compareAsNodes(Object obj, String input) throws JsonProcessingException, IOException{
-		Geometry geometry = GeoJsonObjectFactory.createObject(obj);
+	public static void compareAsNodes(mil.nga.sf.Geometry simpleGeometry, String input) throws JsonProcessingException, IOException{
+		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
+		compareAsNodes(geometry, input);
+	}
+	
+	public static void compareAsNodes(Geometry geometry, String input) throws JsonProcessingException, IOException{
 		JsonNode nodeFromPojo = mapper.valueToTree(geometry);
 		JsonNode nodeFromString = mapper.readTree(input);
 		TestCase.assertEquals(nodeFromPojo, nodeFromString);
@@ -99,7 +103,7 @@ public class TestUtils {
 	
 	public static void toMap(mil.nga.sf.Geometry simpleGeometry) {
 		
-		Geometry geometry = GeoJsonObjectFactory.createObject(simpleGeometry);
+		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
 		TestCase.assertNotNull(geometry);
 
 		Map<String, Object> map = GeoJsonObjectFactory.toMap(simpleGeometry);
@@ -116,7 +120,7 @@ public class TestUtils {
 
 	public static void toStringValue(mil.nga.sf.Geometry simpleGeometry) {
 
-		Geometry geometry = GeoJsonObjectFactory.createObject(simpleGeometry);
+		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
 		TestCase.assertNotNull(geometry);
 
 		String stringValue = GeoJsonObjectFactory.toStringValue(simpleGeometry);

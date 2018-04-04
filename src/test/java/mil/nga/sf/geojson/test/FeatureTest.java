@@ -39,7 +39,7 @@ public class FeatureTest {
 		Feature testObject = new Feature();
 		
 		testObject.getProperties().put("foo", "bar");
-		testObject.setGeometry((MultiPolygon)GeoJsonObjectFactory.createObject(TestUtils.getMultiPolygonWithRings()));
+		testObject.setGeometry((MultiPolygon)GeoJsonObjectFactory.toGeometry(TestUtils.getMultiPolygonWithRings()));
 		
 		JsonNode nodeFromPojo = TestUtils.getMapper().valueToTree(testObject);
 		JsonNode nodeFromString = TestUtils.getMapper().readTree("{\"type\":\"Feature\",\"properties\":{\"foo\":\"bar\"},\"geometry\":{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0],[-100.0,-50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0],[-50.0,-25.0]]]]}}");
@@ -57,7 +57,7 @@ public class FeatureTest {
 		Object geometryO = feature.getFeature().getGeometry();
 		assertTrue(geometryO instanceof mil.nga.sf.Point);
 		mil.nga.sf.Point simplePoint = (mil.nga.sf.Point)geometryO;
-		TestUtils.assertPoint(100d, 5d, null, (Point)GeoJsonObjectFactory.createObject(simplePoint));
+		TestUtils.assertPoint(100d, 5d, null, (Point)GeoJsonObjectFactory.toGeometry(simplePoint));
 	}
 	
 	@Test

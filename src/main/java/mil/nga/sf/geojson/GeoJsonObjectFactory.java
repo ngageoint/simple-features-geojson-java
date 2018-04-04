@@ -13,36 +13,24 @@ public class GeoJsonObjectFactory {
 
 	public final static ObjectMapper mapper = new ObjectMapper();
 
-	public static Geometry createObject(Object input) {
-		Geometry result = null;
-		if (input instanceof Geometry) {
-			result = (Geometry) input;
-		} else if (input instanceof mil.nga.sf.Point) {
-			result = new Point((mil.nga.sf.Point) input);
-		} else if (input instanceof mil.nga.sf.LineString) {
-			result = new LineString((mil.nga.sf.LineString) input);
-		} else if (input instanceof mil.nga.sf.MultiPoint) {
-			result = new MultiPoint((mil.nga.sf.MultiPoint) input);
-		} else if (input instanceof mil.nga.sf.Polygon) {
-			result = new Polygon((mil.nga.sf.Polygon) input);
-		} else if (input instanceof mil.nga.sf.MultiLineString) {
-			result = new MultiLineString((mil.nga.sf.MultiLineString) input);
-		} else if (input instanceof mil.nga.sf.MultiPolygon) {
-			result = new MultiPolygon((mil.nga.sf.MultiPolygon) input);
+	public static Geometry toGeometry(mil.nga.sf.Geometry simpleGeometry) {
+		Geometry geometry = null;
+		if (simpleGeometry instanceof mil.nga.sf.Point) {
+			geometry = new Point((mil.nga.sf.Point) simpleGeometry);
+		} else if (simpleGeometry instanceof mil.nga.sf.LineString) {
+			geometry = new LineString((mil.nga.sf.LineString) simpleGeometry);
+		} else if (simpleGeometry instanceof mil.nga.sf.MultiPoint) {
+			geometry = new MultiPoint((mil.nga.sf.MultiPoint) simpleGeometry);
+		} else if (simpleGeometry instanceof mil.nga.sf.Polygon) {
+			geometry = new Polygon((mil.nga.sf.Polygon) simpleGeometry);
+		} else if (simpleGeometry instanceof mil.nga.sf.MultiLineString) {
+			geometry = new MultiLineString(
+					(mil.nga.sf.MultiLineString) simpleGeometry);
+		} else if (simpleGeometry instanceof mil.nga.sf.MultiPolygon) {
+			geometry = new MultiPolygon(
+					(mil.nga.sf.MultiPolygon) simpleGeometry);
 		}
-		return result;
-	}
-
-	public static Map<String, Object> toMap(Object input) {
-		Geometry geometry = GeoJsonObjectFactory.createObject(input);
-		return toMap(geometry);
-	}
-
-	public static Map<String, Object> toMap(Geometry geometry) {
-		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
-		};
-		Map<String, Object> map = mapper.convertValue(geometry, typeRef);
-		return map;
+		return geometry;
 	}
 
 	public static Geometry toGeometry(String content) {
@@ -53,12 +41,14 @@ public class GeoJsonObjectFactory {
 			throw new SFException("Failed to convert content to a node tree: "
 					+ content, e);
 		}
-		return toGeometry(tree);
+		Geometry geometry = toGeometry(tree);
+		return geometry;
 	}
 
 	public static Geometry toGeometry(Object value) {
 		JsonNode tree = mapper.valueToTree(value);
-		return toGeometry(tree);
+		Geometry geometry = toGeometry(tree);
+		return geometry;
 	}
 
 	public static Geometry toGeometry(JsonNode tree) {
@@ -73,20 +63,34 @@ public class GeoJsonObjectFactory {
 		return geometry;
 	}
 
-	public static String toStringValue(Object input) {
-		Geometry geometry = GeoJsonObjectFactory.createObject(input);
-		return toStringValue(geometry);
+	public static Map<String, Object> toMap(mil.nga.sf.Geometry simpleGeometry) {
+		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
+		Map<String, Object> map = toMap(geometry);
+		return map;
+	}
+
+	public static Map<String, Object> toMap(Geometry geometry) {
+		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
+		};
+		Map<String, Object> map = mapper.convertValue(geometry, typeRef);
+		return map;
+	}
+
+	public static String toStringValue(mil.nga.sf.Geometry simpleGeometry) {
+		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
+		String stringValue = toStringValue(geometry);
+		return stringValue;
 	}
 
 	public static String toStringValue(Geometry geometry) {
-		String value = null;
+		String stringValue = null;
 		try {
-			value = mapper.writeValueAsString(geometry);
+			stringValue = mapper.writeValueAsString(geometry);
 		} catch (JsonProcessingException e) {
 			throw new SFException("Failed to write geometry as a String: "
 					+ geometry.getGeometry().getGeometryType(), e);
 		}
-		return value;
+		return stringValue;
 	}
 
 }

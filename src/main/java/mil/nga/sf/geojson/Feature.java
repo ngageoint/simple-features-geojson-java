@@ -19,7 +19,7 @@ public class Feature extends GeoJsonObject {
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Geometry getGeometry() {
 
-		return GeoJsonObjectFactory.createObject(feature.getGeometry());
+		return GeoJsonObjectFactory.toGeometry(feature.getGeometry());
 	}
 
 	public void setGeometry(GeoJsonObject gjObject) {
