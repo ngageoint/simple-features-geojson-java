@@ -1,14 +1,16 @@
-package mil.nga.sf;
+package mil.nga.sf.geojson;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import mil.nga.sf.Geometry;
 
 /**
  * The a feature
  * 
  * @author yutzlejp
  */
-public class SimpleFeature implements Feature {
+public class SimpleFeature{
 
 	/**
 	 * Geometry type
@@ -29,35 +31,20 @@ public class SimpleFeature implements Feature {
 		this.properties = properties;
 	}
 
-	/* (non-Javadoc)
-	 * @see mil.nga.sf.Feature#getGeometry()
-	 */
-	@Override
 	public Geometry getGeometry() {
 		return geometry;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mil.nga.sf.Feature#setGeometry(mil.nga.sf.Geometry)
-	 */
-	@Override
 	public void setGeometry(Geometry geometry) {
 		this.geometry = geometry;
 	}
 
-	/* (non-Javadoc)
-	 * @see mil.nga.sf.Feature#getProperties()
-	 */
-	@Override
 	public Map<String, Object> getProperties() {
 		return properties;
 	}
 
-	/* (non-Javadoc)
-	 * @see mil.nga.sf.Feature#setProperties(java.util.Map)
-	 */
-	@Override
 	public void setProperties(Map<String, Object> properties) {
 		this.properties = properties;
 	}
+	
 }

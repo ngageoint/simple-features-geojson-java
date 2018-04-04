@@ -1,18 +1,21 @@
 package mil.nga.sf.geojson;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import mil.nga.sf.geojson.jackson.CoordinatesDeserializer;
-import mil.nga.sf.geojson.jackson.CoordinatesSerializer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import mil.nga.sf.geojson.jackson.CoordinatesDeserializer;
+import mil.nga.sf.geojson.jackson.CoordinatesSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @JsonDeserialize(using = CoordinatesDeserializer.class)
 @JsonSerialize(using = CoordinatesSerializer.class)
-public class Position implements Serializable, mil.nga.sf.Position {
+public class Position implements Serializable {
+
+	private static final long serialVersionUID = 4454307738904889423L;
 
 	private final double[] coordinates;
 	
@@ -20,9 +23,9 @@ public class Position implements Serializable, mil.nga.sf.Position {
 	 * 
 	 */
 	private final List<Double> additionalElements;
-
-	public Position(mil.nga.sf.Position position){
-		this(position.getX(), position.getY(), position.getZ(), position.getM());
+	
+	public Position(mil.nga.sf.Point point) {
+		this(point.getX(), point.getY(), point.getZ(), point.getM());
 	}
 	
 	public Position(Double longitude, Double latitude) {
@@ -85,33 +88,38 @@ public class Position implements Serializable, mil.nga.sf.Position {
 		 return (additionalElements.length > 0) && (additionalElements[0] != null);
 	}
 
-	@Override
 	public Double getX() {
 		return coordinates.length > 0 ? coordinates[0] : null;
 	}
 
-	@Override
 	public Double getY() {
 		return coordinates.length > 1 ? coordinates[1] : null;
 	}
 
-	@Override
 	public Double getZ() {
 		return hasZ() ? coordinates[2] : null;
 	}
 
-	@Override
 	public Double getM() {
 		return hasM() ? additionalElements.get(0) : null;
 	}
 
-	@Override
 	public boolean hasZ() {
 		return coordinates.length > 2;
 	}
 
-	@Override
 	public boolean hasM() {
 		return additionalElements.size() > 0;
 	}
+	
+	public mil.nga.sf.Point toSimplePoint(){
+		mil.nga.sf.Point point = null;
+		Double x = getX();
+		Double y = getY();
+		if(x != null && y != null){
+			point =  new mil.nga.sf.Point(x, y, getZ(), getM());
+		}
+		return point;
+	}
+	
 }

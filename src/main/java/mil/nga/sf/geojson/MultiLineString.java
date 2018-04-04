@@ -3,12 +3,14 @@ package mil.nga.sf.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import mil.nga.sf.util.GeometryUtils;
 
-import mil.nga.sf.util.PointUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class MultiLineString  extends GeoJsonObject implements Geometry, Coordinates<List<Position>> {
 
+	private static final long serialVersionUID = -2752279881315034003L;
+	
 	/**
 	 * 
 	 */
@@ -34,8 +36,8 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 		List<List<Position>> result = new ArrayList<List<Position>>();
 		for(mil.nga.sf.LineString lineString : multiLineString.getGeometries()){
 			List<Position> positions = new ArrayList<Position>();
-			for(mil.nga.sf.Position pos : lineString.getPoints()){
-				positions.add(new Position(pos));
+			for(mil.nga.sf.Point point : lineString.getPoints()){
+				positions.add(new Position(point));
 			}
 			result.add(positions);
 		}
@@ -51,9 +53,9 @@ public class MultiLineString  extends GeoJsonObject implements Geometry, Coordin
 		for (List<Position> lineStringPositions : input) {
 			List<mil.nga.sf.Point> positions = new ArrayList<mil.nga.sf.Point>();
 			for (Position position: lineStringPositions){
-				positions.add(new mil.nga.sf.Point(position));
+				positions.add(position.toSimplePoint());
 			}
-			mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(PointUtils.hasZ(positions), PointUtils.hasM(positions));
+			mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(GeometryUtils.hasZ(positions), GeometryUtils.hasM(positions));
 			lineString.setPoints(positions);
 			lineStrings.add(lineString);
 		}

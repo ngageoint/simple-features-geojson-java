@@ -6,12 +6,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
 import mil.nga.sf.Geometry;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.MultiLineString;
-import mil.nga.sf.geojson.Position;
+
+import org.junit.Test;
 
 public class MultiLineStringTest {
 
@@ -121,4 +120,29 @@ public class MultiLineStringTest {
 		TestUtils.assertPosition( 50d, -25d, null, null, points.get(1));
 		TestUtils.assertPosition( -1d,  25d, null, null, points.get(2));
 	}
+	
+	@Test
+	public void toMap() {
+		TestUtils.toMap(getTestGeometry());
+	}
+
+	@Test
+	public void toStringValue() {
+		TestUtils.toStringValue(getTestGeometry());
+	}
+	
+	private mil.nga.sf.Geometry getTestGeometry(){
+		
+		List<mil.nga.sf.LineString> lineStrings = new ArrayList<mil.nga.sf.LineString>();
+		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		points.add(new mil.nga.sf.Point(100d, 10d));
+		points.add(new mil.nga.sf.Point(101d, 1d));
+		points.add(new mil.nga.sf.Point(101d, 10d));
+		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(points);
+		lineStrings.add(lineString);
+		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(lineStrings);
+		
+		return mls;
+	}
+	
 }

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class MultiPoint extends GeoJsonObject implements Geometry, Coordinates<Position> {
 
+	private static final long serialVersionUID = -3432834802398357952L;
+	
 	/**
 	 * 
 	 */
@@ -43,7 +45,7 @@ public class MultiPoint extends GeoJsonObject implements Geometry, Coordinates<P
 	private void setCoordinates(List<Position> input) {
 		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
 		for (Position pos : input) {
-			points.add(new mil.nga.sf.Point(pos));
+			points.add(pos.toSimplePoint());
 		}
 		if (multiPoint == null) {
 			multiPoint = new mil.nga.sf.MultiPoint(points);

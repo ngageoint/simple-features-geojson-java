@@ -1,18 +1,18 @@
 package mil.nga.sf.geojson;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Map;
 
 import mil.nga.sf.GeometryType;
 
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties({"feature", "geometryType"})
 public class Feature extends GeoJsonObject {
 	
 	private static final long serialVersionUID = -2507073025031506871L;
 
-	private mil.nga.sf.Feature feature = new mil.nga.sf.SimpleFeature();
+	private SimpleFeature feature = new SimpleFeature();
 
 	private String id;
 
@@ -54,7 +54,7 @@ public class Feature extends GeoJsonObject {
 		return geoJsonObjectVisitor.visit(this);
 	}
 
-	public mil.nga.sf.Feature getFeature() {
+	public SimpleFeature getFeature() {
 		return feature;
 	}
 	

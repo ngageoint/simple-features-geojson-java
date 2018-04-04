@@ -1,16 +1,16 @@
 package mil.nga.sf.geojson.test;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import junit.framework.TestCase;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.Point;
 import mil.nga.sf.geojson.Position;
 
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PointTest {
 
@@ -19,7 +19,7 @@ public class PointTest {
 		mil.nga.sf.Point simplePoint = new mil.nga.sf.Point(100d, 10d);
 		TestUtils.compareAsNodes(simplePoint, "{\"type\":\"Point\",\"coordinates\":[100.0,10.0]}");
 	}
-
+	
 	@Test
 	public void itShouldDeserializeAPoint() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue("{\"type\":\"Point\",\"coordinates\":[100.0,5.0]}", GeoJsonObject.class);
@@ -57,4 +57,22 @@ public class PointTest {
 		Point point = new Point(position);
 		TestUtils.compareAsNodes(point, "{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}");
 	}
+	
+	@Test
+	public void toMap() {
+		TestUtils.toMap(getTestGeometry());
+	}
+
+	@Test
+	public void toStringValue() {
+		TestUtils.toStringValue(getTestGeometry());
+	}
+	
+	private mil.nga.sf.Geometry getTestGeometry(){
+		
+		mil.nga.sf.Point point = new mil.nga.sf.Point(100d, 10d);
+		
+		return point;
+	}
+	
 }

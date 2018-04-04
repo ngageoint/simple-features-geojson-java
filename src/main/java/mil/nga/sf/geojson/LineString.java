@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class LineString extends GeoJsonObject implements Geometry, Coordinates<Position> {
 
+	private static final long serialVersionUID = -2756190074121514366L;
+	
 	/**
 	 * 
 	 */
@@ -46,7 +48,7 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 	public void setCoordinates(List<Position> input) {
 		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
 		for (Position pos : input) {
-			points.add(new mil.nga.sf.Point(pos));
+			points.add(pos.toSimplePoint());
 		}
 		if (lineString == null) {
 			lineString = new mil.nga.sf.LineString(points);

@@ -7,11 +7,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.MultiPoint;
 import mil.nga.sf.geojson.Position;
+
+import org.junit.Test;
 
 public class MultiPointTest {
 
@@ -60,4 +60,25 @@ public class MultiPointTest {
 		TestUtils.assertPosition(100d, 10d, -20d, null, positions.get(0));
 		TestUtils.assertPosition(101d, 1d, -10d, null, positions.get(1));
 	}
+	
+	@Test
+	public void toMap() {
+		TestUtils.toMap(getTestGeometry());
+	}
+
+	@Test
+	public void toStringValue() {
+		TestUtils.toStringValue(getTestGeometry());
+	}
+	
+	private mil.nga.sf.Geometry getTestGeometry(){
+		
+		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		points.add(new mil.nga.sf.Point(100d, 10d));
+		points.add(new mil.nga.sf.Point(101d, 1d));
+		mil.nga.sf.MultiPoint multiPoint = new mil.nga.sf.MultiPoint(points);
+		
+		return multiPoint;
+	}
+	
 }
