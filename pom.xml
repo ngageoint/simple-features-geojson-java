@@ -1,22 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>mil.nga</groupId>
-	<artifactId>wkb</artifactId>
-	<version>1.2.2-SF</version>
+	<groupId>mil.nga.sf</groupId>
+	<artifactId>sf-geojson</artifactId>
+	<version>2.0.0</version>
 	<packaging>jar</packaging>
-	<name>Well-Known Binary</name>
-	<url>https://github.com/ngageoint/geopackage-wkb-java</url>
-	<description>Library for writing and reading Well-Known Binary Geometries to and from bytes</description>
+	<name>GeoJSON</name>
+	<url>https://github.com/ngageoint/simple-features-geojson-java</url>
+	<description>Library for writing and reading Simple Feature Geometries to and from GeoJSON</description>
 	<scm>
-		<url>git@github.com:ngageoint/geopackage-wkb-java.git</url>
-		<connection>scm:git:git@github.com:ngageoint/geopackage-wkb-java.git</connection>
-		<developerConnection>scm:git:git@github.com:ngageoint/geopackage-wkb-java.git</developerConnection>
+		<url>git@github.com:ngageoint/simple-features-geojson-java.git</url>
+		<connection>scm:git:git@github.com:ngageoint/simple-features-geojson-java.git</connection>
+		<developerConnection>scm:git:git@github.com:ngageoint/simple-features-geojson-java.git</developerConnection>
 	</scm>
 	<licenses>
 		<license>
 			<name>The MIT License (MIT)</name>
-			<url>https://github.com/ngageoint/geopackage-wkb-java/blob/master/LICENSE.txt</url>
+			<url>https://github.com/ngageoint/simple-features-geojson-java/blob/master/LICENSE.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
@@ -25,6 +25,11 @@
 		<url>https://www.nga.mil/</url>
 	</organization>
 	<developers>
+		<developer>
+			<id>yutzlejp</id>
+			<name>Jeff Yutzler</name>
+			<timezone>UTC−05</timezone>
+		</developer>
 		<developer>
 			<id>bosborn</id>
 			<name>Brian Osborn</name>
@@ -43,16 +48,16 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>mil.nga</groupId>
+			<artifactId>sf</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.osgeo</groupId>
-            <artifactId>proj4j</artifactId>
-            <version>0.1.0</version>
-        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
