@@ -8,6 +8,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
+import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.GeoJsonObjectFactory;
 import mil.nga.sf.geojson.Geometry;
 import mil.nga.sf.geojson.Point;
@@ -126,6 +127,12 @@ public class TestUtils {
 		String stringValue = GeoJsonObjectFactory.toStringValue(simpleGeometry);
 		TestCase.assertNotNull(stringValue);
 		TestCase.assertFalse(stringValue.isEmpty());
+		String type = "\"type\":\"" + ((GeoJsonObject)geometry).getType() + "\"";
+		int index = stringValue.indexOf(type);
+		TestCase.assertTrue(index >= 0);
+		String restOfString = stringValue.substring(index + type.length());
+		int secondIndex = restOfString.indexOf(type);
+		TestCase.assertEquals(-1, secondIndex);
 
 		Geometry geomteryFromString = GeoJsonObjectFactory
 				.toGeometry(stringValue);

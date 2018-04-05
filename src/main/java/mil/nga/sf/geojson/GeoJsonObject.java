@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-@JsonTypeInfo(property = "type", use = Id.NAME)
+@JsonTypeInfo(property = "type", use = Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY)
 @JsonSubTypes({ 
 	@Type(Feature.class), 
 	@Type(Polygon.class), 
