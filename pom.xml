@@ -5,7 +5,7 @@
 	<artifactId>sf-geojson</artifactId>
 	<version>2.0.0</version>
 	<packaging>jar</packaging>
-	<name>GeoJSON</name>
+	<name>Simple Features GeoJSON</name>
 	<url>https://github.com/ngageoint/simple-features-geojson-java</url>
 	<description>Library for writing and reading Simple Feature Geometries to and from GeoJSON</description>
 	<scm>
@@ -53,21 +53,21 @@
 			<version>2.0.0</version>
 		</dependency>
 		<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>2.6.3</version>
+		</dependency>
+		<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.6.3</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.6.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.6.3</version>
-        </dependency>
 	</dependencies>
 
 	<build>
