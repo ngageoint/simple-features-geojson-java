@@ -102,6 +102,12 @@ public class TestUtils {
 		TestCase.assertEquals(nodeFromPojo, nodeFromString);
 	}
 	
+	public static void compareAsNodesGeoJsonObject(GeoJsonObject object, String input) throws JsonProcessingException, IOException{
+		JsonNode nodeFromPojo = mapper.valueToTree(object);
+		JsonNode nodeFromString = mapper.readTree(input);
+		TestCase.assertEquals(nodeFromPojo, nodeFromString);
+	}
+	
 	public static void toMap(mil.nga.sf.Geometry simpleGeometry) {
 		
 		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);

@@ -9,13 +9,15 @@ import java.util.Map;
 import mil.nga.sf.GeometryType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Feature Collection
  * 
  * @author yutzlejp
  */
-@JsonIgnoreProperties({ "propertiesMap" })
+@JsonPropertyOrder({ "type", "features" })
+@JsonIgnoreProperties({ "propertiesMap", "geometryType" })
 public class FeatureCollection extends GeoJsonObject implements
 		Iterable<Feature> {
 
@@ -46,6 +48,16 @@ public class FeatureCollection extends GeoJsonObject implements
 	 */
 	public void setFeatures(Collection<Feature> features) {
 		this.features = features;
+	}
+
+	/**
+	 * Add a feature
+	 * 
+	 * @param feature
+	 *            feature
+	 */
+	public void addFeature(Feature feature) {
+		features.add(feature);
 	}
 
 	/**

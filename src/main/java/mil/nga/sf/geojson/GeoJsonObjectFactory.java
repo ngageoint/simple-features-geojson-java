@@ -31,23 +31,42 @@ public class GeoJsonObjectFactory {
 	 */
 	public static Geometry toGeometry(mil.nga.sf.Geometry simpleGeometry) {
 		Geometry geometry = null;
+		GeoJsonObject geoJsonObject = toGeoJsonObject(simpleGeometry);
+		if(geoJsonObject != null){
+			geometry = (Geometry) geoJsonObject;
+		}
+		return geometry;
+	}
+	
+	/**
+	 * Convert a simple geometry to a GeoJSON object
+	 * 
+	 * @param simpleGeometry
+	 *            simple geometry
+	 * @return GeoJSON object
+	 */
+	public static GeoJsonObject toGeoJsonObject(mil.nga.sf.Geometry simpleGeometry) {
+		GeoJsonObject geoJsonObject = null;
 		if (simpleGeometry instanceof mil.nga.sf.Point) {
-			geometry = new Point((mil.nga.sf.Point) simpleGeometry);
+			geoJsonObject = new Point((mil.nga.sf.Point) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.LineString) {
-			geometry = new LineString((mil.nga.sf.LineString) simpleGeometry);
+			geoJsonObject = new LineString((mil.nga.sf.LineString) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.MultiPoint) {
-			geometry = new MultiPoint((mil.nga.sf.MultiPoint) simpleGeometry);
+			geoJsonObject = new MultiPoint((mil.nga.sf.MultiPoint) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.Polygon) {
-			geometry = new Polygon((mil.nga.sf.Polygon) simpleGeometry);
+			geoJsonObject = new Polygon((mil.nga.sf.Polygon) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.MultiLineString) {
-			geometry = new MultiLineString(
+			geoJsonObject = new MultiLineString(
 					(mil.nga.sf.MultiLineString) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.MultiPolygon) {
-			geometry = new MultiPolygon(
+			geoJsonObject = new MultiPolygon(
 					(mil.nga.sf.MultiPolygon) simpleGeometry);
+		} else if (simpleGeometry instanceof mil.nga.sf.GeometryCollection<?>) {
+			@SuppressWarnings("unchecked")
+			mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> simpleGeometryCollection = (mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry>) simpleGeometry;
+			geoJsonObject = new GeometryCollection(simpleGeometryCollection);
 		}
-		// TODO
-		return geometry;
+		return geoJsonObject;
 	}
 
 	/**
