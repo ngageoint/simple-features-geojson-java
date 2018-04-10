@@ -15,11 +15,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  * @author yutzlejp
  */
 @JsonTypeInfo(property = "type", use = Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY)
-@JsonSubTypes({ @Type(Feature.class), @Type(Polygon.class),
-		@Type(MultiPolygon.class), @Type(FeatureCollection.class),
-		@Type(Point.class), @Type(MultiPoint.class),
-		@Type(MultiLineString.class), @Type(LineString.class),
-		@Type(GeometryCollection.class) })
+@JsonSubTypes({ @Type(Feature.class), @Type(FeatureCollection.class),
+		@Type(Geometry.class) })
 @JsonInclude(Include.NON_NULL)
 public abstract class GeoJsonObject implements Serializable {
 
@@ -82,5 +79,5 @@ public abstract class GeoJsonObject implements Serializable {
 	 * @return GeoJSON object type
 	 */
 	public abstract String getType();
-
+	
 }

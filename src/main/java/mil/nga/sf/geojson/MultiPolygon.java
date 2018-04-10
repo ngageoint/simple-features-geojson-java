@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author yutzlejp
  */
-public class MultiPolygon extends GeoJsonObject implements Geometry,
+public class MultiPolygon extends Geometry implements
 		Coordinates<List<List<Position>>> {
 
 	/**

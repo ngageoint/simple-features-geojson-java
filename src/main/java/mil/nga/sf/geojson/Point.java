@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @author yutzlejp
  */
 @JsonIgnoreProperties({ "geometry" })
-public class Point extends GeoJsonObject implements Geometry {
+public class Point extends Geometry {
 
 	/**
 	 * Serialization Version number

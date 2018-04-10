@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author yutzlejp
  */
-public class MultiPoint extends GeoJsonObject implements Geometry,
+public class MultiPoint extends Geometry implements
 		Coordinates<Position> {
 
 	/**

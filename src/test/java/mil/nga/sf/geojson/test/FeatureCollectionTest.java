@@ -11,7 +11,7 @@ import mil.nga.sf.LinearRing;
 import mil.nga.sf.geojson.Feature;
 import mil.nga.sf.geojson.FeatureCollection;
 import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.GeoJsonObjectFactory;
+import mil.nga.sf.geojson.GeometryFactory;
 
 import org.junit.Test;
 
@@ -79,7 +79,7 @@ public class FeatureCollectionTest {
 		geometryCollection.addGeometry(lineString);
 		FeatureCollection featureCollection = new FeatureCollection();
 		Feature feature = new Feature();
-		feature.setGeometry(GeoJsonObjectFactory.toGeoJsonObject(geometryCollection));
+		feature.setGeometry(GeometryFactory.toGeometry(geometryCollection));
 		featureCollection.addFeature(feature);
 		TestUtils.compareAsNodesGeoJsonObject(featureCollection, GEOMETRYCOLLECTION);
 	}

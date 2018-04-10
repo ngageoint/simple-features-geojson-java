@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author yutzlejp
  */
-public class LineString extends GeoJsonObject implements Geometry,
+public class LineString extends Geometry implements
 		Coordinates<Position> {
 
 	/**

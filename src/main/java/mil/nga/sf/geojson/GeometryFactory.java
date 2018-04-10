@@ -10,12 +10,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * GeoJSON Object
+ * Geoetry Factory
  * 
  * @author yutzlejp
  * @author osbornb
  */
-public class GeoJsonObjectFactory {
+public class GeometryFactory {
 
 	/**
 	 * Object mapper
@@ -31,42 +31,26 @@ public class GeoJsonObjectFactory {
 	 */
 	public static Geometry toGeometry(mil.nga.sf.Geometry simpleGeometry) {
 		Geometry geometry = null;
-		GeoJsonObject geoJsonObject = toGeoJsonObject(simpleGeometry);
-		if(geoJsonObject != null){
-			geometry = (Geometry) geoJsonObject;
-		}
-		return geometry;
-	}
-	
-	/**
-	 * Convert a simple geometry to a GeoJSON object
-	 * 
-	 * @param simpleGeometry
-	 *            simple geometry
-	 * @return GeoJSON object
-	 */
-	public static GeoJsonObject toGeoJsonObject(mil.nga.sf.Geometry simpleGeometry) {
-		GeoJsonObject geoJsonObject = null;
 		if (simpleGeometry instanceof mil.nga.sf.Point) {
-			geoJsonObject = new Point((mil.nga.sf.Point) simpleGeometry);
+			geometry = new Point((mil.nga.sf.Point) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.LineString) {
-			geoJsonObject = new LineString((mil.nga.sf.LineString) simpleGeometry);
+			geometry = new LineString((mil.nga.sf.LineString) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.MultiPoint) {
-			geoJsonObject = new MultiPoint((mil.nga.sf.MultiPoint) simpleGeometry);
+			geometry = new MultiPoint((mil.nga.sf.MultiPoint) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.Polygon) {
-			geoJsonObject = new Polygon((mil.nga.sf.Polygon) simpleGeometry);
+			geometry = new Polygon((mil.nga.sf.Polygon) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.MultiLineString) {
-			geoJsonObject = new MultiLineString(
+			geometry = new MultiLineString(
 					(mil.nga.sf.MultiLineString) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.MultiPolygon) {
-			geoJsonObject = new MultiPolygon(
+			geometry = new MultiPolygon(
 					(mil.nga.sf.MultiPolygon) simpleGeometry);
 		} else if (simpleGeometry instanceof mil.nga.sf.GeometryCollection<?>) {
 			@SuppressWarnings("unchecked")
 			mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> simpleGeometryCollection = (mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry>) simpleGeometry;
-			geoJsonObject = new GeometryCollection(simpleGeometryCollection);
+			geometry = new GeometryCollection(simpleGeometryCollection);
 		}
-		return geoJsonObject;
+		return geometry;
 	}
 
 	/**
@@ -109,14 +93,13 @@ public class GeoJsonObjectFactory {
 	 * @return geometry
 	 */
 	public static Geometry toGeometry(JsonNode tree) {
-		GeoJsonObject geoJson;
+		Geometry geometry;
 		try {
-			geoJson = mapper.treeToValue(tree, GeoJsonObject.class);
+			geometry = mapper.treeToValue(tree, Geometry.class);
 		} catch (JsonProcessingException e) {
 			throw new SFException("Failed to convert node tree to geometry: "
 					+ tree, e);
 		}
-		Geometry geometry = (Geometry) geoJson;
 		return geometry;
 	}
 
@@ -128,7 +111,7 @@ public class GeoJsonObjectFactory {
 	 * @return object map
 	 */
 	public static Map<String, Object> toMap(mil.nga.sf.Geometry simpleGeometry) {
-		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
 		Map<String, Object> map = toMap(geometry);
 		return map;
 	}
@@ -155,7 +138,7 @@ public class GeoJsonObjectFactory {
 	 * @return string value
 	 */
 	public static String toStringValue(mil.nga.sf.Geometry simpleGeometry) {
-		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
 		String stringValue = toStringValue(geometry);
 		return stringValue;
 	}

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author osbornb
  */
-public class GeometryCollection extends GeoJsonObject implements Geometry {
+public class GeometryCollection extends Geometry {
 
 	/**
 	 * Serialization Version number
@@ -55,12 +55,11 @@ public class GeometryCollection extends GeoJsonObject implements Geometry {
 	 * @return the geometries
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
-	public List<GeoJsonObject> getGeometries() {
-		List<GeoJsonObject> geometries = new ArrayList<>();
+	public List<Geometry> getGeometries() {
+		List<Geometry> geometries = new ArrayList<>();
 		for (mil.nga.sf.Geometry simpleGeometry : geometryCollection
 				.getGeometries()) {
-			geometries.add(GeoJsonObjectFactory
-					.toGeoJsonObject(simpleGeometry));
+			geometries.add(GeometryFactory.toGeometry(simpleGeometry));
 		}
 		return geometries;
 	}

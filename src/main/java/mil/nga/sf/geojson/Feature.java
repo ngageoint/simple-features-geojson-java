@@ -37,21 +37,20 @@ public class Feature extends GeoJsonObject {
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Geometry getGeometry() {
-		return GeoJsonObjectFactory.toGeometry(feature.getGeometry());
+		return GeometryFactory.toGeometry(feature.getGeometry());
 	}
 
 	/**
 	 * Set the geometry
 	 * 
-	 * @param gjObject
+	 * @param geometry
 	 *            geometry object
 	 */
-	public void setGeometry(GeoJsonObject gjObject) {
-		if (gjObject instanceof Point) {
-			Point point = (Point) gjObject;
+	public void setGeometry(Geometry geometry) {
+		if (geometry instanceof Point) {
+			Point point = (Point) geometry;
 			this.feature.setGeometry(point.getGeometry());
-		} else if (gjObject instanceof Geometry) {
-			Geometry geometry = (Geometry) gjObject;
+		} else{
 			this.feature.setGeometry((geometry == null) ? null : geometry
 					.getGeometry());
 		}

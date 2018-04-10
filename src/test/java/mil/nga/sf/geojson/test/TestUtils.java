@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
 import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.GeoJsonObjectFactory;
+import mil.nga.sf.geojson.GeometryFactory;
 import mil.nga.sf.geojson.Geometry;
 import mil.nga.sf.geojson.Point;
 import mil.nga.sf.geojson.Position;
@@ -92,7 +92,7 @@ public class TestUtils {
 	}
 	
 	public static void compareAsNodes(mil.nga.sf.Geometry simpleGeometry, String input) throws JsonProcessingException, IOException{
-		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
 		compareAsNodes(geometry, input);
 	}
 	
@@ -110,14 +110,14 @@ public class TestUtils {
 	
 	public static void toMap(mil.nga.sf.Geometry simpleGeometry) {
 		
-		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
 		TestCase.assertNotNull(geometry);
 
-		Map<String, Object> map = GeoJsonObjectFactory.toMap(simpleGeometry);
+		Map<String, Object> map = GeometryFactory.toMap(simpleGeometry);
 		TestCase.assertNotNull(map);
 		TestCase.assertFalse(map.isEmpty());
 
-		Geometry geometryFromMap = GeoJsonObjectFactory.toGeometry(map);
+		Geometry geometryFromMap = GeometryFactory.toGeometry(map);
 		TestCase.assertNotNull(geometryFromMap);
 
 		TestCase.assertEquals(geometry.getGeometry(),
@@ -127,10 +127,10 @@ public class TestUtils {
 
 	public static void toStringValue(mil.nga.sf.Geometry simpleGeometry) {
 
-		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
 		TestCase.assertNotNull(geometry);
 
-		String stringValue = GeoJsonObjectFactory.toStringValue(simpleGeometry);
+		String stringValue = GeometryFactory.toStringValue(simpleGeometry);
 		TestCase.assertNotNull(stringValue);
 		TestCase.assertFalse(stringValue.isEmpty());
 		String type = "\"type\":\"" + ((GeoJsonObject)geometry).getType() + "\"";
@@ -140,7 +140,7 @@ public class TestUtils {
 		int secondIndex = restOfString.indexOf(type);
 		TestCase.assertEquals(-1, secondIndex);
 
-		Geometry geomteryFromString = GeoJsonObjectFactory
+		Geometry geomteryFromString = GeometryFactory
 				.toGeometry(stringValue);
 		TestCase.assertNotNull(geomteryFromString);
 

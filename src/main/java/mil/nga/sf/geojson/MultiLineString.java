@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author yutzlejp
  */
-public class MultiLineString extends GeoJsonObject implements Geometry,
+public class MultiLineString extends Geometry implements 
 		Coordinates<List<Position>> {
 
 	/**
