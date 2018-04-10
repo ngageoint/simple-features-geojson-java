@@ -23,7 +23,7 @@ public class Position implements Serializable {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 4454307738904889423L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Coordinate values
@@ -75,10 +75,10 @@ public class Position implements Serializable {
 			Double... additionalElements) {
 		if ((longitude == null) || (latitude == null)) {
 			coordinates = new double[0];
-			this.additionalElements = new ArrayList<Double>();
+			this.additionalElements = new ArrayList<>();
 		} else if (altitude == null) {
 			coordinates = new double[] { longitude, latitude };
-			this.additionalElements = new ArrayList<Double>();
+			this.additionalElements = new ArrayList<>();
 		} else {
 			coordinates = new double[] { longitude, latitude, altitude };
 
@@ -96,7 +96,7 @@ public class Position implements Serializable {
 					}
 				}
 			} else {
-				this.additionalElements = new ArrayList<Double>();
+				this.additionalElements = new ArrayList<>();
 			}
 		}
 

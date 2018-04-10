@@ -77,10 +77,8 @@ public class FeatureCollectionTest {
 		lineString.addPoint(new mil.nga.sf.Point(100.0,10.0));
 		lineString.addPoint(new mil.nga.sf.Point(101.0,1.0));
 		geometryCollection.addGeometry(lineString);
-		FeatureCollection featureCollection = new FeatureCollection();
-		Feature feature = new Feature();
-		feature.setGeometry(GeometryFactory.toGeometry(geometryCollection));
-		featureCollection.addFeature(feature);
+		Feature feature = new Feature(GeometryFactory.toGeometry(geometryCollection));
+		FeatureCollection featureCollection = new FeatureCollection(feature);
 		TestUtils.compareAsNodesGeoJsonObject(featureCollection, GEOMETRYCOLLECTION);
 	}
 	

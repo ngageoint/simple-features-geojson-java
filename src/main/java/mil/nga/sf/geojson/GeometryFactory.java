@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Geoetry Factory
+ * Geometry Factory
  * 
  * @author yutzlejp
  * @author osbornb

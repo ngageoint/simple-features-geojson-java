@@ -10,13 +10,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author yutzlejp
  */
-public class MultiPoint extends Geometry implements
-		Coordinates<Position> {
+public class MultiPoint extends Geometry implements Coordinates<Position> {
 
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = -3432834802398357952L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Simple multi point
@@ -56,7 +55,7 @@ public class MultiPoint extends Geometry implements
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Position> getCoordinates() {
-		List<Position> positions = new ArrayList<Position>();
+		List<Position> positions = new ArrayList<>();
 		for (mil.nga.sf.Point point : multiPoint.getGeometries()) {
 			positions.add(new Position(point));
 		}
@@ -70,7 +69,7 @@ public class MultiPoint extends Geometry implements
 	 *            list of positions
 	 */
 	private void setCoordinates(List<Position> positions) {
-		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		List<mil.nga.sf.Point> points = new ArrayList<>();
 		for (Position pos : positions) {
 			points.add(pos.toSimplePoint());
 		}

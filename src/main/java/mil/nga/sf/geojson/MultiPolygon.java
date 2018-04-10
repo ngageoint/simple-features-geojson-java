@@ -18,7 +18,7 @@ public class MultiPolygon extends Geometry implements
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = -2739352075951612353L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Simple multi polygon
@@ -58,11 +58,11 @@ public class MultiPolygon extends Geometry implements
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<List<Position>>> getCoordinates() {
-		List<List<List<Position>>> result = new ArrayList<List<List<Position>>>();
+		List<List<List<Position>>> result = new ArrayList<>();
 		for (mil.nga.sf.Polygon polygon : multiPolygon.getGeometries()) {
-			List<List<Position>> polygonPositions = new ArrayList<List<Position>>();
+			List<List<Position>> polygonPositions = new ArrayList<>();
 			for (mil.nga.sf.LineString ring : polygon.getRings()) {
-				List<Position> positions = new ArrayList<Position>();
+				List<Position> positions = new ArrayList<>();
 				for (mil.nga.sf.Point pos : ring.getPoints()) {
 					positions.add(new Position(pos));
 				}
@@ -80,11 +80,11 @@ public class MultiPolygon extends Geometry implements
 	 *            position list
 	 */
 	private void setCoordinates(List<List<List<Position>>> positionList) {
-		List<mil.nga.sf.Polygon> polygons = new ArrayList<mil.nga.sf.Polygon>();
+		List<mil.nga.sf.Polygon> polygons = new ArrayList<>();
 		for (List<List<Position>> polygonPositions : positionList) {
 			List<mil.nga.sf.LineString> rings = new ArrayList<>();
 			for (List<Position> ringPositions : polygonPositions) {
-				List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+				List<mil.nga.sf.Point> points = new ArrayList<>();
 				for (Position position : ringPositions) {
 					points.add(position.toSimplePoint());
 				}

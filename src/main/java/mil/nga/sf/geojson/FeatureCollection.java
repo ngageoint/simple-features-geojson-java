@@ -24,12 +24,38 @@ public class FeatureCollection extends GeoJsonObject implements
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = -7676012376081292349L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Collection of features
 	 */
-	private Collection<Feature> features = new HashSet<Feature>();
+	private Collection<Feature> features = new HashSet<>();
+
+	/**
+	 * Constructor
+	 */
+	public FeatureCollection() {
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param feature
+	 *            feature
+	 */
+	public FeatureCollection(Feature feature) {
+		addFeature(feature);
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param features
+	 *            collection of features
+	 */
+	public FeatureCollection(Collection<Feature> features) {
+		setFeatures(features);
+	}
 
 	/**
 	 * Get the features
@@ -95,7 +121,7 @@ public class FeatureCollection extends GeoJsonObject implements
 	 * @return properties map
 	 */
 	public Map<String, String> getPropertiesMap() {
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<>();
 		for (final Feature feature : getFeatures()) {
 			Map<String, Object> properties = feature.getProperties();
 			for (final String property : properties.keySet()) {

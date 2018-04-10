@@ -14,7 +14,7 @@ public class Crs implements Serializable {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 2819273425539716507L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Coordinate Reference System Types
@@ -41,7 +41,7 @@ public class Crs implements Serializable {
 	/**
 	 * Properties map
 	 */
-	private Map<String, Object> properties = new HashMap<String, Object>();
+	private Map<String, Object> properties = new HashMap<>();
 
 	/**
 	 * Get the CRS type

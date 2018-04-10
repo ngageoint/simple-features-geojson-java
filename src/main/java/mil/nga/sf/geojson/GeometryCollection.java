@@ -15,7 +15,7 @@ public class GeometryCollection extends Geometry {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 5522918226735882967L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Simple geometry collection

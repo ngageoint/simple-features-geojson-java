@@ -12,13 +12,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author yutzlejp
  */
-public class MultiLineString extends Geometry implements 
+public class MultiLineString extends Geometry implements
 		Coordinates<List<Position>> {
 
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = -2752279881315034003L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Simple Multi Line String
@@ -58,9 +58,9 @@ public class MultiLineString extends Geometry implements
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<Position>> getCoordinates() {
-		List<List<Position>> result = new ArrayList<List<Position>>();
+		List<List<Position>> result = new ArrayList<>();
 		for (mil.nga.sf.LineString lineString : multiLineString.getGeometries()) {
-			List<Position> positions = new ArrayList<Position>();
+			List<Position> positions = new ArrayList<>();
 			for (mil.nga.sf.Point point : lineString.getPoints()) {
 				positions.add(new Position(point));
 			}
@@ -76,9 +76,9 @@ public class MultiLineString extends Geometry implements
 	 *            position list
 	 */
 	private void setCoordinates(List<List<Position>> positionList) {
-		List<mil.nga.sf.LineString> lineStrings = new ArrayList<mil.nga.sf.LineString>();
+		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
 		for (List<Position> lineStringPositions : positionList) {
-			List<mil.nga.sf.Point> positions = new ArrayList<mil.nga.sf.Point>();
+			List<mil.nga.sf.Point> positions = new ArrayList<>();
 			for (Position position : lineStringPositions) {
 				positions.add(position.toSimplePoint());
 			}

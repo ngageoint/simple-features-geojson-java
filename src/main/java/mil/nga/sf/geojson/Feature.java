@@ -18,7 +18,7 @@ public class Feature extends GeoJsonObject {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = -2507073025031506871L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Simple feature
@@ -29,6 +29,22 @@ public class Feature extends GeoJsonObject {
 	 * Feature id
 	 */
 	private String id;
+
+	/**
+	 * Constructor
+	 */
+	public Feature() {
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param geometry
+	 *            geometry
+	 */
+	public Feature(Geometry geometry) {
+		setGeometry(geometry);
+	}
 
 	/**
 	 * Get the geometry
@@ -50,7 +66,7 @@ public class Feature extends GeoJsonObject {
 		if (geometry instanceof Point) {
 			Point point = (Point) geometry;
 			this.feature.setGeometry(point.getGeometry());
-		} else{
+		} else {
 			this.feature.setGeometry((geometry == null) ? null : geometry
 					.getGeometry());
 		}

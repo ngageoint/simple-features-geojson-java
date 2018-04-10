@@ -10,13 +10,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author yutzlejp
  */
-public class LineString extends Geometry implements
-		Coordinates<Position> {
+public class LineString extends Geometry implements Coordinates<Position> {
 
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = -2756190074121514366L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Simple Line String
@@ -63,7 +62,7 @@ public class LineString extends Geometry implements
 	@Override
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Position> getCoordinates() {
-		List<Position> positions = new ArrayList<Position>();
+		List<Position> positions = new ArrayList<>();
 		for (mil.nga.sf.Point point : lineString.getPoints()) {
 			positions.add(new Position(point));
 		}
@@ -77,7 +76,7 @@ public class LineString extends Geometry implements
 	 *            list of positions
 	 */
 	public void setCoordinates(List<Position> positions) {
-		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		List<mil.nga.sf.Point> points = new ArrayList<>();
 		for (Position pos : positions) {
 			points.add(pos.toSimplePoint());
 		}

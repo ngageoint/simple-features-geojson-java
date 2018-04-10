@@ -22,7 +22,7 @@ public class PolygonTest {
 	@Test
 	public void itShouldSerializeASFPolygon() throws Exception {
 		List<LineString> rings = new ArrayList<>();
-		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d));
 		points.add(new mil.nga.sf.Point(101d, 1d));
 		points.add(new mil.nga.sf.Point(101d, 10d));
@@ -35,7 +35,7 @@ public class PolygonTest {
 	@Test
 	public void itShouldSerializeASFPolygonWithAltitude() throws Exception {
 		List<LineString> rings = new ArrayList<>();
-		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d, 5d));
 		points.add(new mil.nga.sf.Point(101d, 1d, 10d));
 		points.add(new mil.nga.sf.Point(101d, 10d, 15d));
@@ -48,13 +48,13 @@ public class PolygonTest {
 	@Test
 	public void itShouldSerializeASFPolygonWithRings() throws Exception {
 		List<LineString> rings = new ArrayList<>();
-		List<mil.nga.sf.Point> positions = new ArrayList<mil.nga.sf.Point>();
+		List<mil.nga.sf.Point> positions = new ArrayList<>();
 		positions.add(new mil.nga.sf.Point(-100d, -50d));
 		positions.add(new mil.nga.sf.Point(100d, -50d));
 		positions.add(new mil.nga.sf.Point(1d, 50d));
 		LinearRing ring = new LinearRing(positions);
 		rings.add(ring);
-		positions = new ArrayList<mil.nga.sf.Point>();
+		positions = new ArrayList<>();
 		positions.add(new mil.nga.sf.Point(-50d, -25d));
 		positions.add(new mil.nga.sf.Point(50d, -25d));
 		positions.add(new mil.nga.sf.Point(-1d, 25d));
@@ -140,16 +140,16 @@ public class PolygonTest {
 		TestUtils.toStringValue(getTestGeometry());
 	}
 
-	private mil.nga.sf.Geometry getTestGeometry(){
-		
+	private mil.nga.sf.Geometry getTestGeometry() {
+
 		List<LineString> rings = new ArrayList<>();
-		List<mil.nga.sf.Point> positions = new ArrayList<mil.nga.sf.Point>();
+		List<mil.nga.sf.Point> positions = new ArrayList<>();
 		positions.add(new mil.nga.sf.Point(-100d, -50d));
 		positions.add(new mil.nga.sf.Point(100d, -50d));
 		positions.add(new mil.nga.sf.Point(1d, 50d));
 		LinearRing ring = new LinearRing(positions);
 		rings.add(ring);
-		positions = new ArrayList<mil.nga.sf.Point>();
+		positions = new ArrayList<>();
 		positions.add(new mil.nga.sf.Point(-50d, -25d));
 		positions.add(new mil.nga.sf.Point(50d, -25d));
 		positions.add(new mil.nga.sf.Point(-1d, 25d));
@@ -159,5 +159,5 @@ public class PolygonTest {
 
 		return polygon;
 	}
-	
+
 }

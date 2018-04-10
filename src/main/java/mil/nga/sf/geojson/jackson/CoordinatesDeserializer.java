@@ -51,7 +51,7 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 		Double y = extractDouble(jp, ctxt, false);
 		Double z = extractDouble(jp, ctxt, true);
 
-		List<Double> additionalElements = new ArrayList<Double>();
+		List<Double> additionalElements = new ArrayList<>();
 		while (jp.hasCurrentToken()
 				&& jp.getCurrentToken() != JsonToken.END_ARRAY) {
 			Double element = extractDouble(jp, ctxt, true);

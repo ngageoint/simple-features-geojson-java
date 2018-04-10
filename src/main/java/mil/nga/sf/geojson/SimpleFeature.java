@@ -26,7 +26,7 @@ public class SimpleFeature {
 	 * Constructor
 	 */
 	public SimpleFeature() {
-		properties = new HashMap<String, Object>();
+		properties = new HashMap<>();
 	}
 
 	/**

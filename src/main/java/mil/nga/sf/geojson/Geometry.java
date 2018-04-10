@@ -19,7 +19,7 @@ public abstract class Geometry extends GeoJsonObject {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = -937799573407640901L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Get the simple geometry

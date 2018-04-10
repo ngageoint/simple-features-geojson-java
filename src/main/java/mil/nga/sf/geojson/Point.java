@@ -14,7 +14,7 @@ public class Point extends Geometry {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = -5973262853989536760L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Simple point

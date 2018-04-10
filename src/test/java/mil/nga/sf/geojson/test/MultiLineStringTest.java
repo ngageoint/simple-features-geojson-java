@@ -20,107 +20,113 @@ public class MultiLineStringTest {
 
 	@Test
 	public void itShouldSerializeASFMLS() throws Exception {
-		List<mil.nga.sf.LineString> lineStrings = new ArrayList<mil.nga.sf.LineString>();
-		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
+		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d));
 		points.add(new mil.nga.sf.Point(101d, 1d));
 		points.add(new mil.nga.sf.Point(101d, 10d));
 		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(points);
 		lineStrings.add(lineString);
-		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(lineStrings);
+		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(
+				lineStrings);
 		TestUtils.compareAsNodes(mls, MULTILINESTRING);
 	}
 
 	@Test
 	public void itShouldSerializeASFMLSWithAltitude() throws Exception {
-		List<mil.nga.sf.LineString> lineStrings = new ArrayList<mil.nga.sf.LineString>();
-		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
-		points.add(new mil.nga.sf.Point(100d, 10d,  5d));
-		points.add(new mil.nga.sf.Point(101d,  1d, 10d));
+		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
+		List<mil.nga.sf.Point> points = new ArrayList<>();
+		points.add(new mil.nga.sf.Point(100d, 10d, 5d));
+		points.add(new mil.nga.sf.Point(101d, 1d, 10d));
 		points.add(new mil.nga.sf.Point(101d, 10d, 15d));
 		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(points);
 		lineStrings.add(lineString);
-		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(lineStrings);
+		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(
+				lineStrings);
 		TestUtils.compareAsNodes(mls, MULTILINESTRING_WITH_ALT);
 	}
 
 	@Test
 	public void itShouldSerializeASFMLSWithMultiple() throws Exception {
-		List<mil.nga.sf.LineString> lineStrings = new ArrayList<mil.nga.sf.LineString>();
-		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
+		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(-100d, -50d));
-		points.add(new mil.nga.sf.Point( 100d, -50d));
-		points.add(new mil.nga.sf.Point(   1d,  50d));
+		points.add(new mil.nga.sf.Point(100d, -50d));
+		points.add(new mil.nga.sf.Point(1d, 50d));
 		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(points);
 		lineStrings.add(lineString);
-		points = new ArrayList<mil.nga.sf.Point>();
+		points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(-50d, -25d));
-		points.add(new mil.nga.sf.Point( 50d, -25d));
-		points.add(new mil.nga.sf.Point( -1d,  25d));
+		points.add(new mil.nga.sf.Point(50d, -25d));
+		points.add(new mil.nga.sf.Point(-1d, 25d));
 		lineString = new mil.nga.sf.LineString(points);
 		lineStrings.add(lineString);
-		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(lineStrings);
+		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(
+				lineStrings);
 		TestUtils.compareAsNodes(mls, MULTILINESTRING_WITH_MULTIPLE);
 	}
 
 	@Test
 	public void itShouldDeserializeAMLS() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(MULTILINESTRING, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(MULTILINESTRING,
+				GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiLineString);
-		MultiLineString gjMLS = (MultiLineString)value;
+		MultiLineString gjMLS = (MultiLineString) value;
 		Geometry simpleGeometry = gjMLS.getGeometry();
 		assertTrue(simpleGeometry instanceof mil.nga.sf.MultiLineString);
-		mil.nga.sf.MultiLineString mls = (mil.nga.sf.MultiLineString)simpleGeometry;
+		mil.nga.sf.MultiLineString mls = (mil.nga.sf.MultiLineString) simpleGeometry;
 		List<mil.nga.sf.LineString> lineStrings = mls.getGeometries();
 		assertTrue(lineStrings.size() == 1);
 		mil.nga.sf.LineString lineString = lineStrings.get(0);
 		List<mil.nga.sf.Point> points = lineString.getPoints();
 		TestUtils.assertPosition(100d, 10d, null, null, points.get(0));
-		TestUtils.assertPosition(101d,  1d, null, null, points.get(1));
+		TestUtils.assertPosition(101d, 1d, null, null, points.get(1));
 		TestUtils.assertPosition(101d, 10d, null, null, points.get(2));
 	}
 
 	@Test
 	public void itShouldDeserializeALineStringWithAltitude() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(MULTILINESTRING_WITH_ALT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(
+				MULTILINESTRING_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiLineString);
-		MultiLineString gjMLS = (MultiLineString)value;
+		MultiLineString gjMLS = (MultiLineString) value;
 		Geometry simpleGeometry = gjMLS.getGeometry();
 		assertTrue(simpleGeometry instanceof mil.nga.sf.MultiLineString);
-		mil.nga.sf.MultiLineString mls = (mil.nga.sf.MultiLineString)simpleGeometry;
+		mil.nga.sf.MultiLineString mls = (mil.nga.sf.MultiLineString) simpleGeometry;
 		List<mil.nga.sf.LineString> lineStrings = mls.getGeometries();
 		assertTrue(lineStrings.size() == 1);
 		mil.nga.sf.LineString lineString = lineStrings.get(0);
 		List<mil.nga.sf.Point> points = lineString.getPoints();
-		TestUtils.assertPosition(100d, 10d,  5d, null, points.get(0));
-		TestUtils.assertPosition(101d,  1d, 10d, null, points.get(1));
+		TestUtils.assertPosition(100d, 10d, 5d, null, points.get(0));
+		TestUtils.assertPosition(101d, 1d, 10d, null, points.get(1));
 		TestUtils.assertPosition(101d, 10d, 15d, null, points.get(2));
 	}
 
 	@Test
 	public void itShouldDeserializeAMLSWithRings() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(MULTILINESTRING_WITH_MULTIPLE, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(
+				MULTILINESTRING_WITH_MULTIPLE, GeoJsonObject.class);
 		assertTrue(value instanceof MultiLineString);
-		MultiLineString gjMLS = (MultiLineString)value;
+		MultiLineString gjMLS = (MultiLineString) value;
 		Geometry geometry = gjMLS.getGeometry();
 		assertTrue(geometry instanceof mil.nga.sf.MultiLineString);
-		mil.nga.sf.MultiLineString mls = (mil.nga.sf.MultiLineString)geometry;
+		mil.nga.sf.MultiLineString mls = (mil.nga.sf.MultiLineString) geometry;
 		List<mil.nga.sf.LineString> lineStrings = mls.getGeometries();
 		assertTrue(lineStrings.size() == 2);
 		mil.nga.sf.LineString lineString = lineStrings.get(0);
 		List<mil.nga.sf.Point> points = lineString.getPoints();
 		TestUtils.assertPosition(-100d, -50d, null, null, points.get(0));
-		TestUtils.assertPosition( 100d, -50d, null, null, points.get(1));
-		TestUtils.assertPosition(   1d,  50d, null, null, points.get(2));
+		TestUtils.assertPosition(100d, -50d, null, null, points.get(1));
+		TestUtils.assertPosition(1d, 50d, null, null, points.get(2));
 		lineString = lineStrings.get(1);
 		points = lineString.getPoints();
 		TestUtils.assertPosition(-50d, -25d, null, null, points.get(0));
-		TestUtils.assertPosition( 50d, -25d, null, null, points.get(1));
-		TestUtils.assertPosition( -1d,  25d, null, null, points.get(2));
+		TestUtils.assertPosition(50d, -25d, null, null, points.get(1));
+		TestUtils.assertPosition(-1d, 25d, null, null, points.get(2));
 	}
-	
+
 	@Test
 	public void toMap() {
 		TestUtils.toMap(getTestGeometry());
@@ -130,19 +136,20 @@ public class MultiLineStringTest {
 	public void toStringValue() {
 		TestUtils.toStringValue(getTestGeometry());
 	}
-	
-	private mil.nga.sf.Geometry getTestGeometry(){
-		
-		List<mil.nga.sf.LineString> lineStrings = new ArrayList<mil.nga.sf.LineString>();
-		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+
+	private mil.nga.sf.Geometry getTestGeometry() {
+
+		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
+		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d));
 		points.add(new mil.nga.sf.Point(101d, 1d));
 		points.add(new mil.nga.sf.Point(101d, 10d));
 		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(points);
 		lineStrings.add(lineString);
-		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(lineStrings);
-		
+		mil.nga.sf.MultiLineString mls = new mil.nga.sf.MultiLineString(
+				lineStrings);
+
 		return mls;
 	}
-	
+
 }

@@ -12,13 +12,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  * @author yutzlejp
  */
-public class Polygon extends Geometry implements
-		Coordinates<List<Position>> {
+public class Polygon extends Geometry implements Coordinates<List<Position>> {
 
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 2866577421910418944L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Simple polygon
@@ -58,9 +57,9 @@ public class Polygon extends Geometry implements
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<Position>> getCoordinates() {
-		List<List<Position>> result = new ArrayList<List<Position>>();
+		List<List<Position>> result = new ArrayList<>();
 		for (mil.nga.sf.LineString ring : polygon.getRings()) {
-			List<Position> positions = new ArrayList<Position>();
+			List<Position> positions = new ArrayList<>();
 			for (mil.nga.sf.Point pos : ring.getPoints()) {
 				positions.add(new Position(pos));
 			}
@@ -78,7 +77,7 @@ public class Polygon extends Geometry implements
 	private void setCoordinates(List<List<Position>> positionList) {
 		List<mil.nga.sf.LineString> rings = new ArrayList<>();
 		for (List<Position> ringPositions : positionList) {
-			List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
+			List<mil.nga.sf.Point> points = new ArrayList<>();
 			for (Position position : ringPositions) {
 				points.add(position.toSimplePoint());
 			}

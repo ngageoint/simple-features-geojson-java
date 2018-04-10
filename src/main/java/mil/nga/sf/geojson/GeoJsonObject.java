@@ -23,7 +23,7 @@ public abstract class GeoJsonObject implements Serializable {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 497455167530431479L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Coordinate Reference System
@@ -79,5 +79,5 @@ public abstract class GeoJsonObject implements Serializable {
 	 * @return GeoJSON object type
 	 */
 	public abstract String getType();
-	
+
 }
