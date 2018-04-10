@@ -9,10 +9,26 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * GeoJSON Object
+ * 
+ * @author yutzlejp
+ * @author osbornb
+ */
 public class GeoJsonObjectFactory {
 
+	/**
+	 * Object mapper
+	 */
 	public final static ObjectMapper mapper = new ObjectMapper();
 
+	/**
+	 * Convert a simple geometry to a GeoJSON geometry
+	 * 
+	 * @param simpleGeometry
+	 *            simple geometry
+	 * @return geometry
+	 */
 	public static Geometry toGeometry(mil.nga.sf.Geometry simpleGeometry) {
 		Geometry geometry = null;
 		if (simpleGeometry instanceof mil.nga.sf.Point) {
@@ -30,9 +46,17 @@ public class GeoJsonObjectFactory {
 			geometry = new MultiPolygon(
 					(mil.nga.sf.MultiPolygon) simpleGeometry);
 		}
+		// TODO
 		return geometry;
 	}
 
+	/**
+	 * Convert the string content to a geometry
+	 * 
+	 * @param content
+	 *            string content
+	 * @return geometry
+	 */
 	public static Geometry toGeometry(String content) {
 		JsonNode tree;
 		try {
@@ -45,12 +69,26 @@ public class GeoJsonObjectFactory {
 		return geometry;
 	}
 
+	/**
+	 * Convert the object value to a geometry
+	 * 
+	 * @param value
+	 *            object value
+	 * @return geometry
+	 */
 	public static Geometry toGeometry(Object value) {
 		JsonNode tree = mapper.valueToTree(value);
 		Geometry geometry = toGeometry(tree);
 		return geometry;
 	}
 
+	/**
+	 * Convert the JSON tree to a Geometry
+	 * 
+	 * @param tree
+	 *            tree node
+	 * @return geometry
+	 */
 	public static Geometry toGeometry(JsonNode tree) {
 		GeoJsonObject geoJson;
 		try {
@@ -63,12 +101,26 @@ public class GeoJsonObjectFactory {
 		return geometry;
 	}
 
+	/**
+	 * Convert the simple geometry to an object map
+	 * 
+	 * @param simpleGeometry
+	 *            simple geometry
+	 * @return object map
+	 */
 	public static Map<String, Object> toMap(mil.nga.sf.Geometry simpleGeometry) {
 		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
 		Map<String, Object> map = toMap(geometry);
 		return map;
 	}
 
+	/**
+	 * Convert the geometry to an object map
+	 * 
+	 * @param geometry
+	 *            geometry
+	 * @return object map
+	 */
 	public static Map<String, Object> toMap(Geometry geometry) {
 		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
 		};
@@ -76,12 +128,26 @@ public class GeoJsonObjectFactory {
 		return map;
 	}
 
+	/**
+	 * Convert the simple geometry to a string value
+	 * 
+	 * @param simpleGeometry
+	 *            simple geometry
+	 * @return string value
+	 */
 	public static String toStringValue(mil.nga.sf.Geometry simpleGeometry) {
 		Geometry geometry = GeoJsonObjectFactory.toGeometry(simpleGeometry);
 		String stringValue = toStringValue(geometry);
 		return stringValue;
 	}
 
+	/**
+	 * Convert the geometry to a string value
+	 * 
+	 * @param geometry
+	 *            geometry
+	 * @return string value
+	 */
 	public static String toStringValue(Geometry geometry) {
 		String stringValue = null;
 		try {

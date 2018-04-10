@@ -5,49 +5,80 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class LineString extends GeoJsonObject implements Geometry, Coordinates<Position> {
+/**
+ * Line String
+ * 
+ * @author yutzlejp
+ */
+public class LineString extends GeoJsonObject implements Geometry,
+		Coordinates<Position> {
 
-	private static final long serialVersionUID = -2756190074121514366L;
-	
 	/**
-	 * 
+	 * Serialization Version number
+	 */
+	private static final long serialVersionUID = -2756190074121514366L;
+
+	/**
+	 * Simple Line String
 	 */
 	private mil.nga.sf.LineString lineString;
 
+	/**
+	 * Constructor
+	 */
 	public LineString() {
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param positions
+	 *            list of positions
+	 */
 	public LineString(List<Position> positions) {
 		setCoordinates(positions);
 	}
 
-	public LineString(mil.nga.sf.LineString input) {
-		lineString = input;
+	/**
+	 * Constructor
+	 * 
+	 * @param lineString
+	 *            simple line string
+	 */
+	public LineString(mil.nga.sf.LineString lineString) {
+		this.lineString = lineString;
 	}
 
-	@Override
-	public <T> T accept(GeoJsonObjectVisitor<T> geoJsonObjectVisitor) {
-		return geoJsonObjectVisitor.visit(this);
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public mil.nga.sf.Geometry getGeometry() {
 		return lineString;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Position> getCoordinates() {
 		List<Position> positions = new ArrayList<Position>();
-		for(mil.nga.sf.Point point : lineString.getPoints()){
+		for (mil.nga.sf.Point point : lineString.getPoints()) {
 			positions.add(new Position(point));
 		}
 		return positions;
 	}
 
-	public void setCoordinates(List<Position> input) {
+	/**
+	 * Set the coordinates
+	 * 
+	 * @param positions
+	 *            list of positions
+	 */
+	public void setCoordinates(List<Position> positions) {
 		List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
-		for (Position pos : input) {
+		for (Position pos : positions) {
 			points.add(pos.toSimplePoint());
 		}
 		if (lineString == null) {
@@ -57,8 +88,12 @@ public class LineString extends GeoJsonObject implements Geometry, Coordinates<P
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getType() {
 		return "LineString";
 	}
+
 }

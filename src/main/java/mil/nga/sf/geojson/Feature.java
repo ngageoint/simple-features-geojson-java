@@ -7,67 +7,127 @@ import mil.nga.sf.GeometryType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@JsonIgnoreProperties({"feature", "geometryType"})
+/**
+ * Feature
+ * 
+ * @author yutzlejp
+ */
+@JsonIgnoreProperties({ "feature", "geometryType" })
 public class Feature extends GeoJsonObject {
-	
+
+	/**
+	 * Serialization Version number
+	 */
 	private static final long serialVersionUID = -2507073025031506871L;
 
+	/**
+	 * Simple feature
+	 */
 	private SimpleFeature feature = new SimpleFeature();
 
+	/**
+	 * Feature id
+	 */
 	private String id;
 
+	/**
+	 * Get the geometry
+	 * 
+	 * @return geometry
+	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Geometry getGeometry() {
-
 		return GeoJsonObjectFactory.toGeometry(feature.getGeometry());
 	}
 
+	/**
+	 * Set the geometry
+	 * 
+	 * @param gjObject
+	 *            geometry object
+	 */
 	public void setGeometry(GeoJsonObject gjObject) {
 		if (gjObject instanceof Point) {
-			Point point = (Point)gjObject;
+			Point point = (Point) gjObject;
 			this.feature.setGeometry(point.getGeometry());
 		} else if (gjObject instanceof Geometry) {
-			Geometry geometry = (Geometry)gjObject;
-			this.feature.setGeometry((geometry == null) ? null : geometry.getGeometry());
+			Geometry geometry = (Geometry) gjObject;
+			this.feature.setGeometry((geometry == null) ? null : geometry
+					.getGeometry());
 		}
 	}
 
+	/**
+	 * Get the properties
+	 * 
+	 * @return properties map
+	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Map<String, Object> getProperties() {
 		return feature.getProperties();
 	}
 
+	/**
+	 * Set the properties
+	 * 
+	 * @param properties
+	 *            properties map
+	 */
 	public void setProperties(Map<String, Object> properties) {
 		feature.setProperties(properties);
 	}
 
+	/**
+	 * Get the feature id
+	 * 
+	 * @return feature id
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * Set the feature id
+	 * 
+	 * @param id
+	 *            feature id
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	@Override
-	public <T> T accept(GeoJsonObjectVisitor<T> geoJsonObjectVisitor) {
-		return geoJsonObjectVisitor.visit(this);
-	}
-
+	/**
+	 * Get the simple feature
+	 * 
+	 * @return simple feature
+	 */
 	public SimpleFeature getFeature() {
 		return feature;
 	}
-	
+
+	/**
+	 * Get the geometry type
+	 * 
+	 * @return geometry type
+	 */
 	public GeometryType getGeometryType() {
-		try {
-			return getGeometry().getGeometry().getGeometryType();
-		} catch (NullPointerException exc){
-			return null;
+		GeometryType geometryType = null;
+		Geometry geometry = getGeometry();
+		if (geometry != null) {
+			mil.nga.sf.Geometry simpleGeometry = geometry.getGeometry();
+			if (simpleGeometry != null) {
+				geometryType = simpleGeometry.getGeometryType();
+			}
 		}
+		return geometryType;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getType() {
 		return "Feature";
 	}
+
 }

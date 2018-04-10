@@ -7,38 +7,63 @@ import mil.nga.sf.util.GeometryUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates<List<List<Position>>> {
+/**
+ * Multi Polygon
+ * 
+ * @author yutzlejp
+ */
+public class MultiPolygon extends GeoJsonObject implements Geometry,
+		Coordinates<List<List<Position>>> {
 
-	private static final long serialVersionUID = -2739352075951612353L;
-	
 	/**
-	 * 
+	 * Serialization Version number
+	 */
+	private static final long serialVersionUID = -2739352075951612353L;
+
+	/**
+	 * Simple multi polygon
 	 */
 	private mil.nga.sf.MultiPolygon multiPolygon;
 
+	/**
+	 * Constructor
+	 */
 	public MultiPolygon() {
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param positions
+	 *            position list
+	 */
 	public MultiPolygon(List<List<List<Position>>> positions) {
 		setCoordinates(positions);
 	}
-	
-	public MultiPolygon(mil.nga.sf.MultiPolygon input) {
-		multiPolygon = input;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param multiPolygon
+	 *            simple multi polygon
+	 */
+	public MultiPolygon(mil.nga.sf.MultiPolygon multiPolygon) {
+		this.multiPolygon = multiPolygon;
 	}
 
 	/**
 	 * Returns coordinates as a GeoJSON Position list
+	 * 
 	 * @return the coordinates
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<List<Position>>> getCoordinates() {
 		List<List<List<Position>>> result = new ArrayList<List<List<Position>>>();
-		for(mil.nga.sf.Polygon polygon : multiPolygon.getGeometries()){
+		for (mil.nga.sf.Polygon polygon : multiPolygon.getGeometries()) {
 			List<List<Position>> polygonPositions = new ArrayList<List<Position>>();
-			for(mil.nga.sf.LineString ring : polygon.getRings()){
+			for (mil.nga.sf.LineString ring : polygon.getRings()) {
 				List<Position> positions = new ArrayList<Position>();
-				for(mil.nga.sf.Point pos : ring.getPoints()){
+				for (mil.nga.sf.Point pos : ring.getPoints()) {
 					positions.add(new Position(pos));
 				}
 				polygonPositions.add(positions);
@@ -50,43 +75,48 @@ public class MultiPolygon extends GeoJsonObject implements Geometry, Coordinates
 
 	/**
 	 * Sets the coordinates from a GeoJSON Position list
-	 * @param input the list
+	 * 
+	 * @param positionList
+	 *            position list
 	 */
-	private void setCoordinates(List<List<List<Position>>> input) {
+	private void setCoordinates(List<List<List<Position>>> positionList) {
 		List<mil.nga.sf.Polygon> polygons = new ArrayList<mil.nga.sf.Polygon>();
-		for (List<List<Position>> polygonPositions : input){
+		for (List<List<Position>> polygonPositions : positionList) {
 			List<mil.nga.sf.LineString> rings = new ArrayList<>();
 			for (List<Position> ringPositions : polygonPositions) {
 				List<mil.nga.sf.Point> points = new ArrayList<mil.nga.sf.Point>();
-				for (Position position: ringPositions){
+				for (Position position : ringPositions) {
 					points.add(position.toSimplePoint());
 				}
-				mil.nga.sf.LinearRing ring = new mil.nga.sf.LinearRing(GeometryUtils.hasZ(points), GeometryUtils.hasM(points));
+				mil.nga.sf.LinearRing ring = new mil.nga.sf.LinearRing(
+						GeometryUtils.hasZ(points), GeometryUtils.hasM(points));
 				ring.setPoints(points);
 				rings.add(ring);
 			}
 			mil.nga.sf.Polygon polygon = new mil.nga.sf.Polygon(rings);
 			polygons.add(polygon);
 		}
-		if (multiPolygon == null){
+		if (multiPolygon == null) {
 			multiPolygon = new mil.nga.sf.MultiPolygon(polygons);
 		} else {
 			multiPolygon.setGeometries(polygons);
 		}
 	}
 
-	@Override
-	public <T> T accept(GeoJsonObjectVisitor<T> geoJsonObjectVisitor) {
-		return geoJsonObjectVisitor.visit(this);
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public mil.nga.sf.Geometry getGeometry() {
 		return multiPolygon;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getType() {
 		return "MultiPolygon";
 	}
+
 }
