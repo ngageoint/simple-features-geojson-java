@@ -10,7 +10,7 @@ import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
 import mil.nga.sf.geojson.GeoJsonObject;
 import mil.nga.sf.geojson.Geometry;
-import mil.nga.sf.geojson.GeometryFactory;
+import mil.nga.sf.geojson.GeometryConverter;
 import mil.nga.sf.geojson.Point;
 import mil.nga.sf.geojson.Position;
 
@@ -104,7 +104,7 @@ public class TestUtils {
 
 	public static void compareAsNodes(mil.nga.sf.Geometry simpleGeometry,
 			String input) throws JsonProcessingException, IOException {
-		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryConverter.toGeometry(simpleGeometry);
 		compareAsNodes(geometry, input);
 	}
 
@@ -122,16 +122,25 @@ public class TestUtils {
 		TestCase.assertEquals(nodeFromPojo, nodeFromString);
 	}
 
-	public static void toMap(mil.nga.sf.Geometry simpleGeometry) {
+	public static void toGeometry(mil.nga.sf.Geometry simpleGeometry) {
 
-		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryConverter.toGeometry(simpleGeometry);
 		TestCase.assertNotNull(geometry);
 
-		Map<String, Object> map = GeometryFactory.toMap(simpleGeometry);
+		TestCase.assertEquals(simpleGeometry, geometry.getGeometry());
+
+	}
+
+	public static void toMap(mil.nga.sf.Geometry simpleGeometry) {
+
+		Geometry geometry = GeometryConverter.toGeometry(simpleGeometry);
+		TestCase.assertNotNull(geometry);
+
+		Map<String, Object> map = GeometryConverter.toMap(simpleGeometry);
 		TestCase.assertNotNull(map);
 		TestCase.assertFalse(map.isEmpty());
 
-		Geometry geometryFromMap = GeometryFactory.toGeometry(map);
+		Geometry geometryFromMap = GeometryConverter.toGeometry(map);
 		TestCase.assertNotNull(geometryFromMap);
 
 		TestCase.assertEquals(geometry.getGeometry(),
@@ -141,10 +150,10 @@ public class TestUtils {
 
 	public static void toStringValue(mil.nga.sf.Geometry simpleGeometry) {
 
-		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryConverter.toGeometry(simpleGeometry);
 		TestCase.assertNotNull(geometry);
 
-		String stringValue = GeometryFactory.toStringValue(simpleGeometry);
+		String stringValue = GeometryConverter.toStringValue(simpleGeometry);
 		TestCase.assertNotNull(stringValue);
 		TestCase.assertFalse(stringValue.isEmpty());
 		String type = "\"type\":\"" + ((GeoJsonObject) geometry).getType()
@@ -155,7 +164,7 @@ public class TestUtils {
 		int secondIndex = restOfString.indexOf(type);
 		TestCase.assertEquals(-1, secondIndex);
 
-		Geometry geomteryFromString = GeometryFactory.toGeometry(stringValue);
+		Geometry geomteryFromString = GeometryConverter.toGeometry(stringValue);
 		TestCase.assertNotNull(geomteryFromString);
 
 		TestCase.assertEquals(geometry.getGeometry(),

@@ -21,7 +21,7 @@ public class MultiPolygonTest {
 	private static String MULTIPOLYGON_WITH_MULTI = "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0],[-100.0,-50.0]]],[[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0],[-50.0,-25.0]]]]}";
 
 	@Test
-	public void itShouldSerializeASFMultiPolygon() throws Exception {
+	public void itShouldSerializeSFMultiPolygon() throws Exception {
 		List<mil.nga.sf.Polygon> polygons = new ArrayList<>();
 		List<LineString> rings = new ArrayList<>();
 		List<mil.nga.sf.Point> points = new ArrayList<>();
@@ -38,7 +38,7 @@ public class MultiPolygonTest {
 	}
 
 	@Test
-	public void itShouldSerializeASFMultiPolygonWithAltitude() throws Exception {
+	public void itShouldSerializeSFMultiPolygonWithAltitude() throws Exception {
 		List<mil.nga.sf.Polygon> polygons = new ArrayList<>();
 		List<LineString> rings = new ArrayList<>();
 		List<mil.nga.sf.Point> points = new ArrayList<>();
@@ -55,13 +55,13 @@ public class MultiPolygonTest {
 	}
 
 	@Test
-	public void itShouldSerializeASFMultiPolygonWithRings() throws Exception {
+	public void itShouldSerializeSFMultiPolygonWithRings() throws Exception {
 		TestUtils.compareAsNodes(TestUtils.getMultiPolygonWithRings(),
 				MULTIPOLYGON_WITH_RINGS);
 	}
 
 	@Test
-	public void itShouldSerializeASFMultiPolygonWithMulti() throws Exception {
+	public void itShouldSerializeSFMultiPolygonWithMulti() throws Exception {
 		List<mil.nga.sf.Polygon> polygons = new ArrayList<>();
 		// Polygon 1
 		List<LineString> rings = new ArrayList<>();
@@ -91,7 +91,7 @@ public class MultiPolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAMultiPolygon() throws Exception {
+	public void itShouldDeserializeMultiPolygon() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(MULTIPOLYGON,
 				GeoJsonObject.class);
 		assertNotNull(value);
@@ -114,7 +114,7 @@ public class MultiPolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAMultiPolygonWithAltitude() throws Exception {
+	public void itShouldDeserializeMultiPolygonWithAltitude() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				MULTIPOLYGON_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
@@ -137,7 +137,7 @@ public class MultiPolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAMultiPolygonWithRings() throws Exception {
+	public void itShouldDeserializeMultiPolygonWithRings() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				MULTIPOLYGON_WITH_RINGS, GeoJsonObject.class);
 		assertNotNull(value);
@@ -166,7 +166,7 @@ public class MultiPolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAMultiPolygonWithMulti() throws Exception {
+	public void itShouldDeserializeMultiPolygonWithMulti() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				MULTIPOLYGON_WITH_MULTI, GeoJsonObject.class);
 		assertNotNull(value);
@@ -195,6 +195,11 @@ public class MultiPolygonTest {
 		TestUtils.assertPosition(50d, -25d, null, null, points.get(1));
 		TestUtils.assertPosition(-1d, 25d, null, null, points.get(2));
 		TestUtils.assertPosition(-50d, -25d, null, null, points.get(3));
+	}
+
+	@Test
+	public void toGeometry() {
+		TestUtils.toGeometry(getTestGeometry());
 	}
 
 	@Test

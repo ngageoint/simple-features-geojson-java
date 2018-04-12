@@ -1,6 +1,6 @@
 package mil.nga.sf.geojson;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 		@Type(Point.class), @Type(MultiPoint.class),
 		@Type(MultiLineString.class), @Type(LineString.class),
 		@Type(GeometryCollection.class) })
-@JsonIgnoreProperties({ "geometry" })
 public abstract class Geometry extends GeoJsonObject {
 
 	/**
@@ -26,6 +25,7 @@ public abstract class Geometry extends GeoJsonObject {
 	 * 
 	 * @return simple geometry
 	 */
+	@JsonIgnore
 	public abstract mil.nga.sf.Geometry getGeometry();
 
 }

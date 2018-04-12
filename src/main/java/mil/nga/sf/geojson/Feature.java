@@ -4,15 +4,16 @@ import java.util.Map;
 
 import mil.nga.sf.GeometryType;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Feature
  * 
  * @author yutzlejp
  */
-@JsonIgnoreProperties({ "feature", "geometryType" })
+@JsonPropertyOrder({ "type", "id", "geometry", "properties" })
 public class Feature extends GeoJsonObject {
 
 	/**
@@ -23,6 +24,7 @@ public class Feature extends GeoJsonObject {
 	/**
 	 * Simple feature
 	 */
+	@JsonIgnore
 	private SimpleFeature feature = new SimpleFeature();
 
 	/**
@@ -53,7 +55,7 @@ public class Feature extends GeoJsonObject {
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Geometry getGeometry() {
-		return GeometryFactory.toGeometry(feature.getGeometry());
+		return GeometryConverter.toGeometry(feature.getGeometry());
 	}
 
 	/**
@@ -121,10 +123,21 @@ public class Feature extends GeoJsonObject {
 	}
 
 	/**
+	 * Get the simple feature geometry
+	 * 
+	 * @return simple feature geometry
+	 */
+	@JsonIgnore
+	public mil.nga.sf.Geometry getSimpleGeometry() {
+		return feature.getGeometry();
+	}
+
+	/**
 	 * Get the geometry type
 	 * 
 	 * @return geometry type
 	 */
+	@JsonIgnore
 	public GeometryType getGeometryType() {
 		GeometryType geometryType = null;
 		Geometry geometry = getGeometry();

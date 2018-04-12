@@ -5,15 +5,12 @@ import java.util.List;
 
 import mil.nga.sf.util.GeometryUtils;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 /**
  * Multi Polygon
  * 
  * @author yutzlejp
  */
-public class MultiPolygon extends Geometry implements
-		Coordinates<List<List<Position>>> {
+public class MultiPolygon extends Geometry {
 
 	/**
 	 * Serialization Version number
@@ -56,7 +53,6 @@ public class MultiPolygon extends Geometry implements
 	 * 
 	 * @return the coordinates
 	 */
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<List<Position>>> getCoordinates() {
 		List<List<List<Position>>> result = new ArrayList<>();
 		for (mil.nga.sf.Polygon polygon : multiPolygon.getGeometries()) {

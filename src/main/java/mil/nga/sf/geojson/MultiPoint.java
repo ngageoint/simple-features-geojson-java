@@ -3,14 +3,12 @@ package mil.nga.sf.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 /**
  * Multi Point
  * 
  * @author yutzlejp
  */
-public class MultiPoint extends Geometry implements Coordinates<Position> {
+public class MultiPoint extends Geometry {
 
 	/**
 	 * Serialization Version number
@@ -53,7 +51,6 @@ public class MultiPoint extends Geometry implements Coordinates<Position> {
 	 * 
 	 * @return the coordinates
 	 */
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Position> getCoordinates() {
 		List<Position> positions = new ArrayList<>();
 		for (mil.nga.sf.Point point : multiPoint.getGeometries()) {

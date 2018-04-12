@@ -5,15 +5,12 @@ import java.util.List;
 
 import mil.nga.sf.util.GeometryUtils;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 /**
  * Multi Line String
  * 
  * @author yutzlejp
  */
-public class MultiLineString extends Geometry implements
-		Coordinates<List<Position>> {
+public class MultiLineString extends Geometry {
 
 	/**
 	 * Serialization Version number
@@ -56,7 +53,6 @@ public class MultiLineString extends Geometry implements
 	 * 
 	 * @return the coordinates
 	 */
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<Position>> getCoordinates() {
 		List<List<Position>> result = new ArrayList<>();
 		for (mil.nga.sf.LineString lineString : multiLineString.getGeometries()) {

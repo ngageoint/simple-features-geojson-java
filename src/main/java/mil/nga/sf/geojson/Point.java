@@ -1,14 +1,10 @@
 package mil.nga.sf.geojson;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 /**
  * Point
  * 
  * @author yutzlejp
  */
-@JsonIgnoreProperties({ "geometry" })
 public class Point extends Geometry {
 
 	/**
@@ -60,7 +56,6 @@ public class Point extends Geometry {
 	 * 
 	 * @return the coordinates
 	 */
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Position getCoordinates() {
 		return position;
 	}
@@ -83,7 +78,6 @@ public class Point extends Geometry {
 	 * {@inheritDoc}
 	 */
 	@Override
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public mil.nga.sf.Geometry getGeometry() {
 		return point;
 	}

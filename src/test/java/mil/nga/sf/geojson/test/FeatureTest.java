@@ -8,9 +8,9 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 import mil.nga.sf.geojson.Feature;
+import mil.nga.sf.geojson.FeatureConverter;
 import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.GeometryFactory;
-import mil.nga.sf.geojson.MultiPolygon;
+import mil.nga.sf.geojson.GeometryConverter;
 import mil.nga.sf.geojson.Point;
 
 import org.junit.Test;
@@ -36,14 +36,13 @@ public class FeatureTest {
 	}
 
 	@Test
-	public void itShouldSerializeAMoreInterestingFeature() throws Exception {
-		Feature testObject = new Feature();
+	public void itShouldSerializeFeature2() throws Exception {
 
-		testObject.getProperties().put("foo", "bar");
-		testObject.setGeometry((MultiPolygon) GeometryFactory
-				.toGeometry(TestUtils.getMultiPolygonWithRings()));
+		Feature feature = getTestFeature();
 
-		JsonNode nodeFromPojo = TestUtils.getMapper().valueToTree(testObject);
+		feature.getProperties().put("foo", "bar");
+
+		JsonNode nodeFromPojo = TestUtils.getMapper().valueToTree(feature);
 		JsonNode nodeFromString = TestUtils
 				.getMapper()
 				.readTree(
@@ -61,12 +60,12 @@ public class FeatureTest {
 		assertNotNull(value);
 		assertTrue(value instanceof Feature);
 		Feature feature = (Feature) value;
-		assertNotNull(feature.getFeature().getGeometry());
-		Object geometryO = feature.getFeature().getGeometry();
+		assertNotNull(feature.getSimpleGeometry());
+		Object geometryO = feature.getSimpleGeometry();
 		assertTrue(geometryO instanceof mil.nga.sf.Point);
 		mil.nga.sf.Point simplePoint = (mil.nga.sf.Point) geometryO;
 		TestUtils.assertPoint(100d, 5d, null,
-				(Point) GeometryFactory.toGeometry(simplePoint));
+				(Point) GeometryConverter.toGeometry(simplePoint));
 	}
 
 	@Test
@@ -79,9 +78,62 @@ public class FeatureTest {
 		assertNotNull(value);
 		assertTrue(value instanceof Feature);
 		Feature feature = (Feature) value;
-		assertTrue(null == feature.getFeature().getGeometry());
+		assertTrue(null == feature.getSimpleGeometry());
 		Map<String, Object> map = feature.getProperties();
 		assertTrue(map.containsKey("foo"));
 		assertEquals("bar", map.get("foo"));
 	}
+
+	@Test
+	public void toMap() {
+
+		Feature feature = getTestFeature();
+
+		Map<String, Object> map = FeatureConverter.toMap(feature);
+		TestCase.assertNotNull(map);
+		TestCase.assertFalse(map.isEmpty());
+
+		Feature featureFromMap = FeatureConverter.toFeature(map);
+		TestCase.assertNotNull(featureFromMap);
+
+		TestCase.assertEquals(feature.getSimpleGeometry(),
+				featureFromMap.getSimpleGeometry());
+	}
+
+	@Test
+	public void toGeometry() {
+
+		mil.nga.sf.Geometry simpleGeometry = TestUtils
+				.getMultiPolygonWithRings();
+
+		Feature feature = FeatureConverter.toFeature(simpleGeometry);
+		TestCase.assertNotNull(feature);
+
+		TestCase.assertEquals(simpleGeometry, feature.getSimpleGeometry());
+	}
+
+	@Test
+	public void toStringValue() {
+
+		Feature feature = getTestFeature();
+
+		String stringValue = FeatureConverter.toStringValue(feature);
+		TestCase.assertNotNull(stringValue);
+		TestCase.assertFalse(stringValue.isEmpty());
+
+		Feature featureFromString = FeatureConverter.toFeature(stringValue);
+		TestCase.assertNotNull(featureFromString);
+
+		TestCase.assertEquals(feature.getSimpleGeometry(),
+				featureFromString.getSimpleGeometry());
+	}
+
+	private Feature getTestFeature() {
+
+		mil.nga.sf.Geometry geometry = TestUtils.getMultiPolygonWithRings();
+		Feature feature = FeatureConverter.toFeature(geometry);
+
+		return feature;
+	}
+
 }

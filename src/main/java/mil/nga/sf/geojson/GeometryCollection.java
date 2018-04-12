@@ -3,8 +3,6 @@ package mil.nga.sf.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 /**
  * Geometry Collection
  * 
@@ -54,12 +52,11 @@ public class GeometryCollection extends Geometry {
 	 * 
 	 * @return the geometries
 	 */
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Geometry> getGeometries() {
 		List<Geometry> geometries = new ArrayList<>();
 		for (mil.nga.sf.Geometry simpleGeometry : geometryCollection
 				.getGeometries()) {
-			geometries.add(GeometryFactory.toGeometry(simpleGeometry));
+			geometries.add(GeometryConverter.toGeometry(simpleGeometry));
 		}
 		return geometries;
 	}

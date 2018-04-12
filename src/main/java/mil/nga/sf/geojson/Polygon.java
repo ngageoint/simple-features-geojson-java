@@ -5,14 +5,12 @@ import java.util.List;
 
 import mil.nga.sf.util.GeometryUtils;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 /**
  * Polygon
  * 
  * @author yutzlejp
  */
-public class Polygon extends Geometry implements Coordinates<List<Position>> {
+public class Polygon extends Geometry {
 
 	/**
 	 * Serialization Version number
@@ -55,7 +53,6 @@ public class Polygon extends Geometry implements Coordinates<List<Position>> {
 	 * 
 	 * @return the coordinates
 	 */
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<List<Position>> getCoordinates() {
 		List<List<Position>> result = new ArrayList<>();
 		for (mil.nga.sf.LineString ring : polygon.getRings()) {

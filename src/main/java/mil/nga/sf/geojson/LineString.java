@@ -3,14 +3,12 @@ package mil.nga.sf.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 /**
  * Line String
  * 
  * @author yutzlejp
  */
-public class LineString extends Geometry implements Coordinates<Position> {
+public class LineString extends Geometry {
 
 	/**
 	 * Serialization Version number
@@ -57,10 +55,10 @@ public class LineString extends Geometry implements Coordinates<Position> {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Get the coordinates
+	 * 
+	 * @return list of positions
 	 */
-	@Override
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public List<Position> getCoordinates() {
 		List<Position> positions = new ArrayList<>();
 		for (mil.nga.sf.Point point : lineString.getPoints()) {

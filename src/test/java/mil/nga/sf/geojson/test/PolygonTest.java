@@ -20,7 +20,7 @@ public class PolygonTest {
 	private static String POLYGON_WITH_RINGS = "{\"type\":\"Polygon\",\"coordinates\":[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0],[-100.0,-50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0],[-50.0,-25.0]]]}";
 
 	@Test
-	public void itShouldSerializeASFPolygon() throws Exception {
+	public void itShouldSerializeSFPolygon() throws Exception {
 		List<LineString> rings = new ArrayList<>();
 		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d));
@@ -33,7 +33,7 @@ public class PolygonTest {
 	}
 
 	@Test
-	public void itShouldSerializeASFPolygonWithAltitude() throws Exception {
+	public void itShouldSerializeSFPolygonWithAltitude() throws Exception {
 		List<LineString> rings = new ArrayList<>();
 		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d, 5d));
@@ -46,7 +46,7 @@ public class PolygonTest {
 	}
 
 	@Test
-	public void itShouldSerializeASFPolygonWithRings() throws Exception {
+	public void itShouldSerializeSFPolygonWithRings() throws Exception {
 		List<LineString> rings = new ArrayList<>();
 		List<mil.nga.sf.Point> positions = new ArrayList<>();
 		positions.add(new mil.nga.sf.Point(-100d, -50d));
@@ -65,7 +65,7 @@ public class PolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAPolygon() throws Exception {
+	public void itShouldDeserializePolygon() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(POLYGON,
 				GeoJsonObject.class);
 		assertNotNull(value);
@@ -85,7 +85,7 @@ public class PolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAPolygonWithAltitude() throws Exception {
+	public void itShouldDeserializePolygonWithAltitude() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(POLYGON_WITH_ALT,
 				GeoJsonObject.class);
 		assertNotNull(value);
@@ -105,7 +105,7 @@ public class PolygonTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAPolygonWithRings() throws Exception {
+	public void itShouldDeserializePolygonWithRings() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				POLYGON_WITH_RINGS, GeoJsonObject.class);
 		assertNotNull(value);
@@ -128,6 +128,11 @@ public class PolygonTest {
 		TestUtils.assertPosition(50d, -25d, null, null, points.get(1));
 		TestUtils.assertPosition(-1d, 25d, null, null, points.get(2));
 		TestUtils.assertPosition(-50d, -25d, null, null, points.get(3));
+	}
+
+	@Test
+	public void toGeometry() {
+		TestUtils.toGeometry(getTestGeometry());
 	}
 
 	@Test

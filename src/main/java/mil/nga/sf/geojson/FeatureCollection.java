@@ -1,14 +1,15 @@
 package mil.nga.sf.geojson;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import mil.nga.sf.GeometryType;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
@@ -17,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * @author yutzlejp
  */
 @JsonPropertyOrder({ "type", "features" })
-@JsonIgnoreProperties({ "propertiesMap", "geometryType" })
 public class FeatureCollection extends GeoJsonObject implements
 		Iterable<Feature> {
 
@@ -29,7 +29,7 @@ public class FeatureCollection extends GeoJsonObject implements
 	/**
 	 * Collection of features
 	 */
-	private Collection<Feature> features = new HashSet<>();
+	private List<Feature> features = new ArrayList<>();
 
 	/**
 	 * Constructor
@@ -62,7 +62,7 @@ public class FeatureCollection extends GeoJsonObject implements
 	 * 
 	 * @return collection of features
 	 */
-	public Collection<Feature> getFeatures() {
+	public List<Feature> getFeatures() {
 		return features;
 	}
 
@@ -73,7 +73,7 @@ public class FeatureCollection extends GeoJsonObject implements
 	 *            collection of features
 	 */
 	public void setFeatures(Collection<Feature> features) {
-		this.features = features;
+		this.features = new ArrayList<>(features);
 	}
 
 	/**
@@ -84,6 +84,36 @@ public class FeatureCollection extends GeoJsonObject implements
 	 */
 	public void addFeature(Feature feature) {
 		features.add(feature);
+	}
+
+	/**
+	 * Add the features
+	 * 
+	 * @param features
+	 *            collection of features
+	 */
+	public void addFeatures(Collection<Feature> features) {
+		this.features.addAll(features);
+	}
+
+	/**
+	 * Get the number of features
+	 * 
+	 * @return feature count
+	 */
+	public int numFeatures() {
+		return features.size();
+	}
+
+	/**
+	 * Get the feature at the index
+	 * 
+	 * @param i
+	 *            index
+	 * @return feature
+	 */
+	public Feature getFeature(int i) {
+		return features.get(i);
 	}
 
 	/**
@@ -99,6 +129,7 @@ public class FeatureCollection extends GeoJsonObject implements
 	 * 
 	 * @return geometry type
 	 */
+	@JsonIgnore
 	public GeometryType getGeometryType() {
 		GeometryType result = null;
 
@@ -120,6 +151,7 @@ public class FeatureCollection extends GeoJsonObject implements
 	 * 
 	 * @return properties map
 	 */
+	@JsonIgnore
 	public Map<String, String> getPropertiesMap() {
 		Map<String, String> result = new HashMap<>();
 		for (final Feature feature : getFeatures()) {

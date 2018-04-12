@@ -10,12 +10,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Geometry Factory
+ * Geometry Converter
  * 
  * @author yutzlejp
  * @author osbornb
  */
-public class GeometryFactory {
+public class GeometryConverter {
 
 	/**
 	 * Object mapper
@@ -31,24 +31,31 @@ public class GeometryFactory {
 	 */
 	public static Geometry toGeometry(mil.nga.sf.Geometry simpleGeometry) {
 		Geometry geometry = null;
-		if (simpleGeometry instanceof mil.nga.sf.Point) {
-			geometry = new Point((mil.nga.sf.Point) simpleGeometry);
-		} else if (simpleGeometry instanceof mil.nga.sf.LineString) {
-			geometry = new LineString((mil.nga.sf.LineString) simpleGeometry);
-		} else if (simpleGeometry instanceof mil.nga.sf.MultiPoint) {
-			geometry = new MultiPoint((mil.nga.sf.MultiPoint) simpleGeometry);
-		} else if (simpleGeometry instanceof mil.nga.sf.Polygon) {
-			geometry = new Polygon((mil.nga.sf.Polygon) simpleGeometry);
-		} else if (simpleGeometry instanceof mil.nga.sf.MultiLineString) {
-			geometry = new MultiLineString(
-					(mil.nga.sf.MultiLineString) simpleGeometry);
-		} else if (simpleGeometry instanceof mil.nga.sf.MultiPolygon) {
-			geometry = new MultiPolygon(
-					(mil.nga.sf.MultiPolygon) simpleGeometry);
-		} else if (simpleGeometry instanceof mil.nga.sf.GeometryCollection<?>) {
-			@SuppressWarnings("unchecked")
-			mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> simpleGeometryCollection = (mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry>) simpleGeometry;
-			geometry = new GeometryCollection(simpleGeometryCollection);
+		if (simpleGeometry != null) {
+			if (simpleGeometry instanceof mil.nga.sf.Point) {
+				geometry = new Point((mil.nga.sf.Point) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.LineString) {
+				geometry = new LineString(
+						(mil.nga.sf.LineString) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.MultiPoint) {
+				geometry = new MultiPoint(
+						(mil.nga.sf.MultiPoint) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.Polygon) {
+				geometry = new Polygon((mil.nga.sf.Polygon) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.MultiLineString) {
+				geometry = new MultiLineString(
+						(mil.nga.sf.MultiLineString) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.MultiPolygon) {
+				geometry = new MultiPolygon(
+						(mil.nga.sf.MultiPolygon) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.GeometryCollection<?>) {
+				@SuppressWarnings("unchecked")
+				mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> simpleGeometryCollection = (mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry>) simpleGeometry;
+				geometry = new GeometryCollection(simpleGeometryCollection);
+			} else {
+				throw new SFException("Unsupported Geometry type: "
+						+ simpleGeometry.getClass().getSimpleName());
+			}
 		}
 		return geometry;
 	}
@@ -111,7 +118,7 @@ public class GeometryFactory {
 	 * @return object map
 	 */
 	public static Map<String, Object> toMap(mil.nga.sf.Geometry simpleGeometry) {
-		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryConverter.toGeometry(simpleGeometry);
 		Map<String, Object> map = toMap(geometry);
 		return map;
 	}
@@ -138,7 +145,7 @@ public class GeometryFactory {
 	 * @return string value
 	 */
 	public static String toStringValue(mil.nga.sf.Geometry simpleGeometry) {
-		Geometry geometry = GeometryFactory.toGeometry(simpleGeometry);
+		Geometry geometry = GeometryConverter.toGeometry(simpleGeometry);
 		String stringValue = toStringValue(geometry);
 		return stringValue;
 	}

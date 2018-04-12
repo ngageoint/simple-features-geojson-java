@@ -19,7 +19,7 @@ public class MultiLineStringTest {
 	private static String MULTILINESTRING_WITH_MULTIPLE = "{\"type\":\"MultiLineString\",\"coordinates\":[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0]]]}";
 
 	@Test
-	public void itShouldSerializeASFMLS() throws Exception {
+	public void itShouldSerializeSFMultiLineString() throws Exception {
 		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
 		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d));
@@ -33,7 +33,8 @@ public class MultiLineStringTest {
 	}
 
 	@Test
-	public void itShouldSerializeASFMLSWithAltitude() throws Exception {
+	public void itShouldSerializeSFMultiLineStringWithAltitude()
+			throws Exception {
 		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
 		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d, 5d));
@@ -47,7 +48,8 @@ public class MultiLineStringTest {
 	}
 
 	@Test
-	public void itShouldSerializeASFMLSWithMultiple() throws Exception {
+	public void itShouldSerializeSFMultiLineStringWithMultiple()
+			throws Exception {
 		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
 		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(-100d, -50d));
@@ -67,7 +69,7 @@ public class MultiLineStringTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAMLS() throws Exception {
+	public void itShouldDeserializeMultiLineString() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(MULTILINESTRING,
 				GeoJsonObject.class);
 		assertNotNull(value);
@@ -86,7 +88,8 @@ public class MultiLineStringTest {
 	}
 
 	@Test
-	public void itShouldDeserializeALineStringWithAltitude() throws Exception {
+	public void itShouldDeserializeMultiLineStringWithAltitude()
+			throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				MULTILINESTRING_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
@@ -105,7 +108,8 @@ public class MultiLineStringTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAMLSWithRings() throws Exception {
+	public void itShouldDeserializeMultiLineStringWithMultiple()
+			throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				MULTILINESTRING_WITH_MULTIPLE, GeoJsonObject.class);
 		assertTrue(value instanceof MultiLineString);
@@ -125,6 +129,11 @@ public class MultiLineStringTest {
 		TestUtils.assertPosition(-50d, -25d, null, null, points.get(0));
 		TestUtils.assertPosition(50d, -25d, null, null, points.get(1));
 		TestUtils.assertPosition(-1d, 25d, null, null, points.get(2));
+	}
+
+	@Test
+	public void toGeometry() {
+		TestUtils.toGeometry(getTestGeometry());
 	}
 
 	@Test

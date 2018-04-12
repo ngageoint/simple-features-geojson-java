@@ -19,7 +19,7 @@ public class MultiPointTest {
 	private static String MULTIPOINT_WITH_ALT = "{\"type\":\"MultiPoint\",\"coordinates\":[[100.0,10.0,-20.0],[101.0,1.0,-10.0]]}";
 
 	@Test
-	public void itShouldSerializeASFMultiPoint() throws Exception {
+	public void itShouldSerializeSFMultiPoint() throws Exception {
 		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d));
 		points.add(new mil.nga.sf.Point(101d, 1d));
@@ -28,7 +28,7 @@ public class MultiPointTest {
 	}
 
 	@Test
-	public void itShouldSerializeASFMultiPointWithAltitude() throws Exception {
+	public void itShouldSerializeSFMultiPointWithAltitude() throws Exception {
 		List<mil.nga.sf.Point> positions = new ArrayList<>();
 		positions.add(new mil.nga.sf.Point(100d, 10d, -20d));
 		positions.add(new mil.nga.sf.Point(101d, 1d, -10d));
@@ -37,7 +37,7 @@ public class MultiPointTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAMultiPoint() throws Exception {
+	public void itShouldDeserializeMultiPoint() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(MULTIPOINT,
 				GeoJsonObject.class);
 		assertNotNull(value);
@@ -50,7 +50,7 @@ public class MultiPointTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAMultiPointWithAltitude() throws Exception {
+	public void itShouldDeserializeMultiPointWithAltitude() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				MULTIPOINT_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
@@ -60,6 +60,11 @@ public class MultiPointTest {
 		assertEquals(2, positions.size());
 		TestUtils.assertPosition(100d, 10d, -20d, null, positions.get(0));
 		TestUtils.assertPosition(101d, 1d, -10d, null, positions.get(1));
+	}
+
+	@Test
+	public void toGeometry() {
+		TestUtils.toGeometry(getTestGeometry());
 	}
 
 	@Test

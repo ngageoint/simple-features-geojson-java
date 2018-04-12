@@ -14,14 +14,14 @@ import org.junit.Test;
 public class PointTest {
 
 	@Test
-	public void itShouldSerializeASFPoint() throws Exception {
+	public void itShouldSerializeSFPoint() throws Exception {
 		mil.nga.sf.Point simplePoint = new mil.nga.sf.Point(100d, 10d);
 		TestUtils.compareAsNodes(simplePoint,
 				"{\"type\":\"Point\",\"coordinates\":[100.0,10.0]}");
 	}
 
 	@Test
-	public void itShouldDeserializeAPoint() throws Exception {
+	public void itShouldDeserializePoint() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				"{\"type\":\"Point\",\"coordinates\":[100.0,5.0]}",
 				GeoJsonObject.class);
@@ -32,7 +32,7 @@ public class PointTest {
 	}
 
 	@Test
-	public void itShouldDeserializeAPointWithAltitude() throws Exception {
+	public void itShouldDeserializePointWithAltitude() throws Exception {
 		GeoJsonObject value = TestUtils.getMapper().readValue(
 				"{\"type\":\"Point\",\"coordinates\":[100.0,5.0,123]}",
 				GeoJsonObject.class);
@@ -41,14 +41,14 @@ public class PointTest {
 	}
 
 	@Test
-	public void itShouldSerializeAPointWithAltitude() throws Exception {
+	public void itShouldSerializePointWithAltitude() throws Exception {
 		mil.nga.sf.Point simplePoint = new mil.nga.sf.Point(100d, 10d, 256d);
 		TestUtils.compareAsNodes(simplePoint,
 				"{\"type\":\"Point\",\"coordinates\":[100.0,10.0,256.0]}");
 	}
 
 	@Test
-	public void itShouldDeserializeAPointWithAdditionalAttributes()
+	public void itShouldDeserializePointWithAdditionalAttributes()
 			throws IOException {
 		GeoJsonObject value = TestUtils
 				.getMapper()
@@ -61,13 +61,18 @@ public class PointTest {
 	}
 
 	@Test
-	public void itShouldSerializeAPointWithAdditionalAttributes()
+	public void itShouldSerializePointWithAdditionalAttributes()
 			throws IOException {
 		Position position = new Position(100d, 0d, 256d, 345d, 678d);
 		Point point = new Point(position);
 		TestUtils
 				.compareAsNodes(point,
 						"{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}");
+	}
+
+	@Test
+	public void toGeometry() {
+		TestUtils.toGeometry(getTestGeometry());
 	}
 
 	@Test

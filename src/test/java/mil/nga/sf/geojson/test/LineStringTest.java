@@ -16,7 +16,7 @@ import org.junit.Test;
 public class LineStringTest {
 
 	@Test
-	public void itShouldSerializeASFLineString() throws Exception {
+	public void itShouldSerializeSFLineString() throws Exception {
 		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d));
 		points.add(new mil.nga.sf.Point(101d, 1d));
@@ -27,7 +27,7 @@ public class LineStringTest {
 	}
 
 	@Test
-	public void itShouldSerializeASFLineStringWithAltitude() throws Exception {
+	public void itShouldSerializeSFLineStringWithAltitude() throws Exception {
 		List<mil.nga.sf.Point> points = new ArrayList<>();
 		points.add(new mil.nga.sf.Point(100d, 10d, 15d));
 		points.add(new mil.nga.sf.Point(101d, 1d, 11d));
@@ -39,7 +39,7 @@ public class LineStringTest {
 	}
 
 	@Test
-	public void itShouldDeserializeALineString() throws Exception {
+	public void itShouldDeserializeLineString() throws Exception {
 		GeoJsonObject value = TestUtils
 				.getMapper()
 				.readValue(
@@ -55,7 +55,7 @@ public class LineStringTest {
 	}
 
 	@Test
-	public void itShouldDeserializeALineStringWithAltitude() throws Exception {
+	public void itShouldDeserializeLineStringWithAltitude() throws Exception {
 		GeoJsonObject value = TestUtils
 				.getMapper()
 				.readValue(
@@ -68,6 +68,11 @@ public class LineStringTest {
 		assertEquals(2, positions.size());
 		TestUtils.assertPosition(100d, 10d, -20d, null, positions.get(0));
 		TestUtils.assertPosition(101d, 1d, -10d, null, positions.get(1));
+	}
+
+	@Test
+	public void toGeometry() {
+		TestUtils.toGeometry(getTestGeometry());
 	}
 
 	@Test
