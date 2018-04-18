@@ -29,7 +29,9 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 		if (jp.isExpectedStartArrayToken()) {
 			return deserializeArray(jp, ctxt);
 		}
-		throw ctxt.mappingException(Position.class);
+		ctxt.reportWrongTokenException(this, JsonToken.START_ARRAY,
+				"Unexpected token when binding data into Position");
+		return null;
 	}
 
 	/**
@@ -82,19 +84,21 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 			boolean optional) throws JsonParseException, IOException {
 		JsonToken token = jp.nextToken();
 		if (token == null) {
-			if (optional)
-				return null;
-			else
-				throw ctxt
-						.mappingException("Unexpected end-of-input when binding data into Coordinates");
+			if (!optional) {
+				ctxt.reportWrongTokenException(this,
+						JsonToken.VALUE_NUMBER_FLOAT,
+						"Unexpected end-of-input when binding data into Coordinates");
+			}
+			return null;
 		} else {
 			switch (token) {
 			case END_ARRAY:
-				if (optional)
-					return null;
-				else
-					throw ctxt
-							.mappingException("Unexpected end-of-input when binding data into Coordinates");
+				if (!optional) {
+					ctxt.reportWrongTokenException(this,
+							JsonToken.VALUE_NUMBER_FLOAT,
+							"Unexpected end-of-input when binding data into Coordinates");
+				}
+				return null;
 			case VALUE_NUMBER_FLOAT:
 				return jp.getDoubleValue();
 			case VALUE_NUMBER_INT:
@@ -102,8 +106,12 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 			case VALUE_STRING:
 				return jp.getValueAsDouble();
 			default:
-				throw ctxt.mappingException("Unexpected token (" + token.name()
-						+ ") when binding data into LngLatAlt");
+				ctxt.reportWrongTokenException(
+						this,
+						JsonToken.VALUE_NUMBER_FLOAT,
+						"Unexpected token (%s) when binding data into LngLatAlt",
+						token.name());
+				return null;
 			}
 		}
 	}
