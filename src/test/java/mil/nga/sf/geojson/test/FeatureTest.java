@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import mil.nga.sf.geojson.Feature;
 import mil.nga.sf.geojson.FeatureConverter;
 import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.GeometryConverter;
 import mil.nga.sf.geojson.Point;
 
 import org.junit.Test;
@@ -65,7 +64,7 @@ public class FeatureTest {
 		assertTrue(geometryO instanceof mil.nga.sf.Point);
 		mil.nga.sf.Point simplePoint = (mil.nga.sf.Point) geometryO;
 		TestUtils.assertPoint(100d, 5d, null,
-				(Point) GeometryConverter.toGeometry(simplePoint));
+				(Point) FeatureConverter.toGeometry(simplePoint));
 	}
 
 	@Test
@@ -98,6 +97,15 @@ public class FeatureTest {
 
 		TestCase.assertEquals(feature.getSimpleGeometry(),
 				featureFromMap.getSimpleGeometry());
+
+		GeoJsonObject geoJsonObjectFromString = FeatureConverter
+				.toGeoJsonObject(map);
+		TestCase.assertNotNull(geoJsonObjectFromString);
+		TestCase.assertTrue(geoJsonObjectFromString instanceof Feature);
+
+		Feature featureGeoJsonObject = (Feature) geoJsonObjectFromString;
+		TestCase.assertEquals(feature.getSimpleGeometry(),
+				featureGeoJsonObject.getSimpleGeometry());
 	}
 
 	@Test
@@ -126,6 +134,15 @@ public class FeatureTest {
 
 		TestCase.assertEquals(feature.getSimpleGeometry(),
 				featureFromString.getSimpleGeometry());
+
+		GeoJsonObject geoJsonObjectFromString = FeatureConverter
+				.toGeoJsonObject(stringValue);
+		TestCase.assertNotNull(geoJsonObjectFromString);
+		TestCase.assertTrue(geoJsonObjectFromString instanceof Feature);
+
+		Feature featureGeoJsonObject = (Feature) geoJsonObjectFromString;
+		TestCase.assertEquals(feature.getSimpleGeometry(),
+				featureGeoJsonObject.getSimpleGeometry());
 	}
 
 	private Feature getTestFeature() {

@@ -25,6 +25,39 @@ public class FeatureConverter {
 	public final static ObjectMapper mapper = new ObjectMapper();
 
 	/**
+	 * Convert the string content to a feature
+	 * 
+	 * @param content
+	 *            string content
+	 * @return feature
+	 */
+	public static Feature toFeature(String content) {
+		return toTypedGeoJsonObject(Feature.class, content);
+	}
+
+	/**
+	 * Convert the object value to a feature
+	 * 
+	 * @param value
+	 *            object value
+	 * @return feature
+	 */
+	public static Feature toFeature(Object value) {
+		return toTypedGeoJsonObject(Feature.class, value);
+	}
+
+	/**
+	 * Convert the JSON tree to a feature
+	 * 
+	 * @param tree
+	 *            tree node
+	 * @return feature
+	 */
+	public static Feature toFeature(JsonNode tree) {
+		return toTypedGeoJsonObject(Feature.class, tree);
+	}
+
+	/**
 	 * Convert a simple geometry to a feature
 	 * 
 	 * @param simpleGeometry
@@ -32,9 +65,42 @@ public class FeatureConverter {
 	 * @return feature
 	 */
 	public static Feature toFeature(mil.nga.sf.Geometry simpleGeometry) {
-		Geometry geometry = GeometryConverter.toGeometry(simpleGeometry);
+		Geometry geometry = toGeometry(simpleGeometry);
 		Feature feature = new Feature(geometry);
 		return feature;
+	}
+
+	/**
+	 * Convert the string content to a feature collection
+	 * 
+	 * @param content
+	 *            string content
+	 * @return feature collection
+	 */
+	public static FeatureCollection toFeatureCollection(String content) {
+		return toTypedGeoJsonObject(FeatureCollection.class, content);
+	}
+
+	/**
+	 * Convert the object value to a feature collection
+	 * 
+	 * @param value
+	 *            object value
+	 * @return feature collection
+	 */
+	public static FeatureCollection toFeatureCollection(Object value) {
+		return toTypedGeoJsonObject(FeatureCollection.class, value);
+	}
+
+	/**
+	 * Convert the JSON tree to a feature collection
+	 * 
+	 * @param tree
+	 *            tree node
+	 * @return feature collection
+	 */
+	public static FeatureCollection toFeatureCollection(JsonNode tree) {
+		return toTypedGeoJsonObject(FeatureCollection.class, tree);
 	}
 
 	/**
@@ -70,13 +136,179 @@ public class FeatureConverter {
 	}
 
 	/**
-	 * Convert the string content to a feature
+	 * Convert the string content to a geometry
 	 * 
 	 * @param content
 	 *            string content
-	 * @return feature
+	 * @return geometry
 	 */
-	public static Feature toFeature(String content) {
+	public static Geometry toGeometry(String content) {
+		return toTypedGeoJsonObject(Geometry.class, content);
+	}
+
+	/**
+	 * Convert the object value to a geometry
+	 * 
+	 * @param value
+	 *            object value
+	 * @return geometry
+	 */
+	public static Geometry toGeometry(Object value) {
+		return toTypedGeoJsonObject(Geometry.class, value);
+	}
+
+	/**
+	 * Convert the JSON tree to a Geometry
+	 * 
+	 * @param tree
+	 *            tree node
+	 * @return geometry
+	 */
+	public static Geometry toGeometry(JsonNode tree) {
+		return toTypedGeoJsonObject(Geometry.class, tree);
+	}
+
+	/**
+	 * Convert a simple geometry to a GeoJSON geometry
+	 * 
+	 * @param simpleGeometry
+	 *            simple geometry
+	 * @return geometry
+	 */
+	public static Geometry toGeometry(mil.nga.sf.Geometry simpleGeometry) {
+		Geometry geometry = null;
+		if (simpleGeometry != null) {
+			if (simpleGeometry instanceof mil.nga.sf.Point) {
+				geometry = new Point((mil.nga.sf.Point) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.LineString) {
+				geometry = new LineString(
+						(mil.nga.sf.LineString) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.MultiPoint) {
+				geometry = new MultiPoint(
+						(mil.nga.sf.MultiPoint) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.Polygon) {
+				geometry = new Polygon((mil.nga.sf.Polygon) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.MultiLineString) {
+				geometry = new MultiLineString(
+						(mil.nga.sf.MultiLineString) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.MultiPolygon) {
+				geometry = new MultiPolygon(
+						(mil.nga.sf.MultiPolygon) simpleGeometry);
+			} else if (simpleGeometry instanceof mil.nga.sf.GeometryCollection<?>) {
+				@SuppressWarnings("unchecked")
+				mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> simpleGeometryCollection = (mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry>) simpleGeometry;
+				geometry = new GeometryCollection(simpleGeometryCollection);
+			} else {
+				throw new SFException("Unsupported Geometry type: "
+						+ simpleGeometry.getClass().getSimpleName());
+			}
+		}
+		return geometry;
+	}
+
+	/**
+	 * Convert the string content to a GeoJSON object
+	 * 
+	 * @param content
+	 *            string content
+	 * @return GeoJSON object
+	 */
+	public static GeoJsonObject toGeoJsonObject(String content) {
+		return toTypedGeoJsonObject(GeoJsonObject.class, content);
+	}
+
+	/**
+	 * Convert the object value to a GeoJSON object
+	 * 
+	 * @param value
+	 *            object value
+	 * @return GeoJSON object
+	 */
+	public static GeoJsonObject toGeoJsonObject(Object value) {
+		return toTypedGeoJsonObject(GeoJsonObject.class, value);
+	}
+
+	/**
+	 * Convert the JSON tree to a GeoJSON object
+	 * 
+	 * @param tree
+	 *            tree node
+	 * @return GeoJSON object
+	 */
+	public static GeoJsonObject toGeoJsonObject(JsonNode tree) {
+		return toTypedGeoJsonObject(GeoJsonObject.class, tree);
+	}
+
+	/**
+	 * Convert the GeoJSON object to an object map
+	 * 
+	 * @param object
+	 *            GeoJSON object
+	 * @return object map
+	 */
+	public static Map<String, Object> toMap(GeoJsonObject object) {
+		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
+		};
+		Map<String, Object> map = mapper.convertValue(object, typeRef);
+		return map;
+	}
+
+	/**
+	 * Convert the simple geometry to an object map
+	 * 
+	 * @param simpleGeometry
+	 *            simple geometry
+	 * @return object map
+	 */
+	public static Map<String, Object> toMap(mil.nga.sf.Geometry simpleGeometry) {
+		Geometry geometry = toGeometry(simpleGeometry);
+		Map<String, Object> map = toMap(geometry);
+		return map;
+	}
+
+	/**
+	 * Convert the GeoJSON object to a string value
+	 * 
+	 * @param object
+	 *            GeoJSON object
+	 * @return string value
+	 */
+	public static String toStringValue(GeoJsonObject object) {
+		String stringValue = null;
+		try {
+			stringValue = mapper.writeValueAsString(object);
+		} catch (JsonProcessingException e) {
+			throw new SFException(
+					"Failed to write GeoJSON object as a String: "
+							+ object.getType(), e);
+		}
+		return stringValue;
+	}
+
+	/**
+	 * Convert the simple geometry to a string value
+	 * 
+	 * @param simpleGeometry
+	 *            simple geometry
+	 * @return string value
+	 */
+	public static String toStringValue(mil.nga.sf.Geometry simpleGeometry) {
+		Geometry geometry = toGeometry(simpleGeometry);
+		String stringValue = toStringValue(geometry);
+		return stringValue;
+	}
+
+	/**
+	 * Convert the string content to a typed GeoJSON object
+	 * 
+	 * @param type
+	 *            GeoJSON object type
+	 * @param content
+	 *            string content
+	 * @return typed GeoJSON object
+	 */
+	private static <T extends GeoJsonObject> T toTypedGeoJsonObject(
+			Class<T> type, String content) {
 		JsonNode tree;
 		try {
 			tree = mapper.readTree(content);
@@ -84,157 +316,45 @@ public class FeatureConverter {
 			throw new SFException("Failed to convert content to a node tree: "
 					+ content, e);
 		}
-		Feature feature = toFeature(tree);
-		return feature;
+		T typedGeoJsonObject = toTypedGeoJsonObject(type, tree);
+		return typedGeoJsonObject;
 	}
 
 	/**
-	 * Convert the object value to a feature
+	 * Convert the object value to a typed GeoJSON object
 	 * 
+	 * @param type
+	 *            GeoJSON object type
 	 * @param value
 	 *            object value
-	 * @return feature
+	 * @return typed GeoJSON object
 	 */
-	public static Feature toFeature(Object value) {
+	private static <T extends GeoJsonObject> T toTypedGeoJsonObject(
+			Class<T> type, Object value) {
 		JsonNode tree = mapper.valueToTree(value);
-		Feature feature = toFeature(tree);
-		return feature;
+		T typedGeoJsonObject = toTypedGeoJsonObject(type, tree);
+		return typedGeoJsonObject;
 	}
 
 	/**
-	 * Convert the JSON tree to a feature
+	 * Convert the JSON tree to a typed GeoJSON object
 	 * 
+	 * @param type
+	 *            GeoJSON object type
 	 * @param tree
 	 *            tree node
-	 * @return feature
+	 * @return typed GeoJSON object
 	 */
-	public static Feature toFeature(JsonNode tree) {
-		Feature feature;
+	private static <T extends GeoJsonObject> T toTypedGeoJsonObject(
+			Class<T> type, JsonNode tree) {
+		T geoJsonObject;
 		try {
-			feature = mapper.treeToValue(tree, Feature.class);
-		} catch (JsonProcessingException e) {
-			throw new SFException("Failed to convert node tree to feature: "
-					+ tree, e);
-		}
-		return feature;
-	}
-
-	/**
-	 * Convert the string content to a feature collection
-	 * 
-	 * @param content
-	 *            string content
-	 * @return feature collection
-	 */
-	public static FeatureCollection toFeatureCollection(String content) {
-		JsonNode tree;
-		try {
-			tree = mapper.readTree(content);
-		} catch (Exception e) {
-			throw new SFException("Failed to convert content to a node tree: "
-					+ content, e);
-		}
-		FeatureCollection featureCollection = toFeatureCollection(tree);
-		return featureCollection;
-	}
-
-	/**
-	 * Convert the object value to a feature collection
-	 * 
-	 * @param value
-	 *            object value
-	 * @return feature collection
-	 */
-	public static FeatureCollection toFeatureCollection(Object value) {
-		JsonNode tree = mapper.valueToTree(value);
-		FeatureCollection featureCollection = toFeatureCollection(tree);
-		return featureCollection;
-	}
-
-	/**
-	 * Convert the JSON tree to a feature collection
-	 * 
-	 * @param tree
-	 *            tree node
-	 * @return feature collection
-	 */
-	public static FeatureCollection toFeatureCollection(JsonNode tree) {
-		FeatureCollection featureCollection;
-		try {
-			featureCollection = mapper.treeToValue(tree,
-					FeatureCollection.class);
+			geoJsonObject = mapper.treeToValue(tree, type);
 		} catch (JsonProcessingException e) {
 			throw new SFException(
-					"Failed to convert node tree to feature collection: "
-							+ tree, e);
+					"Failed to convert node tree to GeoJSON object: " + tree, e);
 		}
-		return featureCollection;
-	}
-
-	/**
-	 * Convert the feature to an object map
-	 * 
-	 * @param feature
-	 *            feature
-	 * @return object map
-	 */
-	public static Map<String, Object> toMap(Feature feature) {
-		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
-		};
-		Map<String, Object> map = mapper.convertValue(feature, typeRef);
-		return map;
-	}
-
-	/**
-	 * Convert the feature collection to an object map
-	 * 
-	 * @param featureCollection
-	 *            feature collection
-	 * @return object map
-	 */
-	public static Map<String, Object> toMap(FeatureCollection featureCollection) {
-		TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
-		};
-		Map<String, Object> map = mapper.convertValue(featureCollection,
-				typeRef);
-		return map;
-	}
-
-	/**
-	 * Convert the feature to a string value
-	 * 
-	 * @param feature
-	 *            feature
-	 * @return string value
-	 */
-	public static String toStringValue(Feature feature) {
-		String stringValue = null;
-		try {
-			stringValue = mapper.writeValueAsString(feature);
-		} catch (JsonProcessingException e) {
-			throw new SFException("Failed to write feature as a String: "
-					+ feature.getGeometryType(), e);
-		}
-		return stringValue;
-	}
-
-	/**
-	 * Convert the feature collection to a string value
-	 * 
-	 * @param featureCollection
-	 *            feature collection
-	 * @return string value
-	 */
-	public static String toStringValue(FeatureCollection featureCollection) {
-		String stringValue = null;
-		try {
-			stringValue = mapper.writeValueAsString(featureCollection);
-		} catch (JsonProcessingException e) {
-			throw new SFException(
-					"Failed to write feature collection as a String: "
-							+ featureCollection.getGeometryType(), e);
-		}
-		return stringValue;
+		return geoJsonObject;
 	}
 
 }

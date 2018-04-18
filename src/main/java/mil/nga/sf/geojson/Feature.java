@@ -55,7 +55,7 @@ public class Feature extends GeoJsonObject {
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Geometry getGeometry() {
-		return GeometryConverter.toGeometry(feature.getGeometry());
+		return FeatureConverter.toGeometry(feature.getGeometry());
 	}
 
 	/**

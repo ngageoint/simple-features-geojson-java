@@ -56,7 +56,7 @@ public class GeometryCollection extends Geometry {
 		List<Geometry> geometries = new ArrayList<>();
 		for (mil.nga.sf.Geometry simpleGeometry : geometryCollection
 				.getGeometries()) {
-			geometries.add(GeometryConverter.toGeometry(simpleGeometry));
+			geometries.add(FeatureConverter.toGeometry(simpleGeometry));
 		}
 		return geometries;
 	}

@@ -136,6 +136,21 @@ public class FeatureCollectionTest {
 					.getSimpleGeometry(), featureCollectionFromMap
 					.getFeature(i).getSimpleGeometry());
 		}
+
+		GeoJsonObject geoJsonObjectFromString = FeatureConverter
+				.toGeoJsonObject(map);
+		TestCase.assertNotNull(geoJsonObjectFromString);
+		TestCase.assertTrue(geoJsonObjectFromString instanceof FeatureCollection);
+
+		FeatureCollection featureCollectionGeoJsonObject = (FeatureCollection) geoJsonObjectFromString;
+		TestCase.assertEquals(featureCollection.numFeatures(),
+				featureCollectionGeoJsonObject.numFeatures());
+		TestCase.assertEquals(2, featureCollectionGeoJsonObject.numFeatures());
+		for (int i = 0; i < featureCollection.numFeatures(); i++) {
+			TestCase.assertEquals(featureCollection.getFeature(i)
+					.getSimpleGeometry(), featureCollectionGeoJsonObject
+					.getFeature(i).getSimpleGeometry());
+		}
 	}
 
 	@Test
@@ -157,6 +172,21 @@ public class FeatureCollectionTest {
 		for (int i = 0; i < featureCollection.numFeatures(); i++) {
 			TestCase.assertEquals(featureCollection.getFeature(i)
 					.getSimpleGeometry(), featureCollectionFromString
+					.getFeature(i).getSimpleGeometry());
+		}
+
+		GeoJsonObject geoJsonObjectFromString = FeatureConverter
+				.toGeoJsonObject(stringValue);
+		TestCase.assertNotNull(geoJsonObjectFromString);
+		TestCase.assertTrue(geoJsonObjectFromString instanceof FeatureCollection);
+
+		FeatureCollection featureCollectionGeoJsonObject = (FeatureCollection) geoJsonObjectFromString;
+		TestCase.assertEquals(featureCollection.numFeatures(),
+				featureCollectionGeoJsonObject.numFeatures());
+		TestCase.assertEquals(2, featureCollectionGeoJsonObject.numFeatures());
+		for (int i = 0; i < featureCollection.numFeatures(); i++) {
+			TestCase.assertEquals(featureCollection.getFeature(i)
+					.getSimpleGeometry(), featureCollectionGeoJsonObject
 					.getFeature(i).getSimpleGeometry());
 		}
 
