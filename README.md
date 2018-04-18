@@ -11,11 +11,45 @@ Software source code previously released under an open source license and then m
 
 ### About ###
 
-[Simple Features GeoJSON](http://ngageoint.github.io/simple-features-geojson-java/) is a Java library for writing and reading Simple Feature Geometries to and from GeoJSON.
+[Simple Features GeoJSON](http://ngageoint.github.io/simple-features-geojson-java/) is a Java library for writing and reading [Simple Feature](https://github.com/ngageoint/simple-features-java) Geometries to and from GeoJSON.
 
 ### Usage ###
 
 View the latest [Javadoc](http://ngageoint.github.io/simple-features-geojson-java/docs/api/)
+
+#### Read ####
+
+```java
+
+//String content = ...    
+
+Geometry geometry = FeatureConverter.toGeometry(content);
+mil.nga.sf.Geometry simpleGeometry = geometry.getGeometry();
+
+/* Read as a generic GeoJSON object, Feature, or Feature Collection */
+//GeoJsonObject geoJsonObject = FeatureConverter.toGeoJsonObject(content);
+//Feature feature = FeatureConverter.toFeature(content);
+//FeatureCollection featureCollection = FeatureConverter.toFeatureCollection(content);
+
+```
+
+#### Write ####
+
+```java
+
+//Geometry geometry = ...
+
+String content = FeatureConverter.toStringValue(geometry);
+
+Feature feature = FeatureConverter.toFeature(geometry);
+String featureContent = FeatureConverter.toStringValue(feature);
+
+FeatureCollection featureCollection = FeatureConverter.toFeatureCollection(geometry);
+String featureCollectionContent = FeatureConverter.toStringValue(featureCollection);
+
+Map<String, Object> contentMap = FeatureConverter.toMap(geometry);
+
+```
 
 ### Installation ###
 
@@ -36,3 +70,7 @@ Pull from the [Maven Central Repository](http://search.maven.org/#artifactdetail
 Build this repository using Eclipse and/or Maven:
 
     mvn clean install
+
+### Remote Dependencies ###
+
+* [Simple Features](https://github.com/ngageoint/simple-features-java) (The MIT License (MIT)) - Simple Features Lib
