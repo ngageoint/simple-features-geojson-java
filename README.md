@@ -74,3 +74,4 @@ Build this repository using Eclipse and/or Maven:
 ### Remote Dependencies ###
 
 * [Simple Features](https://github.com/ngageoint/simple-features-java) (The MIT License (MIT)) - Simple Features Lib
+* [Jackson Data Processor](https://github.com/FasterXML/jackson-databind) (Apache License, Version 2.0) - Jackson data-binding functionality and tree-model
