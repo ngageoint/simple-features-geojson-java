@@ -53,14 +53,14 @@ Map<String, Object> contentMap = FeatureConverter.toMap(geometry);
 
 ### Installation ###
 
-Pull from the [Maven Central Repository](http://search.maven.org/#artifactdetails|mil.nga.sf|sf-geojson|2.0.0|jar) (JAR, POM, Source, Javadoc)
+Pull from the [Maven Central Repository](http://search.maven.org/#artifactdetails|mil.nga.sf|sf-geojson|2.0.1|jar) (JAR, POM, Source, Javadoc)
 
 ```xml
 
 <dependency>
     <groupId>mil.nga.sf</groupId>
     <artifactId>sf-geojson</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 
 ```
