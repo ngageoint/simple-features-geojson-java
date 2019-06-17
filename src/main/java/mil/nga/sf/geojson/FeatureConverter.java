@@ -34,7 +34,7 @@ public class FeatureConverter {
 	 * @return feature
 	 */
 	public static Feature toFeature(String content) {
-		return toTypedGeoJsonObject(Feature.class, content);
+		return toTypedObject(Feature.class, content);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class FeatureConverter {
 	 * @return feature
 	 */
 	public static Feature toFeature(Object value) {
-		return toTypedGeoJsonObject(Feature.class, value);
+		return toTypedObject(Feature.class, value);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class FeatureConverter {
 	 * @return feature
 	 */
 	public static Feature toFeature(JsonNode tree) {
-		return toTypedGeoJsonObject(Feature.class, tree);
+		return toTypedObject(Feature.class, tree);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class FeatureConverter {
 	 * @return feature collection
 	 */
 	public static FeatureCollection toFeatureCollection(String content) {
-		return toTypedGeoJsonObject(FeatureCollection.class, content);
+		return toTypedObject(FeatureCollection.class, content);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class FeatureConverter {
 	 * @return feature collection
 	 */
 	public static FeatureCollection toFeatureCollection(Object value) {
-		return toTypedGeoJsonObject(FeatureCollection.class, value);
+		return toTypedObject(FeatureCollection.class, value);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class FeatureConverter {
 	 * @return feature collection
 	 */
 	public static FeatureCollection toFeatureCollection(JsonNode tree) {
-		return toTypedGeoJsonObject(FeatureCollection.class, tree);
+		return toTypedObject(FeatureCollection.class, tree);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class FeatureConverter {
 	 * @return geometry
 	 */
 	public static Geometry toGeometry(String content) {
-		return toTypedGeoJsonObject(Geometry.class, content);
+		return toTypedObject(Geometry.class, content);
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class FeatureConverter {
 	 * @return geometry
 	 */
 	public static Geometry toGeometry(Object value) {
-		return toTypedGeoJsonObject(Geometry.class, value);
+		return toTypedObject(Geometry.class, value);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class FeatureConverter {
 	 * @return geometry
 	 */
 	public static Geometry toGeometry(JsonNode tree) {
-		return toTypedGeoJsonObject(Geometry.class, tree);
+		return toTypedObject(Geometry.class, tree);
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class FeatureConverter {
 	 * @return GeoJSON object
 	 */
 	public static GeoJsonObject toGeoJsonObject(String content) {
-		return toTypedGeoJsonObject(GeoJsonObject.class, content);
+		return toTypedObject(GeoJsonObject.class, content);
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class FeatureConverter {
 	 * @return GeoJSON object
 	 */
 	public static GeoJsonObject toGeoJsonObject(Object value) {
-		return toTypedGeoJsonObject(GeoJsonObject.class, value);
+		return toTypedObject(GeoJsonObject.class, value);
 	}
 
 	/**
@@ -238,7 +238,7 @@ public class FeatureConverter {
 	 * @return GeoJSON object
 	 */
 	public static GeoJsonObject toGeoJsonObject(JsonNode tree) {
-		return toTypedGeoJsonObject(GeoJsonObject.class, tree);
+		return toTypedObject(GeoJsonObject.class, tree);
 	}
 
 	/**
@@ -301,16 +301,15 @@ public class FeatureConverter {
 	}
 
 	/**
-	 * Convert the string content to a typed GeoJSON object
+	 * Convert the string content to a typed object
 	 * 
 	 * @param type
-	 *            GeoJSON object type
+	 *            object type
 	 * @param content
 	 *            string content
-	 * @return typed GeoJSON object
+	 * @return typed object
 	 */
-	private static <T extends GeoJsonObject> T toTypedGeoJsonObject(
-			Class<T> type, String content) {
+	public static <T> T toTypedObject(Class<T> type, String content) {
 		JsonNode tree;
 		try {
 			tree = mapper.readTree(content);
@@ -318,46 +317,43 @@ public class FeatureConverter {
 			throw new SFException(
 					"Failed to convert content to a node tree: " + content, e);
 		}
-		T typedGeoJsonObject = toTypedGeoJsonObject(type, tree);
-		return typedGeoJsonObject;
+		T typedObject = toTypedObject(type, tree);
+		return typedObject;
 	}
 
 	/**
-	 * Convert the object value to a typed GeoJSON object
+	 * Convert the object value to a typed object
 	 * 
 	 * @param type
-	 *            GeoJSON object type
+	 *            object type
 	 * @param value
 	 *            object value
-	 * @return typed GeoJSON object
+	 * @return typed object
 	 */
-	private static <T extends GeoJsonObject> T toTypedGeoJsonObject(
-			Class<T> type, Object value) {
+	public static <T> T toTypedObject(Class<T> type, Object value) {
 		JsonNode tree = mapper.valueToTree(value);
-		T typedGeoJsonObject = toTypedGeoJsonObject(type, tree);
-		return typedGeoJsonObject;
+		T typedObject = toTypedObject(type, tree);
+		return typedObject;
 	}
 
 	/**
-	 * Convert the JSON tree to a typed GeoJSON object
+	 * Convert the JSON tree to a typed object
 	 * 
 	 * @param type
-	 *            GeoJSON object type
+	 *            object type
 	 * @param tree
 	 *            tree node
-	 * @return typed GeoJSON object
+	 * @return typed object
 	 */
-	private static <T extends GeoJsonObject> T toTypedGeoJsonObject(
-			Class<T> type, JsonNode tree) {
-		T geoJsonObject;
+	public static <T> T toTypedObject(Class<T> type, JsonNode tree) {
+		T object;
 		try {
-			geoJsonObject = mapper.treeToValue(tree, type);
+			object = mapper.treeToValue(tree, type);
 		} catch (JsonProcessingException e) {
 			throw new SFException(
-					"Failed to convert node tree to GeoJSON object: " + tree,
-					e);
+					"Failed to convert node tree to object: " + tree, e);
 		}
-		return geoJsonObject;
+		return object;
 	}
 
 }
