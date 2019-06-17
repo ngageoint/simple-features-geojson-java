@@ -5,12 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import mil.nga.sf.util.SFException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import mil.nga.sf.util.SFException;
 
 /**
  * Feature Converter
@@ -22,7 +23,8 @@ public class FeatureConverter {
 	/**
 	 * Object mapper
 	 */
-	public final static ObjectMapper mapper = new ObjectMapper();
+	public final static ObjectMapper mapper = new ObjectMapper().configure(
+			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 	/**
 	 * Convert the string content to a feature
@@ -260,7 +262,8 @@ public class FeatureConverter {
 	 *            simple geometry
 	 * @return object map
 	 */
-	public static Map<String, Object> toMap(mil.nga.sf.Geometry simpleGeometry) {
+	public static Map<String, Object> toMap(
+			mil.nga.sf.Geometry simpleGeometry) {
 		Geometry geometry = toGeometry(simpleGeometry);
 		Map<String, Object> map = toMap(geometry);
 		return map;
@@ -278,9 +281,8 @@ public class FeatureConverter {
 		try {
 			stringValue = mapper.writeValueAsString(object);
 		} catch (JsonProcessingException e) {
-			throw new SFException(
-					"Failed to write GeoJSON object as a String: "
-							+ object.getType(), e);
+			throw new SFException("Failed to write GeoJSON object as a String: "
+					+ object.getType(), e);
 		}
 		return stringValue;
 	}
@@ -313,8 +315,8 @@ public class FeatureConverter {
 		try {
 			tree = mapper.readTree(content);
 		} catch (Exception e) {
-			throw new SFException("Failed to convert content to a node tree: "
-					+ content, e);
+			throw new SFException(
+					"Failed to convert content to a node tree: " + content, e);
 		}
 		T typedGeoJsonObject = toTypedGeoJsonObject(type, tree);
 		return typedGeoJsonObject;
@@ -352,7 +354,8 @@ public class FeatureConverter {
 			geoJsonObject = mapper.treeToValue(tree, type);
 		} catch (JsonProcessingException e) {
 			throw new SFException(
-					"Failed to convert node tree to GeoJSON object: " + tree, e);
+					"Failed to convert node tree to GeoJSON object: " + tree,
+					e);
 		}
 		return geoJsonObject;
 	}

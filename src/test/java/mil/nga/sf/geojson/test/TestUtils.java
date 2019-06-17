@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import junit.framework.TestCase;
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
@@ -14,15 +18,11 @@ import mil.nga.sf.geojson.Geometry;
 import mil.nga.sf.geojson.Point;
 import mil.nga.sf.geojson.Position;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class TestUtils {
 
 	private static double EPSILON = 0.00001d;
 
-	private static ObjectMapper mapper = new ObjectMapper();
+	private static ObjectMapper mapper = FeatureConverter.mapper;
 
 	public static ObjectMapper getMapper() {
 		return mapper;
@@ -56,7 +56,8 @@ public class TestUtils {
 
 	public static void assertPosition(Double expectedLongitude,
 			Double expectedLatitude, Double expectedAltitude,
-			List<Double> expectedAdditionalElements, mil.nga.sf.Point position) {
+			List<Double> expectedAdditionalElements,
+			mil.nga.sf.Point position) {
 		TestCase.assertEquals(expectedLongitude, position.getX(), EPSILON);
 		TestCase.assertEquals(expectedLatitude, position.getY(), EPSILON);
 		if (expectedAltitude == null) {

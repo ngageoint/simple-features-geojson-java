@@ -7,19 +7,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import mil.nga.sf.GeometryType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import mil.nga.sf.GeometryType;
 
 /**
  * Feature Collection
  * 
  * @author yutzlejp
  */
-@JsonPropertyOrder({ "type", "features" })
-public class FeatureCollection extends GeoJsonObject implements
-		Iterable<Feature> {
+@JsonPropertyOrder({ "type", "bbox", "features" })
+public class FeatureCollection extends GeoJsonObject
+		implements Iterable<Feature> {
 
 	/**
 	 * Serialization Version number

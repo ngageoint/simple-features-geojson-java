@@ -1,7 +1,11 @@
 package mil.nga.sf.geojson;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -17,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 @JsonTypeInfo(property = "type", use = Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY)
 @JsonSubTypes({ @Type(Feature.class), @Type(FeatureCollection.class),
 		@Type(Geometry.class) })
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(Include.NON_EMPTY)
 public abstract class GeoJsonObject implements Serializable {
 
 	/**
@@ -26,33 +30,14 @@ public abstract class GeoJsonObject implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Coordinate Reference System
-	 */
-	private Crs crs;
-
-	/**
 	 * Bounding box
 	 */
 	private double[] bbox;
 
 	/**
-	 * Get the Coordinate Reference System
-	 * 
-	 * @return Coordinate Reference System
+	 * Foreign members
 	 */
-	public Crs getCrs() {
-		return crs;
-	}
-
-	/**
-	 * Set the Coordinate Reference System
-	 * 
-	 * @param crs
-	 *            Coordinate Reference System
-	 */
-	public void setCrs(Crs crs) {
-		this.crs = crs;
-	}
+	private Map<String, Object> foreignMembers = new HashMap<>();
 
 	/**
 	 * Get the bounding box
@@ -79,5 +64,59 @@ public abstract class GeoJsonObject implements Serializable {
 	 * @return GeoJSON object type
 	 */
 	public abstract String getType();
+
+	/**
+	 * Get the foreign members
+	 * 
+	 * @return foreign members
+	 */
+	@JsonAnyGetter
+	public Map<String, Object> getForeignMembers() {
+		return foreignMembers;
+	}
+
+	/**
+	 * Get the foreign member by name
+	 * 
+	 * @param name
+	 *            name
+	 * @return value
+	 */
+	public Object getForeignMember(String name) {
+		return foreignMembers.get(name);
+	}
+
+	/**
+	 * Check if has the foreign member
+	 * 
+	 * @param name
+	 *            name
+	 * @return true if has
+	 */
+	public Object hasForeignMember(String name) {
+		return foreignMembers.containsKey(name);
+	}
+
+	/**
+	 * Set a foreign member
+	 * 
+	 * @param name
+	 *            name
+	 * @param value
+	 *            value
+	 */
+	@JsonAnySetter
+	public void setForeignMember(String name, Object value) {
+		foreignMembers.put(name, value);
+	}
+
+	/**
+	 * Check if has foreign members
+	 * 
+	 * @return true if has
+	 */
+	public boolean hasForeignMembers() {
+		return !foreignMembers.isEmpty();
+	}
 
 }

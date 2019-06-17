@@ -2,18 +2,18 @@ package mil.nga.sf.geojson;
 
 import java.util.Map;
 
-import mil.nga.sf.GeometryType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import mil.nga.sf.GeometryType;
 
 /**
  * Feature
  * 
  * @author yutzlejp
  */
-@JsonPropertyOrder({ "type", "id", "geometry", "properties" })
+@JsonPropertyOrder({ "type", "bbox", "id", "geometry", "properties" })
 public class Feature extends GeoJsonObject {
 
 	/**
@@ -69,8 +69,8 @@ public class Feature extends GeoJsonObject {
 			Point point = (Point) geometry;
 			this.feature.setGeometry(point.getGeometry());
 		} else {
-			this.feature.setGeometry((geometry == null) ? null : geometry
-					.getGeometry());
+			this.feature.setGeometry(
+					(geometry == null) ? null : geometry.getGeometry());
 		}
 	}
 
@@ -79,7 +79,6 @@ public class Feature extends GeoJsonObject {
 	 * 
 	 * @return properties map
 	 */
-	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Map<String, Object> getProperties() {
 		return feature.getProperties();
 	}
