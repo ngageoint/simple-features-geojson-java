@@ -270,19 +270,19 @@ public class FeatureConverter {
 	}
 
 	/**
-	 * Convert the GeoJSON object to a string value
+	 * Convert the object to a string value
 	 * 
 	 * @param object
-	 *            GeoJSON object
+	 *            object
 	 * @return string value
 	 */
-	public static String toStringValue(GeoJsonObject object) {
+	public static String toStringValue(Object object) {
 		String stringValue = null;
 		try {
 			stringValue = mapper.writeValueAsString(object);
 		} catch (JsonProcessingException e) {
-			throw new SFException("Failed to write GeoJSON object as a String: "
-					+ object.getType(), e);
+			throw new SFException(
+					"Failed to write object as a String: " + object, e);
 		}
 		return stringValue;
 	}
