@@ -8,6 +8,12 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 * simple-features-java version 2.0.2
 * jackson-databind version 2.9.9
+* bbox support
+* Optional properties
+* Allow unknown properties as foreign members
+* Generic object support in FeatureConverter
+* Non empty inclusions by default
+* Crs removed
 
 ## [2.0.1](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/2.0.1) (04-01-2019)
 
