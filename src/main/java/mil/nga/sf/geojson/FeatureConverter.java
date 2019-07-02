@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import mil.nga.sf.util.SFException;
 
@@ -19,6 +24,12 @@ import mil.nga.sf.util.SFException;
  * @author osbornb
  */
 public class FeatureConverter {
+
+	/**
+	 * Logger
+	 */
+	private static final Logger LOGGER = Logger
+			.getLogger(FeatureConverter.class.getName());
 
 	/**
 	 * Object mapper
@@ -303,6 +314,8 @@ public class FeatureConverter {
 	/**
 	 * Convert the string content to a typed object
 	 * 
+	 * @param <T>
+	 *            object class type
 	 * @param type
 	 *            object type
 	 * @param content
@@ -324,6 +337,8 @@ public class FeatureConverter {
 	/**
 	 * Convert the object value to a typed object
 	 * 
+	 * @param <T>
+	 *            object class type
 	 * @param type
 	 *            object type
 	 * @param value
@@ -339,6 +354,8 @@ public class FeatureConverter {
 	/**
 	 * Convert the JSON tree to a typed object
 	 * 
+	 * @param <T>
+	 *            object class type
 	 * @param type
 	 *            object type
 	 * @param tree
@@ -346,13 +363,99 @@ public class FeatureConverter {
 	 * @return typed object
 	 */
 	public static <T> T toTypedObject(Class<T> type, JsonNode tree) {
+		return toTypedObject(type, tree, true);
+	}
+
+	/**
+	 * Convert the JSON tree to a typed object
+	 * 
+	 * @param <T>
+	 *            object class type
+	 * @param type
+	 *            object type
+	 * @param tree
+	 *            tree node
+	 * @param topLevel
+	 *            true if top level node call
+	 * @return typed object
+	 */
+	private static <T> T toTypedObject(Class<T> type, JsonNode tree,
+			boolean topLevel) {
+
 		T object;
+
 		try {
 			object = mapper.treeToValue(tree, type);
+		} catch (MismatchedInputException e) {
+			String originalValue = null;
+			if (topLevel) {
+				originalValue = tree.toString();
+			}
+			object = toTypedObject(type, tree, e);
+			if (topLevel) {
+				LOGGER.log(Level.WARNING, "Failed to convert node tree to a "
+						+ type.getSimpleName()
+						+ " object without modifications: " + originalValue, e);
+				LOGGER.log(Level.INFO,
+						"Modified node tree was successfully converted to a "
+								+ type.getSimpleName() + " object: " + tree);
+			}
 		} catch (JsonProcessingException e) {
-			throw new SFException(
-					"Failed to convert node tree to object: " + tree, e);
+			throw new SFException("Failed to convert node tree to a "
+					+ type.getSimpleName() + " object: " + tree, e);
 		}
+
+		return object;
+	}
+
+	/**
+	 * Modify the JSON tree to remove a value causing a MismatchInputException
+	 * and re-attempt to create the object
+	 * 
+	 * @param <T>
+	 *            object class type
+	 * @param type
+	 *            object type
+	 * @param tree
+	 *            tree node
+	 * @param mismatchedInputException
+	 *            mismatch input exception
+	 * @return typed object
+	 */
+	private static <T> T toTypedObject(Class<T> type, JsonNode tree,
+			MismatchedInputException mismatchedInputException) {
+
+		T object;
+
+		List<Reference> path = mismatchedInputException.getPath();
+		if (path != null && !path.isEmpty()) {
+
+			try {
+
+				ObjectNode subNode = (ObjectNode) tree;
+				for (int i = 0; i < path.size(); i++) {
+					String fieldName = path.get(i).getFieldName();
+					if (i + 1 < path.size()) {
+						subNode = (ObjectNode) tree.get(fieldName);
+					} else {
+						subNode.remove(fieldName);
+					}
+				}
+				object = toTypedObject(type, tree, false);
+
+			} catch (Exception e) {
+				throw new SFException(
+						"Failed to convert node tree to a "
+								+ type.getSimpleName() + " object: " + tree,
+						mismatchedInputException);
+			}
+
+		} else {
+			throw new SFException("Failed to convert node tree to a "
+					+ type.getSimpleName() + " object: " + tree,
+					mismatchedInputException);
+		}
+
 		return object;
 	}
 
