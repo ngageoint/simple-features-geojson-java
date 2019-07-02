@@ -387,15 +387,12 @@ public class FeatureConverter {
 		try {
 			object = mapper.treeToValue(tree, type);
 		} catch (MismatchedInputException e) {
-			String originalValue = null;
-			if (topLevel) {
-				originalValue = tree.toString();
-			}
-			object = toTypedObject(type, tree, e);
+			String originalTree = tree.toString();
+			object = toTypedObject(type, tree, originalTree, e);
 			if (topLevel) {
 				LOGGER.log(Level.WARNING, "Failed to convert node tree to a "
 						+ type.getSimpleName()
-						+ " object without modifications: " + originalValue, e);
+						+ " object without modifications: " + originalTree, e);
 				LOGGER.log(Level.INFO,
 						"Modified node tree was successfully converted to a "
 								+ type.getSimpleName() + " object: " + tree);
@@ -418,11 +415,14 @@ public class FeatureConverter {
 	 *            object type
 	 * @param tree
 	 *            tree node
+	 * @param originalTree
+	 *            original tree value
 	 * @param mismatchedInputException
 	 *            mismatch input exception
 	 * @return typed object
 	 */
 	private static <T> T toTypedObject(Class<T> type, JsonNode tree,
+			String originalTree,
 			MismatchedInputException mismatchedInputException) {
 
 		T object;
@@ -444,15 +444,15 @@ public class FeatureConverter {
 				object = toTypedObject(type, tree, false);
 
 			} catch (Exception e) {
-				throw new SFException(
-						"Failed to convert node tree to a "
-								+ type.getSimpleName() + " object: " + tree,
+				throw new SFException("Failed to convert node tree to a "
+						+ type.getSimpleName() + " object: " + originalTree,
 						mismatchedInputException);
 			}
 
 		} else {
-			throw new SFException("Failed to convert node tree to a "
-					+ type.getSimpleName() + " object: " + tree,
+			throw new SFException(
+					"Failed to convert node tree to a " + type.getSimpleName()
+							+ " object: " + originalTree,
 					mismatchedInputException);
 		}
 
