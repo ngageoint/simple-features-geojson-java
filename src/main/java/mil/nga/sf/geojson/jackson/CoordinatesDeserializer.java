@@ -42,8 +42,8 @@ public class CoordinatesDeserializer extends JsonDeserializer<Position> {
 	 * @param ctxt
 	 *            context
 	 * @return position
-	 * @throws IOException
-	 * @throws JsonProcessingException
+	 * @throws IOException upon error
+	 * @throws JsonProcessingException upon error
 	 */
 	protected Position deserializeArray(JsonParser jp,
 			DeserializationContext ctxt) throws IOException,
