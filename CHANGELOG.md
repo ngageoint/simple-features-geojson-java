@@ -7,7 +7,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 2.0.5 (TBD)
 
 * simple-features-java version 2.0.4
-* jackson-databind version 2.12.0
+* jackson-databind version 2.12.1
 
 ## [2.0.4](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/2.0.4) (07-13-2020)
 
