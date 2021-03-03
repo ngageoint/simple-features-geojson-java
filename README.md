@@ -53,21 +53,21 @@ Map<String, Object> contentMap = FeatureConverter.toMap(geometry);
 
 ### Installation ###
 
-Pull from the [Maven Central Repository](http://search.maven.org/#artifactdetails|mil.nga.sf|sf-geojson|2.0.4|jar) (JAR, POM, Source, Javadoc)
+Pull from the [Maven Central Repository](http://search.maven.org/#artifactdetails|mil.nga.sf|sf-geojson|2.0.5|jar) (JAR, POM, Source, Javadoc)
 
 ```xml
 
 <dependency>
     <groupId>mil.nga.sf</groupId>
     <artifactId>sf-geojson</artifactId>
-    <version>2.0.4</version>
+    <version>2.0.5</version>
 </dependency>
 
 ```
 
 ### Build ###
 
-[![Build & Test](https://github.com/ngageoint/simple-features-geojson-java/workflows/Build%20&%20Test/badge.svg)](https://github.com/ngageoint/simple-features-geojson-java/actions?query=workflow%3A%22Build+%26+Test%22)
+[![Build & Test](https://github.com/ngageoint/simple-features-geojson-java/workflows/Build%20&%20Test/badge.svg)](https://github.com/ngageoint/simple-features-geojson-java/actions/workflows/build-test.yml)
 
 Build this repository using Eclipse and/or Maven:
 
