@@ -3,6 +3,8 @@ package mil.nga.sf.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Multi Point
  * 
@@ -13,27 +15,43 @@ public class MultiPoint extends Geometry {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	/**
-	 * Simple multi point
+	 * List of points
 	 */
-	private mil.nga.sf.MultiPoint multiPoint;
+	private List<Point> points = null;
+
+	/**
+	 * Create a multi point from coordinates
+	 * 
+	 * @param coordinates
+	 *            coordinates
+	 * @return multi point
+	 * @since 3.0.0
+	 */
+	public static MultiPoint fromCoordinates(List<Position> coordinates) {
+		MultiPoint multiPoint = new MultiPoint();
+		multiPoint.setCoordinates(coordinates);
+		return multiPoint;
+	}
 
 	/**
 	 * Constructor
 	 */
 	public MultiPoint() {
+
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param positions
-	 *            list of positions
+	 * @param points
+	 *            points list
+	 * @since 3.0.0
 	 */
-	public MultiPoint(List<Position> positions) {
-		setCoordinates(positions);
+	public MultiPoint(List<Point> points) {
+		this.points = points;
 	}
 
 	/**
@@ -43,7 +61,23 @@ public class MultiPoint extends Geometry {
 	 *            simple multi point
 	 */
 	public MultiPoint(mil.nga.sf.MultiPoint multiPoint) {
-		this.multiPoint = multiPoint;
+		setMultiPoint(multiPoint);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public GeometryType getGeometryType() {
+		return GeometryType.MULTIPOINT;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public mil.nga.sf.Geometry getGeometry() {
+		return getMultiPoint();
 	}
 
 	/**
@@ -52,45 +86,76 @@ public class MultiPoint extends Geometry {
 	 * @return the coordinates
 	 */
 	public List<Position> getCoordinates() {
-		List<Position> positions = new ArrayList<>();
-		for (mil.nga.sf.Point point : multiPoint.getGeometries()) {
-			positions.add(new Position(point));
+		List<Position> coordinates = new ArrayList<>();
+		for (Point point : points) {
+			coordinates.add(point.getCoordinates());
 		}
-		return positions;
+		return coordinates;
 	}
 
 	/**
 	 * Sets the coordinates from a GeoJSON Position list
 	 * 
-	 * @param positions
-	 *            list of positions
+	 * @param coordinates
+	 *            coordinates
+	 * @since 3.0.0
 	 */
-	private void setCoordinates(List<Position> positions) {
-		List<mil.nga.sf.Point> points = new ArrayList<>();
-		for (Position pos : positions) {
-			points.add(pos.toSimplePoint());
-		}
-		if (multiPoint == null) {
-			multiPoint = new mil.nga.sf.MultiPoint(points);
-		} else {
-			multiPoint.setGeometries(points);
+	public void setCoordinates(List<Position> coordinates) {
+		points = new ArrayList<>();
+		for (Position position : coordinates) {
+			points.add(Point.fromCoordinates(position));
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Get the points
+	 * 
+	 * @return list of points
+	 * @since 3.0.0
 	 */
-	@Override
-	public mil.nga.sf.Geometry getGeometry() {
-		return multiPoint;
+	@JsonIgnore
+	public List<Point> getPoints() {
+		return points;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Set the points
+	 * 
+	 * @param points
+	 *            list of points
+	 * @since 3.0.0
 	 */
-	@Override
-	public String getType() {
-		return "MultiPoint";
+	public void setPoints(List<Point> points) {
+		this.points = points;
+	}
+
+	/**
+	 * Get the simple features multi point
+	 * 
+	 * @return multi point
+	 * @since 3.0.0
+	 */
+	@JsonIgnore
+	public mil.nga.sf.MultiPoint getMultiPoint() {
+		List<mil.nga.sf.Point> simplePoints = new ArrayList<>();
+		for (Point point : points) {
+			simplePoints.add(point.getPoint());
+		}
+		return new mil.nga.sf.MultiPoint(simplePoints);
+	}
+
+	/**
+	 * Set the simple features multi point
+	 * 
+	 * @param multiPoint
+	 *            multi point
+	 * @since 3.0.0
+	 */
+	public void setMultiPoint(mil.nga.sf.MultiPoint multiPoint) {
+		points = new ArrayList<>();
+		for (mil.nga.sf.Point point : multiPoint.getPoints()) {
+			points.add(new Point(point));
+		}
 	}
 
 }

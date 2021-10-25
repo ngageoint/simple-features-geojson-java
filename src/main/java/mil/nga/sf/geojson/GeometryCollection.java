@@ -3,6 +3,8 @@ package mil.nga.sf.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Geometry Collection
  * 
@@ -13,17 +15,18 @@ public class GeometryCollection extends Geometry {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	/**
-	 * Simple geometry collection
+	 * List of geometries
 	 */
-	private mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> geometryCollection;
+	private List<Geometry> geometries = null;
 
 	/**
 	 * Constructor
 	 */
 	public GeometryCollection() {
+
 	}
 
 	/**
@@ -33,7 +36,7 @@ public class GeometryCollection extends Geometry {
 	 *            list of geometries
 	 */
 	public GeometryCollection(List<Geometry> geometries) {
-		setGeometries(geometries);
+		this.geometries = geometries;
 	}
 
 	/**
@@ -44,7 +47,23 @@ public class GeometryCollection extends Geometry {
 	 */
 	public GeometryCollection(
 			mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> geometryCollection) {
-		this.geometryCollection = geometryCollection;
+		setGeometryCollection(geometryCollection);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public GeometryType getGeometryType() {
+		return GeometryType.GEOMETRYCOLLECTION;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public mil.nga.sf.Geometry getGeometry() {
+		return getGeometryCollection();
 	}
 
 	/**
@@ -53,42 +72,49 @@ public class GeometryCollection extends Geometry {
 	 * @return the geometries
 	 */
 	public List<Geometry> getGeometries() {
-		List<Geometry> geometries = new ArrayList<>();
-		for (mil.nga.sf.Geometry simpleGeometry : geometryCollection
-				.getGeometries()) {
-			geometries.add(FeatureConverter.toGeometry(simpleGeometry));
-		}
 		return geometries;
 	}
 
 	/**
-	 * Sets the coordinates from a GeoJSON Position list
+	 * Sets the geometries from a GeoJSON Geometry list
 	 * 
-	 * @param positions
-	 *            list of positions
+	 * @param geometries
+	 *            list of geometries
+	 * @since 3.0.0
 	 */
-	private void setGeometries(List<Geometry> geometries) {
+	public void setGeometries(List<Geometry> geometries) {
+		this.geometries = geometries;
+	}
+
+	/**
+	 * Get the simple features geometry collection
+	 * 
+	 * @return geometry collection
+	 * @since 3.0.0
+	 */
+	@JsonIgnore
+	public mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> getGeometryCollection() {
 		mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> simpleGeometryCollection = new mil.nga.sf.GeometryCollection<>();
 		for (Geometry geometry : geometries) {
 			simpleGeometryCollection.addGeometry(geometry.getGeometry());
 		}
-		geometryCollection = simpleGeometryCollection;
+		return simpleGeometryCollection;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Set the simple features geometry collection
+	 * 
+	 * @param geometryCollection
+	 *            geometry collection
+	 * @since 3.0.0
 	 */
-	@Override
-	public mil.nga.sf.Geometry getGeometry() {
-		return geometryCollection;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getType() {
-		return "GeometryCollection";
+	public void setGeometryCollection(
+			mil.nga.sf.GeometryCollection<mil.nga.sf.Geometry> geometryCollection) {
+		geometries = new ArrayList<>();
+		for (mil.nga.sf.Geometry simpleGeometry : geometryCollection
+				.getGeometries()) {
+			geometries.add(FeatureConverter.toGeometry(simpleGeometry));
+		}
 	}
 
 }

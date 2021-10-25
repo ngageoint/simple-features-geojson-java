@@ -1,5 +1,7 @@
 package mil.nga.sf.geojson;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Point
  * 
@@ -10,12 +12,7 @@ public class Point extends Geometry {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Simple point
-	 */
-	private mil.nga.sf.Point point;
+	private static final long serialVersionUID = 2L;
 
 	/**
 	 * Position
@@ -23,10 +20,22 @@ public class Point extends Geometry {
 	private Position position;
 
 	/**
+	 * Create a point from coordinates
+	 * 
+	 * @param coordinates
+	 *            coordinates
+	 * @return point
+	 * @since 3.0.0
+	 */
+	public static Point fromCoordinates(Position coordinates) {
+		return new Point(coordinates);
+	}
+
+	/**
 	 * Constructor
 	 */
 	public Point() {
-		this(new mil.nga.sf.Point());
+
 	}
 
 	/**
@@ -36,7 +45,6 @@ public class Point extends Geometry {
 	 *            position
 	 */
 	public Point(Position position) {
-		setCoordinates(position);
 		this.position = position;
 	}
 
@@ -47,8 +55,23 @@ public class Point extends Geometry {
 	 *            simple point
 	 */
 	public Point(mil.nga.sf.Point point) {
-		this.point = point;
-		position = new Position(point);
+		setPoint(point);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public GeometryType getGeometryType() {
+		return GeometryType.POINT;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public mil.nga.sf.Geometry getGeometry() {
+		return getPoint();
 	}
 
 	/**
@@ -61,33 +84,35 @@ public class Point extends Geometry {
 	}
 
 	/**
-	 * Sets the new position (supporting deserialization)
+	 * Sets the coordinates
 	 * 
-	 * @param position
-	 *            point position
+	 * @param coordinates
+	 *            coordinates
 	 */
-	public void setCoordinates(Position position) {
-		// When we set new coordinates,
-		// we need to completely replace the underlying geometry
-		point = new mil.nga.sf.Point(position.getX(), position.getY(),
-				position.getZ(), position.getM());
-		this.position = position;
+	public void setCoordinates(Position coordinates) {
+		this.position = coordinates;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Get the simple features point
+	 * 
+	 * @return point
+	 * @since 3.0.0
 	 */
-	@Override
-	public mil.nga.sf.Geometry getGeometry() {
-		return point;
+	@JsonIgnore
+	public mil.nga.sf.Point getPoint() {
+		return position.toSimplePoint();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Set the simple features point
+	 * 
+	 * @param point
+	 *            point
+	 * @since 3.0.0
 	 */
-	@Override
-	public String getType() {
-		return "Point";
+	public void setPoint(mil.nga.sf.Point point) {
+		position = new Position(point);
 	}
 
 }

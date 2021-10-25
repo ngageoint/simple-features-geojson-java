@@ -10,8 +10,6 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import mil.nga.sf.GeometryType;
-
 /**
  * Feature Collection
  * 
@@ -128,6 +126,7 @@ public class FeatureCollection extends GeoJsonObject
 	 * Get the geometry type
 	 * 
 	 * @return geometry type
+	 * @since 3.0.0
 	 */
 	@JsonIgnore
 	public GeometryType getGeometryType() {
@@ -154,7 +153,7 @@ public class FeatureCollection extends GeoJsonObject
 	@JsonIgnore
 	public Map<String, String> getPropertiesMap() {
 		Map<String, String> result = new HashMap<>();
-		for (final Feature feature : getFeatures()) {
+		for (Feature feature : getFeatures()) {
 			Map<String, Object> properties = feature.getProperties();
 			for (final String property : properties.keySet()) {
 				if (!result.containsKey(property)) {

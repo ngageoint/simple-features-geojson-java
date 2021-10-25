@@ -64,7 +64,7 @@ public class PointTest {
 	public void itShouldSerializePointWithAdditionalAttributes()
 			throws IOException {
 		Position position = new Position(100d, 0d, 256d, 345d, 678d);
-		Point point = new Point(position);
+		Point point = Point.fromCoordinates(position);
 		TestUtils
 				.compareAsNodes(point,
 						"{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}");

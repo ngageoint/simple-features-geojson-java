@@ -4,9 +4,13 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 2.0.6 (TBD)
+## 3.0.0 (TBD)
 
-* TBD
+* GeoJSON backed Geometries and Features
+* Additional Position element value support when not converting to base simple features
+* GeoJSON GeometryType
+* Simple Feature Geometry getters and setters
+* jackson-databind version 2.13.0
 
 ## [2.0.5](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/2.0.5) (03-03-2021)
 

@@ -20,7 +20,16 @@ public abstract class Geometry extends GeoJsonObject {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
+
+	/**
+	 * Get the geometry type
+	 * 
+	 * @return geometry type
+	 * @since 3.0.0
+	 */
+	@JsonIgnore
+	public abstract GeometryType getGeometryType();
 
 	/**
 	 * Get the simple geometry
@@ -29,5 +38,13 @@ public abstract class Geometry extends GeoJsonObject {
 	 */
 	@JsonIgnore
 	public abstract mil.nga.sf.Geometry getGeometry();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getType() {
+		return getGeometryType().getName();
+	}
 
 }

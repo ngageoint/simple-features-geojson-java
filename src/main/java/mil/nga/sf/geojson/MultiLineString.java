@@ -3,7 +3,7 @@ package mil.nga.sf.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
-import mil.nga.sf.util.GeometryUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Multi Line String
@@ -15,27 +15,44 @@ public class MultiLineString extends Geometry {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	/**
-	 * Simple Multi Line String
+	 * List of line strings
 	 */
-	private mil.nga.sf.MultiLineString multiLineString;
+	private List<LineString> lineStrings = null;
+
+	/**
+	 * Create a multi line string from coordinates
+	 * 
+	 * @param coordinates
+	 *            coordinates
+	 * @return multi line string
+	 * @since 3.0.0
+	 */
+	public static MultiLineString fromCoordinates(
+			List<List<Position>> coordinates) {
+		MultiLineString multiLineString = new MultiLineString();
+		multiLineString.setCoordinates(coordinates);
+		return multiLineString;
+	}
 
 	/**
 	 * Constructor
 	 */
 	public MultiLineString() {
+
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param positions
-	 *            position list
+	 * @param lineStrings
+	 *            line string list
+	 * @since 3.0.0
 	 */
-	public MultiLineString(List<List<Position>> positions) {
-		setCoordinates(positions);
+	public MultiLineString(List<LineString> lineStrings) {
+		this.lineStrings = lineStrings;
 	}
 
 	/**
@@ -45,7 +62,23 @@ public class MultiLineString extends Geometry {
 	 *            simple multi line string
 	 */
 	public MultiLineString(mil.nga.sf.MultiLineString multiLineString) {
-		this.multiLineString = multiLineString;
+		setMultiLineString(multiLineString);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public GeometryType getGeometryType() {
+		return GeometryType.MULTILINESTRING;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public mil.nga.sf.Geometry getGeometry() {
+		return getMultiLineString();
 	}
 
 	/**
@@ -54,57 +87,77 @@ public class MultiLineString extends Geometry {
 	 * @return the coordinates
 	 */
 	public List<List<Position>> getCoordinates() {
-		List<List<Position>> result = new ArrayList<>();
-		for (mil.nga.sf.LineString lineString : multiLineString.getGeometries()) {
-			List<Position> positions = new ArrayList<>();
-			for (mil.nga.sf.Point point : lineString.getPoints()) {
-				positions.add(new Position(point));
-			}
-			result.add(positions);
+		List<List<Position>> coordinates = new ArrayList<>();
+		for (LineString lineString : lineStrings) {
+			coordinates.add(lineString.getCoordinates());
 		}
-		return result;
+		return coordinates;
 	}
 
 	/**
 	 * Sets the coordinates from a GeoJSON Position list
 	 * 
-	 * @param positionList
-	 *            position list
+	 * @param coordinates
+	 *            coordinates
+	 * @since 3.0.0
 	 */
-	private void setCoordinates(List<List<Position>> positionList) {
-		List<mil.nga.sf.LineString> lineStrings = new ArrayList<>();
-		for (List<Position> lineStringPositions : positionList) {
-			List<mil.nga.sf.Point> positions = new ArrayList<>();
-			for (Position position : lineStringPositions) {
-				positions.add(position.toSimplePoint());
-			}
-			mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(
-					GeometryUtils.hasZ(positions),
-					GeometryUtils.hasM(positions));
-			lineString.setPoints(positions);
-			lineStrings.add(lineString);
-		}
-		if (multiLineString == null) {
-			multiLineString = new mil.nga.sf.MultiLineString(lineStrings);
-		} else {
-			multiLineString.setGeometries(lineStrings);
+	public void setCoordinates(List<List<Position>> coordinates) {
+		lineStrings = new ArrayList<>();
+		for (List<Position> positions : coordinates) {
+			lineStrings.add(LineString.fromCoordinates(positions));
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Get the line strings
+	 * 
+	 * @return list of line strings
+	 * @since 3.0.0
 	 */
-	@Override
-	public mil.nga.sf.Geometry getGeometry() {
-		return multiLineString;
+	@JsonIgnore
+	public List<LineString> getLineStrings() {
+		return lineStrings;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Set the line strings
+	 * 
+	 * @param lineStrings
+	 *            list of line strings
+	 * @since 3.0.0
 	 */
-	@Override
-	public String getType() {
-		return "MultiLineString";
+	public void setLineStrings(List<LineString> lineStrings) {
+		this.lineStrings = lineStrings;
+	}
+
+	/**
+	 * Get the simple features multi line string
+	 * 
+	 * @return multi line string
+	 * @since 3.0.0
+	 */
+	@JsonIgnore
+	public mil.nga.sf.MultiLineString getMultiLineString() {
+		List<mil.nga.sf.LineString> simpleLineStrings = new ArrayList<>();
+		for (LineString lineString : lineStrings) {
+			simpleLineStrings.add(lineString.getLineString());
+		}
+		return new mil.nga.sf.MultiLineString(simpleLineStrings);
+	}
+
+	/**
+	 * Set the simple features multi line string
+	 * 
+	 * @param multiLineString
+	 *            multi line string
+	 * @since 3.0.0
+	 */
+	public void setMultiLineString(mil.nga.sf.MultiLineString multiLineString) {
+		lineStrings = new ArrayList<>();
+		for (mil.nga.sf.LineString lineString : multiLineString
+				.getLineStrings()) {
+			lineStrings.add(new LineString(lineString));
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package mil.nga.sf.geojson.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -13,11 +14,12 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
-import mil.nga.sf.LineString;
 import mil.nga.sf.geojson.Feature;
 import mil.nga.sf.geojson.FeatureCollection;
 import mil.nga.sf.geojson.FeatureConverter;
 import mil.nga.sf.geojson.GeoJsonObject;
+import mil.nga.sf.geojson.LineString;
+import mil.nga.sf.geojson.Position;
 
 public class FeatureCollectionTest {
 
@@ -210,6 +212,24 @@ public class FeatureCollectionTest {
 
 	}
 
+	@Test
+	public void testAdditionalAttributes() {
+
+		List<Position> pointList = new ArrayList<>();
+		pointList.add(new Position(100.0, 0.0, 256.0, 345.0, 678.0, 50.4));
+		LineString line = LineString.fromCoordinates(pointList);
+
+		Feature lineFeature = new Feature(line);
+		FeatureCollection featureCollection = new FeatureCollection(
+				lineFeature);
+
+		String value = FeatureConverter.toStringValue(featureCollection);
+
+		assertEquals(
+				"{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[100.0,0.0,256.0,345.0,678.0,50.4]]}}]}",
+				value);
+	}
+
 	private FeatureCollection getTestFeatureCollection() {
 
 		Collection<mil.nga.sf.Geometry> simpleGeometries = getTestSimpleGeometries();
@@ -227,7 +247,7 @@ public class FeatureCollectionTest {
 		GeometryCollection<Geometry> geometryCollection = new GeometryCollection<>();
 		geometryCollection.addGeometry(
 				new mil.nga.sf.Point(61.34765625, 48.63290858589535));
-		LineString lineString = new LineString();
+		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString();
 		lineString.addPoint(new mil.nga.sf.Point(100.0, 10.0));
 		lineString.addPoint(new mil.nga.sf.Point(101.0, 1.0));
 		geometryCollection.addGeometry(lineString);

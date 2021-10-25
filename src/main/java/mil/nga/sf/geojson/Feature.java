@@ -1,12 +1,11 @@
 package mil.nga.sf.geojson;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import mil.nga.sf.GeometryType;
 
 /**
  * Feature
@@ -19,13 +18,17 @@ public class Feature extends GeoJsonObject {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	/**
-	 * Simple feature
+	 * Geometry
 	 */
-	@JsonIgnore
-	private SimpleFeature feature = new SimpleFeature();
+	private Geometry geometry = null;
+
+	/**
+	 * Properties map
+	 */
+	private Map<String, Object> properties = new HashMap<>();
 
 	/**
 	 * Feature id
@@ -36,6 +39,7 @@ public class Feature extends GeoJsonObject {
 	 * Constructor
 	 */
 	public Feature() {
+
 	}
 
 	/**
@@ -45,7 +49,7 @@ public class Feature extends GeoJsonObject {
 	 *            geometry
 	 */
 	public Feature(Geometry geometry) {
-		setGeometry(geometry);
+		this.geometry = geometry;
 	}
 
 	/**
@@ -55,7 +59,7 @@ public class Feature extends GeoJsonObject {
 	 */
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Geometry getGeometry() {
-		return FeatureConverter.toGeometry(feature.getGeometry());
+		return geometry;
 	}
 
 	/**
@@ -65,13 +69,7 @@ public class Feature extends GeoJsonObject {
 	 *            geometry object
 	 */
 	public void setGeometry(Geometry geometry) {
-		if (geometry instanceof Point) {
-			Point point = (Point) geometry;
-			this.feature.setGeometry(point.getGeometry());
-		} else {
-			this.feature.setGeometry(
-					(geometry == null) ? null : geometry.getGeometry());
-		}
+		this.geometry = geometry;
 	}
 
 	/**
@@ -80,7 +78,7 @@ public class Feature extends GeoJsonObject {
 	 * @return properties map
 	 */
 	public Map<String, Object> getProperties() {
-		return feature.getProperties();
+		return properties;
 	}
 
 	/**
@@ -90,7 +88,7 @@ public class Feature extends GeoJsonObject {
 	 *            properties map
 	 */
 	public void setProperties(Map<String, Object> properties) {
-		feature.setProperties(properties);
+		this.properties = properties;
 	}
 
 	/**
@@ -113,40 +111,24 @@ public class Feature extends GeoJsonObject {
 	}
 
 	/**
-	 * Get the simple feature
-	 * 
-	 * @return simple feature
-	 */
-	public SimpleFeature getFeature() {
-		return feature;
-	}
-
-	/**
 	 * Get the simple feature geometry
 	 * 
 	 * @return simple feature geometry
 	 */
 	@JsonIgnore
 	public mil.nga.sf.Geometry getSimpleGeometry() {
-		return feature.getGeometry();
+		return geometry != null ? geometry.getGeometry() : null;
 	}
 
 	/**
 	 * Get the geometry type
 	 * 
 	 * @return geometry type
+	 * @since 3.0.0
 	 */
 	@JsonIgnore
 	public GeometryType getGeometryType() {
-		GeometryType geometryType = null;
-		Geometry geometry = getGeometry();
-		if (geometry != null) {
-			mil.nga.sf.Geometry simpleGeometry = geometry.getGeometry();
-			if (simpleGeometry != null) {
-				geometryType = simpleGeometry.getGeometryType();
-			}
-		}
-		return geometryType;
+		return geometry != null ? geometry.getGeometryType() : null;
 	}
 
 	/**

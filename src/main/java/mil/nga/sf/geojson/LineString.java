@@ -3,6 +3,8 @@ package mil.nga.sf.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Line String
  * 
@@ -13,27 +15,43 @@ public class LineString extends Geometry {
 	/**
 	 * Serialization Version number
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	/**
-	 * Simple Line String
+	 * List of positions
 	 */
-	private mil.nga.sf.LineString lineString;
+	private List<Point> points = null;
+
+	/**
+	 * Create a line string from coordinates
+	 * 
+	 * @param coordinates
+	 *            coordinates
+	 * @return line string
+	 * @since 3.0.0
+	 */
+	public static LineString fromCoordinates(List<Position> coordinates) {
+		LineString lineString = new LineString();
+		lineString.setCoordinates(coordinates);
+		return lineString;
+	}
 
 	/**
 	 * Constructor
 	 */
 	public LineString() {
+
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param positions
-	 *            list of positions
+	 * @param points
+	 *            list of points
+	 * @since 3.0.0
 	 */
-	public LineString(List<Position> positions) {
-		setCoordinates(positions);
+	public LineString(List<Point> points) {
+		this.points = points;
 	}
 
 	/**
@@ -43,7 +61,15 @@ public class LineString extends Geometry {
 	 *            simple line string
 	 */
 	public LineString(mil.nga.sf.LineString lineString) {
-		this.lineString = lineString;
+		setLineString(lineString);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public GeometryType getGeometryType() {
+		return GeometryType.LINESTRING;
 	}
 
 	/**
@@ -51,7 +77,7 @@ public class LineString extends Geometry {
 	 */
 	@Override
 	public mil.nga.sf.Geometry getGeometry() {
-		return lineString;
+		return getLineString();
 	}
 
 	/**
@@ -60,37 +86,53 @@ public class LineString extends Geometry {
 	 * @return list of positions
 	 */
 	public List<Position> getCoordinates() {
-		List<Position> positions = new ArrayList<>();
-		for (mil.nga.sf.Point point : lineString.getPoints()) {
-			positions.add(new Position(point));
+		List<Position> coordinates = new ArrayList<>();
+		for (Point point : points) {
+			coordinates.add(point.getCoordinates());
 		}
-		return positions;
+		return coordinates;
 	}
 
 	/**
 	 * Set the coordinates
 	 * 
-	 * @param positions
-	 *            list of positions
+	 * @param coordinates
+	 *            coordinates
 	 */
-	public void setCoordinates(List<Position> positions) {
-		List<mil.nga.sf.Point> points = new ArrayList<>();
-		for (Position pos : positions) {
-			points.add(pos.toSimplePoint());
-		}
-		if (lineString == null) {
-			lineString = new mil.nga.sf.LineString(points);
-		} else {
-			lineString.setPoints(points);
+	public void setCoordinates(List<Position> coordinates) {
+		points = new ArrayList<>();
+		for (Position position : coordinates) {
+			points.add(Point.fromCoordinates(position));
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Get the simple features line string
+	 * 
+	 * @return line string
+	 * @since 3.0.0
 	 */
-	@Override
-	public String getType() {
-		return "LineString";
+	@JsonIgnore
+	public mil.nga.sf.LineString getLineString() {
+		List<mil.nga.sf.Point> simplePoints = new ArrayList<>();
+		for (Point point : points) {
+			simplePoints.add(point.getPoint());
+		}
+		return new mil.nga.sf.LineString(simplePoints);
+	}
+
+	/**
+	 * Set the simple features line string
+	 * 
+	 * @param lineString
+	 *            line string
+	 * @since 3.0.0
+	 */
+	public void setLineString(mil.nga.sf.LineString lineString) {
+		points = new ArrayList<>();
+		for (mil.nga.sf.Point point : lineString.getPoints()) {
+			points.add(new Point(point));
+		}
 	}
 
 }
