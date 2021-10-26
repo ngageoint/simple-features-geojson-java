@@ -23,7 +23,7 @@ import mil.nga.sf.geojson.Position;
 
 public class FeatureCollectionTest {
 
-	private static String FEATURECOLLECTION = "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Point\",\"coordinates\":[61.34765625,48.63290858589535]},{\"type\":\"LineString\",\"coordinates\":[[100.0,10.0],[101.0,1.0]]}]}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[50.1,60.9]}}]}";
+	private static String FEATURECOLLECTION = "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Point\",\"coordinates\":[61.34765625,48.63290858589535]},{\"type\":\"LineString\",\"coordinates\":[[100.0,10.0],[101.0,1.0]]}]},\"properties\":{}},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[50.1,60.9]},\"properties\":{}}]}";
 
 	@Test
 	public void itShouldHaveProperties() throws Exception {
@@ -32,7 +32,7 @@ public class FeatureCollectionTest {
 
 	@Test
 	public void itShouldDeserializeFeatureCollection() throws Exception {
-		String stringValue = "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[100.0,5.0]}}]}";
+		String stringValue = "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[100.0,5.0]},\"properties\":{}}]}";
 		GeoJsonObject value = TestUtils.getMapper().readValue(stringValue,
 				GeoJsonObject.class);
 		assertNotNull(value);
@@ -95,7 +95,7 @@ public class FeatureCollectionTest {
 
 	@Test
 	public void itShouldDeserializeFeatureCollection6() throws Exception {
-		String stringValue = "{\"type\":\"FeatureCollection\",\"bbox\": [-10.0, -10.0, 10.0, 10.0],\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[100.0,5.0]}}]}";
+		String stringValue = "{\"type\":\"FeatureCollection\",\"bbox\": [-10.0, -10.0, 10.0, 10.0],\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[100.0,5.0]},\"properties\":{}}]}";
 		GeoJsonObject value = TestUtils.getMapper().readValue(stringValue,
 				GeoJsonObject.class);
 		assertNotNull(value);
@@ -226,7 +226,7 @@ public class FeatureCollectionTest {
 		String value = FeatureConverter.toStringValue(featureCollection);
 
 		assertEquals(
-				"{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[100.0,0.0,256.0,345.0,678.0,50.4]]}}]}",
+				"{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[100.0,0.0,256.0,345.0,678.0,50.4]]},\"properties\":{}}]}",
 				value);
 	}
 

@@ -10,6 +10,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Additional Position element value support when not converting to base simple features
 * GeoJSON GeometryType
 * Simple Feature Geometry getters and setters
+* Feature empty "properties" member inclusion
 * jackson-databind version 2.13.0
 
 ## [2.0.5](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/2.0.5) (03-03-2021)

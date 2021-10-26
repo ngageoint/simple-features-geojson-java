@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import junit.framework.TestCase;
 import mil.nga.sf.geojson.Feature;
@@ -31,6 +32,7 @@ public class FeatureTest {
 		JsonNode nodeFromPojo = TestUtils.getMapper().valueToTree(testObject);
 		JsonNode nodeFromString = TestUtils.getMapper()
 				.readTree("{\"type\":\"Feature\",\"geometry\":null}");
+		((ObjectNode) nodeFromString).set("properties", TestUtils.getMapper().createObjectNode());
 		TestCase.assertEquals(nodeFromPojo, nodeFromString);
 	}
 

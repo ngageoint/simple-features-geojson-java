@@ -77,6 +77,7 @@ public class Feature extends GeoJsonObject {
 	 * 
 	 * @return properties map
 	 */
+	@JsonInclude(JsonInclude.Include.ALWAYS)
 	public Map<String, Object> getProperties() {
 		return properties;
 	}
