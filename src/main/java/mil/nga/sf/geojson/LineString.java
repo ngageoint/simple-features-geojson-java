@@ -18,7 +18,7 @@ public class LineString extends Geometry {
 	private static final long serialVersionUID = 2L;
 
 	/**
-	 * List of positions
+	 * List of points
 	 */
 	private List<Point> points = null;
 
