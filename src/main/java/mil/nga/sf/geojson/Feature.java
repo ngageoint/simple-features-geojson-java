@@ -21,6 +21,11 @@ public class Feature extends GeoJsonObject {
 	private static final long serialVersionUID = 2L;
 
 	/**
+	 * Feature id
+	 */
+	private String id;
+
+	/**
 	 * Geometry
 	 */
 	private Geometry geometry = null;
@@ -29,11 +34,6 @@ public class Feature extends GeoJsonObject {
 	 * Properties map
 	 */
 	private Map<String, Object> properties = new HashMap<>();
-
-	/**
-	 * Feature id
-	 */
-	private String id;
 
 	/**
 	 * Constructor
@@ -50,6 +50,25 @@ public class Feature extends GeoJsonObject {
 	 */
 	public Feature(Geometry geometry) {
 		this.geometry = geometry;
+	}
+
+	/**
+	 * Get the feature id
+	 * 
+	 * @return feature id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * Set the feature id
+	 * 
+	 * @param id
+	 *            feature id
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/**
@@ -90,25 +109,6 @@ public class Feature extends GeoJsonObject {
 	 */
 	public void setProperties(Map<String, Object> properties) {
 		this.properties = properties;
-	}
-
-	/**
-	 * Get the feature id
-	 * 
-	 * @return feature id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * Set the feature id
-	 * 
-	 * @param id
-	 *            feature id
-	 */
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	/**
