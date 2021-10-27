@@ -80,7 +80,7 @@ public class Point extends Geometry {
 	 * @return the coordinates
 	 */
 	public Position getCoordinates() {
-		return position;
+		return getPosition();
 	}
 
 	/**
@@ -90,7 +90,29 @@ public class Point extends Geometry {
 	 *            coordinates
 	 */
 	public void setCoordinates(Position coordinates) {
-		this.position = coordinates;
+		setPosition(coordinates);
+	}
+
+	/**
+	 * Get the position
+	 * 
+	 * @return position
+	 * @since 3.0.0
+	 */
+	@JsonIgnore
+	public Position getPosition() {
+		return position;
+	}
+
+	/**
+	 * Set the position
+	 * 
+	 * @param position
+	 *            position
+	 * @since 3.0.0
+	 */
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
 	/**
