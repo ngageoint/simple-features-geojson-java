@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 3.0.0 (TBD)
+## [3.0.0](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.0.0) (11-01-2021)
 
 * GeoJSON backed Geometries and Features
 * Additional Position element value support when not converting to base simple features
