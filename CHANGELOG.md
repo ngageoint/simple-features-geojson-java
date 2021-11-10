@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.0.1 (TBD)
 
-* TBD
+* Java 11
 
 ## [3.0.0](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.0.0) (11-01-2021)
 
