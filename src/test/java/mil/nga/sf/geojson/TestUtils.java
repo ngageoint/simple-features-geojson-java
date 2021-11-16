@@ -1,4 +1,4 @@
-package mil.nga.sf.geojson.test;
+package mil.nga.sf.geojson;
 
 import java.io.IOException;
 import java.util.ArrayList;

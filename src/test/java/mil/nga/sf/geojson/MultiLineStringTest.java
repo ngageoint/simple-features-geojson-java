@@ -1,4 +1,4 @@
-package mil.nga.sf.geojson.test;
+package mil.nga.sf.geojson;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
