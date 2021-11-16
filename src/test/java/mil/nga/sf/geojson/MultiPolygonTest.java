@@ -6,12 +6,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.MultiPolygon;
-
-import org.junit.Test;
 
 public class MultiPolygonTest {
 
@@ -115,8 +113,8 @@ public class MultiPolygonTest {
 
 	@Test
 	public void itShouldDeserializeMultiPolygonWithAltitude() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				MULTIPOLYGON_WITH_ALT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(MULTIPOLYGON_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPolygon);
 		MultiPolygon gjMultiPolygon = (MultiPolygon) value;
@@ -138,8 +136,8 @@ public class MultiPolygonTest {
 
 	@Test
 	public void itShouldDeserializeMultiPolygonWithRings() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				MULTIPOLYGON_WITH_RINGS, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(MULTIPOLYGON_WITH_RINGS, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPolygon);
 		MultiPolygon gjMultiPolygon = (MultiPolygon) value;
@@ -167,8 +165,8 @@ public class MultiPolygonTest {
 
 	@Test
 	public void itShouldDeserializeMultiPolygonWithMulti() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				MULTIPOLYGON_WITH_MULTI, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(MULTIPOLYGON_WITH_MULTI, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPolygon);
 		MultiPolygon gjMultiPolygon = (MultiPolygon) value;

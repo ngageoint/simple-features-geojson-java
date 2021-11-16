@@ -7,10 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.MultiPoint;
-import mil.nga.sf.geojson.Position;
-
 import org.junit.Test;
 
 public class MultiPointTest {
@@ -51,8 +47,8 @@ public class MultiPointTest {
 
 	@Test
 	public void itShouldDeserializeMultiPointWithAltitude() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				MULTIPOINT_WITH_ALT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(MULTIPOINT_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiPoint);
 		MultiPoint multiPoint = (MultiPoint) value;

@@ -6,11 +6,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import mil.nga.sf.Geometry;
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.MultiLineString;
-
 import org.junit.Test;
+
+import mil.nga.sf.Geometry;
 
 public class MultiLineStringTest {
 
@@ -90,8 +88,8 @@ public class MultiLineStringTest {
 	@Test
 	public void itShouldDeserializeMultiLineStringWithAltitude()
 			throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				MULTILINESTRING_WITH_ALT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(MULTILINESTRING_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof MultiLineString);
 		MultiLineString gjMLS = (MultiLineString) value;
@@ -110,8 +108,8 @@ public class MultiLineStringTest {
 	@Test
 	public void itShouldDeserializeMultiLineStringWithMultiple()
 			throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				MULTILINESTRING_WITH_MULTIPLE, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(MULTILINESTRING_WITH_MULTIPLE, GeoJsonObject.class);
 		assertTrue(value instanceof MultiLineString);
 		MultiLineString gjMLS = (MultiLineString) value;
 		Geometry geometry = gjMLS.getGeometry();

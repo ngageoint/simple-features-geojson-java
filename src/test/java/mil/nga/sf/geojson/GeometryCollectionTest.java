@@ -6,12 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import mil.nga.sf.Geometry;
 import mil.nga.sf.LineString;
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.GeometryCollection;
-
-import org.junit.Test;
 
 public class GeometryCollectionTest {
 
@@ -41,8 +39,8 @@ public class GeometryCollectionTest {
 
 	@Test
 	public void itShouldDeserializeGeometryCollection() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				GEOMETRYCOLLECTION, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(GEOMETRYCOLLECTION, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof GeometryCollection);
 		GeometryCollection gjGeometryCollection = (GeometryCollection) value;
@@ -68,8 +66,8 @@ public class GeometryCollectionTest {
 	@Test
 	public void itShouldDeserializeGeometryCollectionWithAltitude()
 			throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				GEOMETRYCOLLECTION_WITH_ALT, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(GEOMETRYCOLLECTION_WITH_ALT, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof GeometryCollection);
 		GeometryCollection gjGeometryCollection = (GeometryCollection) value;
@@ -83,8 +81,9 @@ public class GeometryCollectionTest {
 		mil.nga.sf.Geometry geometry1 = geometries.get(0);
 		assertTrue(geometry1 instanceof mil.nga.sf.Point);
 		mil.nga.sf.Point point = (mil.nga.sf.Point) geometry1;
-		assertEquals(new mil.nga.sf.Point(61.34765625, 48.63290858589535,
-				12.7843), point);
+		assertEquals(
+				new mil.nga.sf.Point(61.34765625, 48.63290858589535, 12.7843),
+				point);
 		mil.nga.sf.Geometry geometry2 = geometries.get(1);
 		assertTrue(geometry2 instanceof mil.nga.sf.LineString);
 		mil.nga.sf.LineString lineString = (mil.nga.sf.LineString) geometry2;

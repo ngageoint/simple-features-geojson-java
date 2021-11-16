@@ -7,10 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.LineString;
-import mil.nga.sf.geojson.Position;
-
 import org.junit.Test;
 
 public class LineStringTest {
@@ -21,9 +17,8 @@ public class LineStringTest {
 		points.add(new mil.nga.sf.Point(100d, 10d));
 		points.add(new mil.nga.sf.Point(101d, 1d));
 		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(points);
-		TestUtils
-				.compareAsNodes(lineString,
-						"{\"type\":\"LineString\",\"coordinates\":[[100.0,10.0],[101.0,1.0]]}");
+		TestUtils.compareAsNodes(lineString,
+				"{\"type\":\"LineString\",\"coordinates\":[[100.0,10.0],[101.0,1.0]]}");
 	}
 
 	@Test
@@ -32,19 +27,15 @@ public class LineStringTest {
 		points.add(new mil.nga.sf.Point(100d, 10d, 15d));
 		points.add(new mil.nga.sf.Point(101d, 1d, 11d));
 		mil.nga.sf.LineString lineString = new mil.nga.sf.LineString(points);
-		TestUtils
-				.compareAsNodes(
-						lineString,
-						"{\"type\":\"LineString\",\"coordinates\":[[100.0,10.0,15.0],[101.0,1.0,11.0]]}");
+		TestUtils.compareAsNodes(lineString,
+				"{\"type\":\"LineString\",\"coordinates\":[[100.0,10.0,15.0],[101.0,1.0,11.0]]}");
 	}
 
 	@Test
 	public void itShouldDeserializeLineString() throws Exception {
-		GeoJsonObject value = TestUtils
-				.getMapper()
-				.readValue(
-						"{\"type\":\"LineString\",\"coordinates\":[[100.0, 0.0],[101.0, 1.0]]}",
-						GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(
+				"{\"type\":\"LineString\",\"coordinates\":[[100.0, 0.0],[101.0, 1.0]]}",
+				GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof LineString);
 		LineString lineString = (LineString) value;
@@ -56,11 +47,9 @@ public class LineStringTest {
 
 	@Test
 	public void itShouldDeserializeLineStringWithAltitude() throws Exception {
-		GeoJsonObject value = TestUtils
-				.getMapper()
-				.readValue(
-						"{\"type\":\"LineString\",\"coordinates\":[[100.0, 10.0, -20.0],[101.0, 1.0, -10.0]]}",
-						GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(
+				"{\"type\":\"LineString\",\"coordinates\":[[100.0, 10.0, -20.0],[101.0, 1.0, -10.0]]}",
+				GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof LineString);
 		LineString lineString = (LineString) value;

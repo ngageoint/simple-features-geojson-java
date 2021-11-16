@@ -14,12 +14,6 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import mil.nga.sf.Geometry;
 import mil.nga.sf.GeometryCollection;
-import mil.nga.sf.geojson.Feature;
-import mil.nga.sf.geojson.FeatureCollection;
-import mil.nga.sf.geojson.FeatureConverter;
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.LineString;
-import mil.nga.sf.geojson.Position;
 
 public class FeatureCollectionTest {
 

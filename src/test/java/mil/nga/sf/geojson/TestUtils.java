@@ -12,11 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.TestCase;
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
-import mil.nga.sf.geojson.FeatureConverter;
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.Geometry;
-import mil.nga.sf.geojson.Point;
-import mil.nga.sf.geojson.Position;
 
 public class TestUtils {
 

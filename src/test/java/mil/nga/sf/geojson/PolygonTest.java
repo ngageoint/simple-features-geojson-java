@@ -6,12 +6,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.Polygon;
-
-import org.junit.Test;
 
 public class PolygonTest {
 
@@ -106,8 +104,8 @@ public class PolygonTest {
 
 	@Test
 	public void itShouldDeserializePolygonWithRings() throws Exception {
-		GeoJsonObject value = TestUtils.getMapper().readValue(
-				POLYGON_WITH_RINGS, GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper()
+				.readValue(POLYGON_WITH_RINGS, GeoJsonObject.class);
 		assertNotNull(value);
 		assertTrue(value instanceof Polygon);
 		Polygon gjPolygon = (Polygon) value;

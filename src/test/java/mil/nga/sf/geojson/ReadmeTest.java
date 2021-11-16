@@ -6,10 +6,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import junit.framework.TestCase;
-import mil.nga.sf.geojson.Feature;
-import mil.nga.sf.geojson.FeatureCollection;
-import mil.nga.sf.geojson.FeatureConverter;
-import mil.nga.sf.geojson.Geometry;
 
 /**
  * README example tests

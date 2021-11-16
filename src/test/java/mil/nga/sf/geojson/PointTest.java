@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
-import mil.nga.sf.geojson.GeoJsonObject;
-import mil.nga.sf.geojson.Point;
-import mil.nga.sf.geojson.Position;
-
 import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class PointTest {
 
@@ -50,11 +47,9 @@ public class PointTest {
 	@Test
 	public void itShouldDeserializePointWithAdditionalAttributes()
 			throws IOException {
-		GeoJsonObject value = TestUtils
-				.getMapper()
-				.readValue(
-						"{\"type\":\"Point\",\"coordinates\":[100.0,5.0,123,456,789.2]}",
-						GeoJsonObject.class);
+		GeoJsonObject value = TestUtils.getMapper().readValue(
+				"{\"type\":\"Point\",\"coordinates\":[100.0,5.0,123,456,789.2]}",
+				GeoJsonObject.class);
 		Point point = (Point) value;
 		TestUtils.assertPoint(100d, 5d, 123d,
 				new ArrayList<>(Arrays.asList(456d, 789.2)), point);
@@ -65,9 +60,8 @@ public class PointTest {
 			throws IOException {
 		Position position = new Position(100d, 0d, 256d, 345d, 678d);
 		Point point = Point.fromCoordinates(position);
-		TestUtils
-				.compareAsNodes(point,
-						"{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}");
+		TestUtils.compareAsNodes(point,
+				"{\"type\":\"Point\",\"coordinates\":[100.0,0.0,256.0,345.0,678.0]}");
 	}
 
 	@Test
