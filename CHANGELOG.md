@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 3.2.1 (TBD)
+
+* TBD
+
 ## [3.2.0](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.2.0) (09-21-2022)
 
 * simple-features-java version 2.2.0
