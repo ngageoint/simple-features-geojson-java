@@ -4,9 +4,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 3.2.1 (TBD)
+## [3.3.0](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.3.0) (10-03-2022)
 
-* TBD
+* GeoJsonObject hierarchy (Geometries and Features) equals and hashCode implementations
 
 ## [3.2.0](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.2.0) (09-21-2022)
 

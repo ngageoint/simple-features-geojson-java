@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import mil.nga.sf.geojson.jackson.CoordinatesDeserializer;
-import mil.nga.sf.geojson.jackson.CoordinatesSerializer;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import mil.nga.sf.geojson.jackson.CoordinatesDeserializer;
+import mil.nga.sf.geojson.jackson.CoordinatesSerializer;
 
 /**
  * Position
@@ -138,7 +138,8 @@ public class Position implements Serializable {
 	 *            additional elements
 	 * @return true if contains additional elements
 	 */
-	private static boolean additionalElementsPresent(Double[] additionalElements) {
+	private static boolean additionalElementsPresent(
+			Double[] additionalElements) {
 		return (additionalElements.length > 0)
 				&& (additionalElements[0] != null);
 	}
@@ -210,6 +211,41 @@ public class Position implements Serializable {
 			point = new mil.nga.sf.Point(x, y, getZ(), getM());
 		}
 		return point;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((additionalElements == null) ? 0
+				: additionalElements.hashCode());
+		result = prime * result + Arrays.hashCode(coordinates);
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		if (additionalElements == null) {
+			if (other.additionalElements != null)
+				return false;
+		} else if (!additionalElements.equals(other.additionalElements))
+			return false;
+		if (!Arrays.equals(coordinates, other.coordinates))
+			return false;
+		return true;
 	}
 
 }

@@ -1,6 +1,7 @@
 package mil.nga.sf.geojson;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,6 +118,41 @@ public abstract class GeoJsonObject implements Serializable {
 	 */
 	public boolean hasForeignMembers() {
 		return !foreignMembers.isEmpty();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(bbox);
+		result = prime * result
+				+ ((foreignMembers == null) ? 0 : foreignMembers.hashCode());
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GeoJsonObject other = (GeoJsonObject) obj;
+		if (!Arrays.equals(bbox, other.bbox))
+			return false;
+		if (foreignMembers == null) {
+			if (other.foreignMembers != null)
+				return false;
+		} else if (!foreignMembers.equals(other.foreignMembers))
+			return false;
+		return true;
 	}
 
 }

@@ -1,6 +1,7 @@
 package mil.nga.sf.geojson;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -10,8 +11,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import junit.framework.TestCase;
 
 public class FeatureTest {
 
@@ -30,7 +29,7 @@ public class FeatureTest {
 				.readTree("{\"type\":\"Feature\",\"geometry\":null}");
 		((ObjectNode) nodeFromString).set("properties",
 				TestUtils.getMapper().createObjectNode());
-		TestCase.assertEquals(nodeFromPojo, nodeFromString);
+		assertEquals(nodeFromPojo, nodeFromString);
 	}
 
 	@Test
@@ -43,7 +42,7 @@ public class FeatureTest {
 		JsonNode nodeFromPojo = TestUtils.getMapper().valueToTree(feature);
 		JsonNode nodeFromString = TestUtils.getMapper().readTree(
 				"{\"type\":\"Feature\",\"properties\":{\"foo\":\"bar\"},\"geometry\":{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-100.0,-50.0],[100.0,-50.0],[1.0,50.0],[-100.0,-50.0]],[[-50.0,-25.0],[50.0,-25.0],[-1.0,25.0],[-50.0,-25.0]]]]}}");
-		TestCase.assertEquals(nodeFromPojo, nodeFromString);
+		assertEquals(nodeFromPojo, nodeFromString);
 	}
 
 	@Test
@@ -82,22 +81,24 @@ public class FeatureTest {
 		Feature feature = getTestFeature();
 
 		Map<String, Object> map = FeatureConverter.toMap(feature);
-		TestCase.assertNotNull(map);
-		TestCase.assertFalse(map.isEmpty());
+		assertNotNull(map);
+		assertFalse(map.isEmpty());
 
 		Feature featureFromMap = FeatureConverter.toFeature(map);
-		TestCase.assertNotNull(featureFromMap);
+		assertNotNull(featureFromMap);
 
-		TestCase.assertEquals(feature.getSimpleGeometry(),
+		assertEquals(feature, featureFromMap);
+		assertEquals(feature.getSimpleGeometry(),
 				featureFromMap.getSimpleGeometry());
 
 		GeoJsonObject geoJsonObjectFromString = FeatureConverter
 				.toGeoJsonObject(map);
-		TestCase.assertNotNull(geoJsonObjectFromString);
-		TestCase.assertTrue(geoJsonObjectFromString instanceof Feature);
+		assertNotNull(geoJsonObjectFromString);
+		assertTrue(geoJsonObjectFromString instanceof Feature);
 
 		Feature featureGeoJsonObject = (Feature) geoJsonObjectFromString;
-		TestCase.assertEquals(feature.getSimpleGeometry(),
+		assertEquals(feature, featureGeoJsonObject);
+		assertEquals(feature.getSimpleGeometry(),
 				featureGeoJsonObject.getSimpleGeometry());
 	}
 
@@ -108,9 +109,9 @@ public class FeatureTest {
 				.getMultiPolygonWithRings();
 
 		Feature feature = FeatureConverter.toFeature(simpleGeometry);
-		TestCase.assertNotNull(feature);
+		assertNotNull(feature);
 
-		TestCase.assertEquals(simpleGeometry, feature.getSimpleGeometry());
+		assertEquals(simpleGeometry, feature.getSimpleGeometry());
 	}
 
 	@Test
@@ -119,22 +120,24 @@ public class FeatureTest {
 		Feature feature = getTestFeature();
 
 		String stringValue = FeatureConverter.toStringValue(feature);
-		TestCase.assertNotNull(stringValue);
-		TestCase.assertFalse(stringValue.isEmpty());
+		assertNotNull(stringValue);
+		assertFalse(stringValue.isEmpty());
 
 		Feature featureFromString = FeatureConverter.toFeature(stringValue);
-		TestCase.assertNotNull(featureFromString);
+		assertNotNull(featureFromString);
 
-		TestCase.assertEquals(feature.getSimpleGeometry(),
+		assertEquals(feature, featureFromString);
+		assertEquals(feature.getSimpleGeometry(),
 				featureFromString.getSimpleGeometry());
 
 		GeoJsonObject geoJsonObjectFromString = FeatureConverter
 				.toGeoJsonObject(stringValue);
-		TestCase.assertNotNull(geoJsonObjectFromString);
-		TestCase.assertTrue(geoJsonObjectFromString instanceof Feature);
+		assertNotNull(geoJsonObjectFromString);
+		assertTrue(geoJsonObjectFromString instanceof Feature);
 
 		Feature featureGeoJsonObject = (Feature) geoJsonObjectFromString;
-		TestCase.assertEquals(feature.getSimpleGeometry(),
+		assertEquals(feature, featureGeoJsonObject);
+		assertEquals(feature.getSimpleGeometry(),
 				featureGeoJsonObject.getSimpleGeometry());
 	}
 

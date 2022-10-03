@@ -1,5 +1,11 @@
 package mil.nga.sf.geojson;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +15,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import junit.framework.TestCase;
 import mil.nga.sf.LineString;
 import mil.nga.sf.LinearRing;
 
@@ -32,18 +37,18 @@ public class TestUtils {
 	public static void assertPosition(Double expectedLongitude,
 			Double expectedLatitude, Double expectedAltitude,
 			List<Double> expectedAdditionalElements, Position position) {
-		TestCase.assertEquals(expectedLongitude, position.getX(), EPSILON);
-		TestCase.assertEquals(expectedLatitude, position.getY(), EPSILON);
+		assertEquals(expectedLongitude, position.getX(), EPSILON);
+		assertEquals(expectedLatitude, position.getY(), EPSILON);
 		if (expectedAltitude == null) {
-			TestCase.assertNull(position.getZ());
+			assertNull(position.getZ());
 		} else {
-			TestCase.assertEquals(expectedAltitude, position.getZ(), EPSILON);
+			assertEquals(expectedAltitude, position.getZ(), EPSILON);
 			if (expectedAdditionalElements == null) {
 				final List<Double> ae = ((Position) position)
 						.getAdditionalElements();
-				TestCase.assertTrue((ae == null) || ae.isEmpty());
+				assertTrue((ae == null) || ae.isEmpty());
 			} else {
-				TestCase.assertTrue(expectedAdditionalElements
+				assertTrue(expectedAdditionalElements
 						.equals(((Position) position).getAdditionalElements()));
 			}
 		}
@@ -53,18 +58,18 @@ public class TestUtils {
 			Double expectedLatitude, Double expectedAltitude,
 			List<Double> expectedAdditionalElements,
 			mil.nga.sf.Point position) {
-		TestCase.assertEquals(expectedLongitude, position.getX(), EPSILON);
-		TestCase.assertEquals(expectedLatitude, position.getY(), EPSILON);
+		assertEquals(expectedLongitude, position.getX(), EPSILON);
+		assertEquals(expectedLatitude, position.getY(), EPSILON);
 		if (expectedAltitude == null) {
-			TestCase.assertNull(position.getZ());
+			assertNull(position.getZ());
 		} else {
-			TestCase.assertEquals(expectedAltitude, position.getZ(), EPSILON);
+			assertEquals(expectedAltitude, position.getZ(), EPSILON);
 			if (expectedAdditionalElements == null) {
-				TestCase.assertNull(position.getM());
+				assertNull(position.getM());
 			} else {
-				TestCase.assertEquals(expectedAdditionalElements.size(), 1);
-				TestCase.assertEquals(expectedAdditionalElements.get(0),
-						position.getM(), EPSILON);
+				assertEquals(expectedAdditionalElements.size(), 1);
+				assertEquals(expectedAdditionalElements.get(0), position.getM(),
+						EPSILON);
 			}
 		}
 	}
@@ -108,79 +113,81 @@ public class TestUtils {
 			throws JsonProcessingException, IOException {
 		JsonNode nodeFromPojo = mapper.valueToTree(geometry);
 		JsonNode nodeFromString = mapper.readTree(input);
-		TestCase.assertEquals(nodeFromPojo, nodeFromString);
+		assertEquals(nodeFromPojo, nodeFromString);
 	}
 
 	public static void compareAsNodesGeoJsonObject(GeoJsonObject object,
 			String input) throws JsonProcessingException, IOException {
 		JsonNode nodeFromPojo = mapper.valueToTree(object);
 		JsonNode nodeFromString = mapper.readTree(input);
-		TestCase.assertEquals(nodeFromPojo, nodeFromString);
+		assertEquals(nodeFromPojo, nodeFromString);
 	}
 
 	public static void toGeometry(mil.nga.sf.Geometry simpleGeometry) {
 
 		Geometry geometry = FeatureConverter.toGeometry(simpleGeometry);
-		TestCase.assertNotNull(geometry);
+		assertNotNull(geometry);
 
-		TestCase.assertEquals(simpleGeometry, geometry.getGeometry());
+		assertEquals(simpleGeometry, geometry.getGeometry());
 
 	}
 
 	public static void toMap(mil.nga.sf.Geometry simpleGeometry) {
 
 		Geometry geometry = FeatureConverter.toGeometry(simpleGeometry);
-		TestCase.assertNotNull(geometry);
+		assertNotNull(geometry);
 
 		Map<String, Object> map = FeatureConverter.toMap(simpleGeometry);
-		TestCase.assertNotNull(map);
-		TestCase.assertFalse(map.isEmpty());
+		assertNotNull(map);
+		assertFalse(map.isEmpty());
 
 		Geometry geometryFromMap = FeatureConverter.toGeometry(map);
-		TestCase.assertNotNull(geometryFromMap);
+		assertNotNull(geometryFromMap);
 
-		TestCase.assertEquals(geometry.getGeometry(),
-				geometryFromMap.getGeometry());
+		assertEquals(geometry, geometryFromMap);
+		assertEquals(geometry.getGeometry(), geometryFromMap.getGeometry());
 
 		GeoJsonObject geoJsonObjectFromString = FeatureConverter
 				.toGeoJsonObject(map);
-		TestCase.assertNotNull(geoJsonObjectFromString);
-		TestCase.assertTrue(geoJsonObjectFromString instanceof Geometry);
+		assertNotNull(geoJsonObjectFromString);
+		assertTrue(geoJsonObjectFromString instanceof Geometry);
 
 		Geometry geometryGeoJsonObject = (Geometry) geoJsonObjectFromString;
-		TestCase.assertEquals(geometry.getGeometry(),
+		assertEquals(geometry, geometryGeoJsonObject);
+		assertEquals(geometry.getGeometry(),
 				geometryGeoJsonObject.getGeometry());
 	}
 
 	public static void toStringValue(mil.nga.sf.Geometry simpleGeometry) {
 
 		Geometry geometry = FeatureConverter.toGeometry(simpleGeometry);
-		TestCase.assertNotNull(geometry);
+		assertNotNull(geometry);
 
 		String stringValue = FeatureConverter.toStringValue(simpleGeometry);
-		TestCase.assertNotNull(stringValue);
-		TestCase.assertFalse(stringValue.isEmpty());
+		assertNotNull(stringValue);
+		assertFalse(stringValue.isEmpty());
 		String type = "\"type\":\"" + ((GeoJsonObject) geometry).getType()
 				+ "\"";
 		int index = stringValue.indexOf(type);
-		TestCase.assertTrue(index >= 0);
+		assertTrue(index >= 0);
 		String restOfString = stringValue.substring(index + type.length());
 		int secondIndex = restOfString.indexOf(type);
-		TestCase.assertEquals(-1, secondIndex);
+		assertEquals(-1, secondIndex);
 
 		Geometry geomteryFromString = FeatureConverter.toGeometry(stringValue);
-		TestCase.assertNotNull(geomteryFromString);
+		assertNotNull(geomteryFromString);
 
-		TestCase.assertEquals(geometry.getGeometry(),
-				geomteryFromString.getGeometry());
+		assertEquals(geometry, geomteryFromString);
+		assertEquals(geometry.getGeometry(), geomteryFromString.getGeometry());
 
 		GeoJsonObject geoJsonObjectFromString = FeatureConverter
 				.toGeoJsonObject(stringValue);
-		TestCase.assertNotNull(geoJsonObjectFromString);
-		TestCase.assertTrue(geoJsonObjectFromString instanceof Geometry);
+		assertNotNull(geoJsonObjectFromString);
+		assertTrue(geoJsonObjectFromString instanceof Geometry);
 
 		Geometry geometryGeoJsonObject = (Geometry) geoJsonObjectFromString;
-		TestCase.assertEquals(geometry.getGeometry(),
+		assertEquals(geometry, geometryGeoJsonObject);
+		assertEquals(geometry.getGeometry(),
 				geometryGeoJsonObject.getGeometry());
 	}
 

@@ -160,4 +160,36 @@ public class MultiLineString extends Geometry {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((lineStrings == null) ? 0 : lineStrings.hashCode());
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MultiLineString other = (MultiLineString) obj;
+		if (lineStrings == null) {
+			if (other.lineStrings != null)
+				return false;
+		} else if (!lineStrings.equals(other.lineStrings))
+			return false;
+		return true;
+	}
+
 }
