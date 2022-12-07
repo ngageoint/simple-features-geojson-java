@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## [3.3.1](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.3.1) (12-07-2022)
 
-* simple-features-java version 2.14.1
+* jackson-databind version 2.14.1
 
 ## [3.3.0](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.3.0) (10-03-2022)
 
