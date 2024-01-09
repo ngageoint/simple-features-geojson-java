@@ -253,6 +253,58 @@ public class FeatureConverter {
 	}
 
 	/**
+	 * Convert the string content to a simple geometry
+	 * 
+	 * @param content
+	 *            string content
+	 * @return simple geometry
+	 * @since 3.3.3
+	 */
+	public static mil.nga.sf.Geometry toSimpleGeometry(String content) {
+		return toSimpleGeometry(toGeoJsonObject(content));
+	}
+
+	/**
+	 * Convert the object value to a simple geometry
+	 * 
+	 * @param value
+	 *            object value
+	 * @return simple geometry
+	 * @since 3.3.3
+	 */
+	public static mil.nga.sf.Geometry toSimpleGeometry(Object value) {
+		return toSimpleGeometry(toGeoJsonObject(value));
+	}
+
+	/**
+	 * Convert the JSON tree to a simple geometry
+	 * 
+	 * @param tree
+	 *            tree node
+	 * @return simple geometry
+	 * @since 3.3.3
+	 */
+	public static mil.nga.sf.Geometry toSimpleGeometry(JsonNode tree) {
+		return toSimpleGeometry(toGeoJsonObject(tree));
+	}
+
+	/**
+	 * Convert the GeoJSON object to a simple geometry
+	 * 
+	 * @param geoJson
+	 *            GeoJSON object
+	 * @return simple geometry
+	 * @since 3.3.3
+	 */
+	public static mil.nga.sf.Geometry toSimpleGeometry(GeoJsonObject geoJson) {
+		mil.nga.sf.Geometry geometry = null;
+		if (geoJson != null) {
+			geometry = geoJson.getSimpleGeometry();
+		}
+		return geometry;
+	}
+
+	/**
 	 * Convert the GeoJSON object to an object map
 	 * 
 	 * @param object

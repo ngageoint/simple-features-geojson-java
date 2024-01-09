@@ -43,6 +43,14 @@ public abstract class Geometry extends GeoJsonObject {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public mil.nga.sf.Geometry getSimpleGeometry() {
+		return getGeometry();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String getType() {
 		return getGeometryType().getName();
 	}

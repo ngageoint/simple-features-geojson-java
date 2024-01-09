@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -65,6 +66,15 @@ public abstract class GeoJsonObject implements Serializable {
 	 * @return GeoJSON object type
 	 */
 	public abstract String getType();
+
+	/**
+	 * Get the simple feature geometry
+	 * 
+	 * @return simple feature geometry
+	 * @since 3.3.3
+	 */
+	@JsonIgnore
+	public abstract mil.nga.sf.Geometry getSimpleGeometry();
 
 	/**
 	 * Get the foreign members

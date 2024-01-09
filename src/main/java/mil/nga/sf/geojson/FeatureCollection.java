@@ -10,6 +10,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import mil.nga.sf.GeometryCollection;
+
 /**
  * Feature Collection
  * 
@@ -120,6 +122,27 @@ public class FeatureCollection extends GeoJsonObject
 	@Override
 	public Iterator<Feature> iterator() {
 		return features.iterator();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public mil.nga.sf.Geometry getSimpleGeometry() {
+		mil.nga.sf.Geometry geometry = null;
+		if (features != null && !features.isEmpty()) {
+			GeometryCollection<mil.nga.sf.Geometry> geomCollection = new GeometryCollection<>();
+			for (Feature feature : features) {
+				mil.nga.sf.Geometry geom = feature.getSimpleGeometry();
+				if (geom != null) {
+					geomCollection.addGeometry(geom);
+				}
+			}
+			if (!geomCollection.isEmpty()) {
+				geometry = geomCollection;
+			}
+		}
+		return geometry;
 	}
 
 	/**

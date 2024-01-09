@@ -210,6 +210,14 @@ public class FeatureCollectionTest {
 					featureCollectionGeoJsonObject.getFeature(i));
 		}
 
+		Geometry geometry = FeatureConverter.toSimpleGeometry(stringValue);
+		assertEquals(geoJsonObjectFromString.getSimpleGeometry(), geometry);
+		GeometryCollection<Geometry> geomCollection = new GeometryCollection<>();
+		for (Feature feature : featureCollection.getFeatures()) {
+			geomCollection.addGeometry(feature.getSimpleGeometry());
+		}
+		assertEquals(geomCollection, geometry);
+
 	}
 
 	@Test

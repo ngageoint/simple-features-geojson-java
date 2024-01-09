@@ -189,6 +189,13 @@ public class TestUtils {
 		assertEquals(geometry, geometryGeoJsonObject);
 		assertEquals(geometry.getGeometry(),
 				geometryGeoJsonObject.getGeometry());
+
+		assertEquals(simpleGeometry,
+				geoJsonObjectFromString.getSimpleGeometry());
+		assertEquals(simpleGeometry, geomteryFromString.getSimpleGeometry());
+		assertEquals(simpleGeometry,
+				FeatureConverter.toSimpleGeometry(stringValue));
+
 	}
 
 }

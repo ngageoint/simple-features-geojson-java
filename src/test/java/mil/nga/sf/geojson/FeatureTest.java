@@ -12,6 +12,8 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import mil.nga.sf.Geometry;
+
 public class FeatureTest {
 
 	@Test
@@ -139,6 +141,11 @@ public class FeatureTest {
 		assertEquals(feature, featureGeoJsonObject);
 		assertEquals(feature.getSimpleGeometry(),
 				featureGeoJsonObject.getSimpleGeometry());
+
+		Geometry geometry = FeatureConverter.toSimpleGeometry(stringValue);
+		assertEquals(geoJsonObjectFromString.getSimpleGeometry(), geometry);
+		assertEquals(feature.getSimpleGeometry(), geometry);
+
 	}
 
 	private Feature getTestFeature() {

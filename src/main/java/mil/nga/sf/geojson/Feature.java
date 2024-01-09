@@ -112,11 +112,9 @@ public class Feature extends GeoJsonObject {
 	}
 
 	/**
-	 * Get the simple feature geometry
-	 * 
-	 * @return simple feature geometry
+	 * {@inheritDoc}
 	 */
-	@JsonIgnore
+	@Override
 	public mil.nga.sf.Geometry getSimpleGeometry() {
 		return geometry != null ? geometry.getGeometry() : null;
 	}
