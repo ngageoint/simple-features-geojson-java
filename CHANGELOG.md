@@ -8,6 +8,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 * GeoJsonObject simple geometry retrieval method
 * FeatureConverter conversion to simple geometry utility methods
+* jackson-databind version 2.17.0
 
 ## [3.3.2](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.3.2) (01-19-2023)
 
