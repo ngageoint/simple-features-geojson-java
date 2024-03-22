@@ -6,6 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.3.3 (TBD)
 
+* simple-features-java version 2.2.2
 * GeoJsonObject simple geometry retrieval method
 * FeatureConverter conversion to simple geometry utility methods
 * jackson-databind version 2.17.0
