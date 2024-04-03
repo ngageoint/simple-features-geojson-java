@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 3.3.3 (TBD)
+## [3.3.3](https://github.com/ngageoint/simple-features-geojson-java/releases/tag/3.3.3) (04-03-2024)
 
 * simple-features-java version 2.2.2
 * GeoJsonObject simple geometry retrieval method
